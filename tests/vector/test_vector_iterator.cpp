@@ -72,6 +72,23 @@ void test_arithmetic_operator(ft::vector<int> &vec)
     std::cout << vec.end() - vec.begin() << std::endl;
 }
 
+void test_compound_assignment_operation(ft::vector<int> &vec)
+{
+    print_test_case("iter += ptrdiff_t(3)");
+    {
+        ft::vector<int>::iterator iter = vec.begin();
+        iter += 3;
+        std::cout << *iter << std::endl;
+    }
+
+    print_test_case("iter -= ptrdiff_t(3)");
+    {
+        ft::vector<int>::iterator iter = vec.end();
+        iter -= 3;
+        std::cout << *iter << std::endl;
+    }
+}
+
 
 void test_vector_iterator()
 {

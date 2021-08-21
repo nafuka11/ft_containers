@@ -92,6 +92,17 @@ namespace ft
                 return ptr_ - rhs.ptr_;
             }
             // inequality relational operators
+            // compound assignment operators
+            vector_iterator_ &operator+=(difference_type n)
+            {
+                ptr_ += n;
+                return *this;
+            }
+            vector_iterator_ &operator-=(difference_type n)
+            {
+                ptr_ -= n;
+                return *this;
+            }
 
         private:
             pointer ptr_;

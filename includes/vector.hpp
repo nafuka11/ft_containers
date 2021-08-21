@@ -44,6 +44,15 @@ namespace ft
             {
                 return ptr_ != rhs.ptr_;
             }
+            // dereference operator
+            reference operator*()
+            {
+                return *ptr_;
+            }
+            pointer operator->()
+            {
+                return ptr_;
+            }
             // prefix/postfix increment
             vector_iterator_ &operator++()
             {

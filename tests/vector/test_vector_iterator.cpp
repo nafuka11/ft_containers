@@ -20,6 +20,23 @@ void test_equality_inequality_operator(ft::vector<int> &vec)
     }
 }
 
+void test_dereference(ft::vector<Foo> &vec)
+{
+    print_test_case("iter->member");
+    {
+        for (ft::vector<Foo>::iterator iter = vec.begin(); iter != vec.end(); ++iter)
+        {
+            std::cout << "(constant:" << iter->getConstant() << ", allocated:" << iter->getAllocated() << ")" << std::endl;
+        }
+    }
+    print_test_case("*iter = Foo(42, 24) -> Foo(-1, 24)");
+    {
+        ft::vector<Foo>::iterator iter = vec.begin();
+        *iter = Foo(42, 24);
+        std::cout << "(constant:" << iter->getConstant() << ", allocated:" << iter->getAllocated() << ")" << std::endl;
+    }
+}
+
 void test_increment_decrement(ft::vector<int> &vec)
 {
     print_test_case("++iter");
@@ -101,15 +118,22 @@ void test_offset_difference_operator(ft::vector<int> &vec)
 void test_vector_iterator()
 {
     size_t size = 5;
-    ft::vector<int> vec(size, 42);
+    ft::vector<int> vecInt(size, 42);
     for (size_t i = 0; i < size; i++)
     {
-        vec[i] = i;
+        vecInt[i] = i;
     }
 
-    test_equality_inequality_operator(vec);
-    test_increment_decrement(vec);
-    test_arithmetic_operator(vec);
-    test_compound_assignment_operation(vec);
-    test_offset_difference_operator(vec);
+    ft::vector<Foo> vecFoo(size);
+    for (size_t i = 0; i < size; i++)
+    {
+        vecFoo[i].setAllocated(i);
+    }
+
+    test_equality_inequality_operator(vecInt);
+    test_dereference(vecFoo);
+    test_increment_decrement(vecInt);
+    test_arithmetic_operator(vecInt);
+    test_compound_assignment_operation(vecInt);
+    test_offset_difference_operator(vecInt);
 }

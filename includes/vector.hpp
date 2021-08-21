@@ -103,6 +103,11 @@ namespace ft
                 ptr_ -= n;
                 return *this;
             }
+            // offset dereference operator
+            reference operator[](difference_type n)
+            {
+                return *(ptr_ + n);
+            }
 
         private:
             pointer ptr_;

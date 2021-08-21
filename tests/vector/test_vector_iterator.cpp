@@ -89,6 +89,14 @@ void test_compound_assignment_operation(ft::vector<int> &vec)
     }
 }
 
+void test_offset_difference_operator(ft::vector<int> &vec)
+{
+    print_test_case("iter[2]");
+    {
+        ft::vector<int>::iterator iter = vec.begin();
+        std::cout << iter[2] << std::endl;
+    }
+}
 
 void test_vector_iterator()
 {
@@ -102,4 +110,6 @@ void test_vector_iterator()
     test_equality_inequality_operator(vec);
     test_increment_decrement(vec);
     test_arithmetic_operator(vec);
+    test_compound_assignment_operation(vec);
+    test_offset_difference_operator(vec);
 }

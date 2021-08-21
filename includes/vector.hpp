@@ -101,6 +101,22 @@ namespace ft
                 return ptr_ - rhs.ptr_;
             }
             // inequality relational operators
+            bool operator<(const vector_iterator_ &rhs) const
+            {
+                return ptr_ < rhs.ptr_;
+            }
+            bool operator>(const vector_iterator_ &rhs) const
+            {
+                return ptr_ > rhs.ptr_;
+            }
+            bool operator<=(const vector_iterator_ &rhs) const
+            {
+                return ptr_ <= rhs.ptr_;
+            }
+            bool operator>=(const vector_iterator_ &rhs) const
+            {
+                return ptr_ >= rhs.ptr_;
+            }
             // compound assignment operators
             vector_iterator_ &operator+=(difference_type n)
             {

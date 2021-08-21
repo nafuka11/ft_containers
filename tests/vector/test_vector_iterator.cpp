@@ -89,6 +89,26 @@ void test_arithmetic_operator(ft::vector<int> &vec)
     std::cout << vec.end() - vec.begin() << std::endl;
 }
 
+void test_inequality_relational_operator(ft::vector<int> &vec)
+{
+    print_test_case("<, >, <=, >=");
+    {
+        ft::vector<int>::iterator first = vec.begin();
+        ft::vector<int>::iterator second = first + 1;
+        std::cout << std::boolalpha
+                  << "first  < first  = " << (first < first) << std::endl
+                  << "first  < second = " << (first < second) << std::endl
+                  << "first  > first  = " << (first > first) << std::endl
+                  << "second > first  = " << (second > first) << std::endl
+                  << "first <= first  = " << (first <= first) << std::endl
+                  << "first <= second = " << (first <= second) << std::endl
+                  << "second<= first  = " << (second <= first) << std::endl
+                  << "first >= first  = " << (first >= first) << std::endl
+                  << "first >= second = " << (first >= second) << std::endl
+                  << "second>= first  = " << (second >= first) << std::endl;
+    }
+}
+
 void test_compound_assignment_operation(ft::vector<int> &vec)
 {
     print_test_case("iter += ptrdiff_t(3)");
@@ -134,6 +154,7 @@ void test_vector_iterator()
     test_dereference(vecFoo);
     test_increment_decrement(vecInt);
     test_arithmetic_operator(vecInt);
+    test_inequality_relational_operator(vecInt);
     test_compound_assignment_operation(vecInt);
     test_offset_difference_operator(vecInt);
 }

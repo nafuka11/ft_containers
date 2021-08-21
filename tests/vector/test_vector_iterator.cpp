@@ -20,6 +20,43 @@ void test_equality_inequality_operator(ft::vector<int> &vec)
     }
 }
 
+void test_increment_decrement(ft::vector<int> &vec)
+{
+    print_test_case("++iter");
+    {
+        for (ft::vector<int>::iterator iter = vec.begin(); iter != vec.end(); ++iter)
+        {
+            std::cout << " " << *iter;
+        }
+        std::cout << std::endl;
+    }
+    print_test_case("iter++");
+    {
+        for (ft::vector<int>::iterator iter = vec.begin(); iter != vec.end(); iter++)
+        {
+            std::cout << " " << *iter;
+        }
+        std::cout << std::endl;
+    }
+    // TODO: reverse iteratorを実装したらコメントアウト解除
+    // print_test_case("--iter");
+    // {
+    //     for (ft::vector<int>::iterator iter = vec.end(); iter != vec.begin(); --iter)
+    //     {
+    //         std::cout << " " << *iter;
+    //     }
+    //     std::cout << std::endl;
+    // }
+    // print_test_case("iter--");
+    // {
+    //     for (ft::vector<int>::iterator iter = vec.end(); iter != vec.begin(); iter--)
+    //     {
+    //         std::cout << " " << *iter;
+    //     }
+    //     std::cout << std::endl;
+    // }
+}
+
 
 void test_vector_iterator()
 {
@@ -31,4 +68,5 @@ void test_vector_iterator()
     }
 
     test_equality_inequality_operator(vec);
+    test_increment_decrement(vec);
 }

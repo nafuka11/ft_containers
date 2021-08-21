@@ -44,6 +44,30 @@ namespace ft
             {
                 return ptr_ != rhs.ptr_;
             }
+            // prefix/postfix increment
+            vector_iterator_ &operator++()
+            {
+                ptr_++;
+                return *this;
+            }
+            vector_iterator_ operator++(int)
+            {
+                vector_iterator_ tmp = *this;
+                ptr_++;
+                return tmp;
+            }
+            // prefix/postfix decrement
+            vector_iterator_ &operator--()
+            {
+                ptr_--;
+                return *this;
+            }
+            vector_iterator_ operator--(int)
+            {
+                vector_iterator_ tmp = *this;
+                ptr_--;
+                return tmp;
+            }
 
         private:
             pointer ptr_;

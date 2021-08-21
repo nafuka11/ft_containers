@@ -68,6 +68,30 @@ namespace ft
                 ptr_--;
                 return tmp;
             }
+            // arithmetic operators
+            vector_iterator_ operator+(difference_type n) const
+            {
+                vector_iterator_ ret;
+                ret.ptr_ = ptr_ + n;
+                return ret;
+            }
+            friend vector_iterator_ operator+(const difference_type n, const vector_iterator_ &rhs)
+            {
+                vector_iterator_ ret;
+                ret.ptr_ = rhs.ptr_ + n;
+                return ret;
+            }
+            vector_iterator_ operator-(difference_type n) const
+            {
+                vector_iterator_ ret;
+                ret.ptr_ = ptr_ - n;
+                return ret;
+            }
+            difference_type operator-(const vector_iterator_ &rhs) const
+            {
+                return ptr_ - rhs.ptr_;
+            }
+            // inequality relational operators
 
         private:
             pointer ptr_;

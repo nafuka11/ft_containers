@@ -57,6 +57,21 @@ void test_increment_decrement(ft::vector<int> &vec)
     // }
 }
 
+void test_arithmetic_operator(ft::vector<int> &vec)
+{
+    print_test_case("iter + ptrdiff_t(2)");
+    std::cout << *(vec.begin() + 2) << std::endl;
+
+    print_test_case("ptrdiff_t(2) + iter");
+    std::cout << *(2 + vec.begin()) << std::endl;
+
+    print_test_case("iter - ptrdiff_t(2)");
+    std::cout << *(vec.end() - 2) << std::endl;
+
+    print_test_case("iter - iter");
+    std::cout << vec.end() - vec.begin() << std::endl;
+}
+
 
 void test_vector_iterator()
 {
@@ -69,4 +84,5 @@ void test_vector_iterator()
 
     test_equality_inequality_operator(vec);
     test_increment_decrement(vec);
+    test_arithmetic_operator(vec);
 }

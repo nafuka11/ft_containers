@@ -4,7 +4,7 @@ NAME_FT	:= tester_ft
 LOG_STL	:= result_stl.log
 LOG_FT	:= result_ft.log
 
-SRCS	:= tests/main.cpp tests/vector/test_vector_iterator.cpp
+SRCS	:= tests/main.cpp tests/Foo.cpp tests/vector/test_vector_iterator.cpp
 INC		:= -I./includes -I./tests
 
 CXX		:= clang++

@@ -19,6 +19,7 @@
 namespace ft = std;
 #endif
 
+#include "Foo.hpp"
 #include "vector/test_vector.hpp"
 
 #endif /* COMMON_HPP */

@@ -35,6 +35,15 @@ namespace ft
             }
             // destructor
             ~vector_iterator_() {}
+            // equality/inequality operators
+            bool operator==(const vector_iterator_ &rhs)
+            {
+                return ptr_ == rhs.ptr_;
+            }
+            bool operator!=(const vector_iterator_ &rhs)
+            {
+                return ptr_ != rhs.ptr_;
+            }
 
         private:
             pointer ptr_;

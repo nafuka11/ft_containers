@@ -16,127 +16,147 @@ namespace ft
             typedef typename std::iterator<std::random_access_iterator_tag, T>::reference           reference;
             typedef typename std::iterator<std::random_access_iterator_tag, T>::iterator_category   iterator_category;
 
+            // Member functions
             // constructor
-            vector_iterator_() : ptr_(NULL) {}
-            vector_iterator_(pointer ptr) : ptr_(ptr) {}
+            vector_iterator_() : current(NULL) {}
+            explicit vector_iterator_(pointer ptr) : current(ptr) {}
             // copy constructor
-            vector_iterator_(const vector_iterator_ &iter)
+            vector_iterator_(const vector_iterator_ &other)
             {
-                *this = iter;
-            }
-            // assignment operator
-            vector_iterator_ &operator=(const vector_iterator_ &iter)
-            {
-                if (this != &iter)
-                {
-                    ptr_ = iter.ptr_;
-                }
-                return *this;
+                *this = other;
             }
             // destructor
             ~vector_iterator_() {}
-            // equality/inequality operators
-            bool operator==(const vector_iterator_ &rhs)
+            // assignment operator
+            vector_iterator_ &operator=(const vector_iterator_ &other)
             {
-                return ptr_ == rhs.ptr_;
+                if (this != &other)
+                {
+                    current = other.current;
+                }
+                return *this;
             }
-            bool operator!=(const vector_iterator_ &rhs)
+
+            pointer base() const
             {
-                return ptr_ != rhs.ptr_;
+                return current;
             }
             // dereference operator
             reference operator*()
             {
-                return *ptr_;
+                return *current;
             }
             pointer operator->()
             {
-                return ptr_;
+                return current;
             }
             // prefix/postfix increment
             vector_iterator_ &operator++()
             {
-                ptr_++;
+                current++;
                 return *this;
             }
             vector_iterator_ operator++(int)
             {
                 vector_iterator_ tmp = *this;
-                ptr_++;
+                current++;
                 return tmp;
             }
             // prefix/postfix decrement
             vector_iterator_ &operator--()
             {
-                ptr_--;
+                current--;
                 return *this;
             }
             vector_iterator_ operator--(int)
             {
                 vector_iterator_ tmp = *this;
-                ptr_--;
+                current--;
                 return tmp;
             }
             // arithmetic operators
             vector_iterator_ operator+(difference_type n) const
             {
-                vector_iterator_ ret;
-                ret.ptr_ = ptr_ + n;
-                return ret;
-            }
-            friend vector_iterator_ operator+(const difference_type n, const vector_iterator_ &rhs)
-            {
-                vector_iterator_ ret;
-                ret.ptr_ = rhs.ptr_ + n;
-                return ret;
+                return vector_iterator_(current + n);
             }
             vector_iterator_ operator-(difference_type n) const
             {
-                vector_iterator_ ret;
-                ret.ptr_ = ptr_ - n;
-                return ret;
-            }
-            difference_type operator-(const vector_iterator_ &rhs) const
-            {
-                return ptr_ - rhs.ptr_;
-            }
-            // inequality relational operators
-            bool operator<(const vector_iterator_ &rhs) const
-            {
-                return ptr_ < rhs.ptr_;
-            }
-            bool operator>(const vector_iterator_ &rhs) const
-            {
-                return ptr_ > rhs.ptr_;
-            }
-            bool operator<=(const vector_iterator_ &rhs) const
-            {
-                return ptr_ <= rhs.ptr_;
-            }
-            bool operator>=(const vector_iterator_ &rhs) const
-            {
-                return ptr_ >= rhs.ptr_;
+                return vector_iterator_(current - n);
             }
             // compound assignment operators
             vector_iterator_ &operator+=(difference_type n)
             {
-                ptr_ += n;
+                current += n;
                 return *this;
             }
             vector_iterator_ &operator-=(difference_type n)
             {
-                ptr_ -= n;
+                current -= n;
                 return *this;
             }
             // offset dereference operator
-            reference operator[](difference_type n)
+            reference operator[](difference_type n) const
             {
-                return *(ptr_ + n);
+                return *(current + n);
             }
 
         private:
-            pointer ptr_;
+            pointer current;
     };
+
+    // Non-member functions
+    template <class Iterator1, class Iterator2>
+    bool operator==(const ft::vector_iterator_<Iterator1> &lhs,
+                    const ft::vector_iterator_<Iterator2> &rhs)
+    {
+        return lhs.base() == rhs.base();
+    }
+    template <class Iterator1, class Iterator2>
+    bool operator!=(const ft::vector_iterator_<Iterator1> &lhs,
+                    const ft::vector_iterator_<Iterator2> &rhs)
+    {
+        return lhs.base() != rhs.base();
+    }
+    template <class Iterator1, class Iterator2>
+    bool operator<(const ft::vector_iterator_<Iterator1> &lhs,
+                   const ft::vector_iterator_<Iterator2> &rhs)
+    {
+        return lhs.base() < rhs.base();
+    }
+    template <class Iterator1, class Iterator2>
+    bool operator<=(const ft::vector_iterator_<Iterator1> &lhs,
+                    const ft::vector_iterator_<Iterator2> &rhs)
+    {
+        return lhs.base() <= rhs.base();
+    }
+    template <class Iterator1, class Iterator2>
+    bool operator>(const ft::vector_iterator_<Iterator1> &lhs,
+                   const ft::vector_iterator_<Iterator2> &rhs)
+    {
+        return lhs.base() > rhs.base();
+    }
+    template <class Iterator1, class Iterator2>
+    bool operator>=(const ft::vector_iterator_<Iterator1> &lhs,
+                    const ft::vector_iterator_<Iterator2> &rhs)
+    {
+        return lhs.base() >= rhs.base();
+    }
+
+    template <class Iterator>
+    vector_iterator_<Iterator> operator+(
+        typename vector_iterator_<Iterator>::difference_type n,
+        const vector_iterator_<Iterator> &it)
+    {
+        return vector_iterator_<Iterator>(it.base() + n);
+    }
+    template <class Iterator>
+    typename vector_iterator_<Iterator>::difference_type
+    operator-(const vector_iterator_<Iterator> &lhs,
+              const vector_iterator_<Iterator> &rhs)
+    {
+        return lhs.base() - rhs.base();
+    }
+
 
     template <class T, class Allocator = std::allocator<T> >
     class vector

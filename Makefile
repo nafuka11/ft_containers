@@ -17,7 +17,7 @@ $(NAME_STL)	: $(SRCS)
 	$(CXX) $(CXXFLAGS) -o $(NAME_STL) $(SRCS)
 
 $(NAME_FT)	: $(SRCS)
-	$(CXX) $(CXXFLAGS) -D IS_FT=1 -o $(NAME_FT) $(SRCS)
+	$(CXX) $(CXXFLAGS) -o $(NAME_FT) -D IS_FT=1 $(SRCS)
 
 .PHONY		: fclean
 fclean		:

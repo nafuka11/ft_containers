@@ -5,18 +5,19 @@ void print_test_case(std::string str)
     std::cout << "** " << str << " **" << std::endl;
 }
 
-void test_equality_inequality_operator(ft::vector<int> &vec)
+template <class Iter>
+void test_equality_inequality_operator(Iter begin, Iter end)
 {
     print_test_case("iter == iter");
     {
-        std::cout << std::boolalpha << "begin() == begin(): " << (vec.begin() == vec.begin()) << std::endl;
-        std::cout << std::boolalpha << "begin() ==   end(): " << (vec.begin() == vec.end()) << std::endl;
+        std::cout << std::boolalpha << "begin() == begin(): " << (begin == begin) << std::endl;
+        std::cout << std::boolalpha << "begin() ==   end(): " << (begin == end) << std::endl;
     }
 
     print_test_case("iter != iter");
     {
-        std::cout << std::boolalpha << "begin() != begin(): " << (vec.begin() != vec.begin()) << std::endl;
-        std::cout << std::boolalpha << "begin() !=   end(): " << (vec.begin() != vec.end()) << std::endl;
+        std::cout << std::boolalpha << "begin() != begin(): " << (begin != begin) << std::endl;
+        std::cout << std::boolalpha << "begin() !=   end(): " << (begin != end) << std::endl;
     }
 }
 
@@ -37,11 +38,12 @@ void test_dereference(ft::vector<Foo> &vec)
     }
 }
 
-void test_increment_decrement(ft::vector<int> &vec)
+template <class Iter>
+void test_increment_decrement(Iter begin, Iter end)
 {
     print_test_case("++iter");
     {
-        for (ft::vector<int>::iterator iter = vec.begin(); iter != vec.end(); ++iter)
+        for (Iter iter = begin; iter != end; ++iter)
         {
             std::cout << " " << *iter;
         }
@@ -49,52 +51,53 @@ void test_increment_decrement(ft::vector<int> &vec)
     }
     print_test_case("iter++");
     {
-        for (ft::vector<int>::iterator iter = vec.begin(); iter != vec.end(); iter++)
+        for (Iter iter = begin; iter != end; iter++)
         {
             std::cout << " " << *iter;
         }
         std::cout << std::endl;
     }
-    // TODO: reverse iteratorを実装したらコメントアウト解除
-    // print_test_case("--iter");
-    // {
-    //     for (ft::vector<int>::iterator iter = vec.end(); iter != vec.begin(); --iter)
-    //     {
-    //         std::cout << " " << *iter;
-    //     }
-    //     std::cout << std::endl;
-    // }
-    // print_test_case("iter--");
-    // {
-    //     for (ft::vector<int>::iterator iter = vec.end(); iter != vec.begin(); iter--)
-    //     {
-    //         std::cout << " " << *iter;
-    //     }
-    //     std::cout << std::endl;
-    // }
+    print_test_case("--iter");
+    {
+        for (Iter iter = end - 1; iter != begin; --iter)
+        {
+            std::cout << " " << *iter;
+        }
+        std::cout << std::endl;
+    }
+    print_test_case("iter--");
+    {
+        for (Iter iter = end - 1; iter != begin; iter--)
+        {
+            std::cout << " " << *iter;
+        }
+        std::cout << std::endl;
+    }
 }
 
-void test_arithmetic_operator(ft::vector<int> &vec)
+template <class Iter>
+void test_arithmetic_operator(Iter begin, Iter end)
 {
     print_test_case("iter + ptrdiff_t(2)");
-    std::cout << *(vec.begin() + 2) << std::endl;
+    std::cout << *(begin + 2) << std::endl;
 
     print_test_case("ptrdiff_t(2) + iter");
-    std::cout << *(2 + vec.begin()) << std::endl;
+    std::cout << *(2 + begin) << std::endl;
 
     print_test_case("iter - ptrdiff_t(2)");
-    std::cout << *(vec.end() - 2) << std::endl;
+    std::cout << *(end - 2) << std::endl;
 
     print_test_case("iter - iter");
-    std::cout << vec.end() - vec.begin() << std::endl;
+    std::cout << end - begin << std::endl;
 }
 
-void test_inequality_relational_operator(ft::vector<int> &vec)
+template <class Iter>
+void test_inequality_relational_operator(Iter begin)
 {
     print_test_case("<, >, <=, >=");
     {
-        ft::vector<int>::iterator first = vec.begin();
-        ft::vector<int>::iterator second = first + 1;
+        Iter first = begin;
+        Iter second = first + 1;
         std::cout << std::boolalpha
                   << "first  < first  = " << (first < first) << std::endl
                   << "first  < second = " << (first < second) << std::endl
@@ -109,29 +112,53 @@ void test_inequality_relational_operator(ft::vector<int> &vec)
     }
 }
 
-void test_compound_assignment_operation(ft::vector<int> &vec)
+template <class Iter>
+void test_compound_assignment_operation(Iter begin, Iter end)
 {
     print_test_case("iter += ptrdiff_t(3)");
     {
-        ft::vector<int>::iterator iter = vec.begin();
+        Iter iter = begin;
         iter += 3;
         std::cout << *iter << std::endl;
     }
 
     print_test_case("iter -= ptrdiff_t(3)");
     {
-        ft::vector<int>::iterator iter = vec.end();
+        Iter iter = end;
         iter -= 3;
         std::cout << *iter << std::endl;
     }
 }
 
-void test_offset_difference_operator(ft::vector<int> &vec)
+template <class Iter>
+void test_offset_difference_operator(Iter begin)
 {
     print_test_case("iter[2]");
     {
-        ft::vector<int>::iterator iter = vec.begin();
-        std::cout << iter[2] << std::endl;
+        std::cout << begin[2] << std::endl;
+    }
+}
+
+template <class Iter>
+void test_iterator_functions(Iter begin, Iter end)
+{
+    test_equality_inequality_operator(begin, end);
+    test_increment_decrement(begin, end);
+    test_arithmetic_operator(begin, end);
+    test_inequality_relational_operator(begin);
+    test_compound_assignment_operation(begin, end);
+    test_offset_difference_operator(begin);
+}
+
+void prepare_vectors(ft::vector<int> &vecInt, ft::vector<Foo> &vecFoo)
+{
+    for (size_t i = 0; i < vecInt.size(); i++)
+    {
+        vecInt[i] = i;
+    }
+    for (size_t i = 0; i < vecFoo.size(); i++)
+    {
+        vecFoo[i].setAllocated(i);
     }
 }
 
@@ -139,22 +166,23 @@ void test_vector_iterator()
 {
     size_t size = 5;
     ft::vector<int> vecInt(size, 42);
-    for (size_t i = 0; i < size; i++)
-    {
-        vecInt[i] = i;
-    }
-
     ft::vector<Foo> vecFoo(size);
-    for (size_t i = 0; i < size; i++)
-    {
-        vecFoo[i].setAllocated(i);
-    }
+    prepare_vectors(vecInt, vecFoo);
 
-    test_equality_inequality_operator(vecInt);
+    ft::vector<int>::iterator begin = vecInt.begin();
+    ft::vector<int>::iterator end = vecInt.end();
+    ft::vector<int>::const_iterator cbegin = vecInt.begin();
+    ft::vector<int>::const_iterator cend = vecInt.end();
+    ft::vector<int>::reverse_iterator rbegin = vecInt.rbegin();
+    ft::vector<int>::reverse_iterator rend = vecInt.rend();
+    ft::vector<int>::const_reverse_iterator crbegin = vecInt.rbegin();
+    ft::vector<int>::const_reverse_iterator crend = vecInt.rend();
+
+    test_iterator_functions(begin, end);
+    test_iterator_functions(rbegin, rend);
+    test_iterator_functions(cbegin, cend);
+    test_iterator_functions(crbegin, crend);
+    test_iterator_functions(vecFoo.begin(), vecFoo.end());
+    test_iterator_functions(vecFoo.rbegin(), vecFoo.rend());
     test_dereference(vecFoo);
-    test_increment_decrement(vecInt);
-    test_arithmetic_operator(vecInt);
-    test_inequality_relational_operator(vecInt);
-    test_compound_assignment_operation(vecInt);
-    test_offset_difference_operator(vecInt);
 }

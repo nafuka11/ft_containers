@@ -66,3 +66,9 @@ void Foo::setAllocated(int n)
 {
     *allocated_ = n;
 }
+
+std::ostream &operator<<(std::ostream &os, Foo const &foo)
+{
+    os << "Foo(const=" << foo.getConstant() << ", alloc=" << foo.getAllocated() << ")";
+    return os;
+}

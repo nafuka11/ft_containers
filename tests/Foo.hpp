@@ -1,6 +1,8 @@
 #ifndef FOO_HPP
 #define FOO_HPP
 
+#include <ostream>
+
 class Foo
 {
 private:
@@ -25,5 +27,7 @@ public:
     int getAllocated() const;
     void setAllocated(int n);
 };
+
+std::ostream &operator<<(std::ostream &os, Foo const &foo);
 
 #endif /* FOO_HPP */

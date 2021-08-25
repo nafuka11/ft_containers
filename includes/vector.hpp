@@ -11,18 +11,20 @@ namespace ft
     class vector_iterator_ : public std::iterator<std::random_access_iterator_tag, T>
     {
         public:
-            typedef typename std::iterator<std::random_access_iterator_tag, T>::value_type          value_type;
-            typedef typename std::iterator<std::random_access_iterator_tag, T>::difference_type     difference_type;
-            typedef typename std::iterator<std::random_access_iterator_tag, T>::pointer             pointer;
-            typedef typename std::iterator<std::random_access_iterator_tag, T>::reference           reference;
-            typedef typename std::iterator<std::random_access_iterator_tag, T>::iterator_category   iterator_category;
+            typedef T iterator_type;
+            typedef typename iterator_traits<T>::iterator_category iterator_category;
+            typedef typename iterator_traits<T>::value_type value_type;
+            typedef typename iterator_traits<T>::difference_type difference_type;
+            typedef typename iterator_traits<T>::pointer pointer;
+            typedef typename iterator_traits<T>::reference reference;
 
             // Member functions
             // constructor
             vector_iterator_() : current(NULL) {}
-            explicit vector_iterator_(pointer ptr) : current(ptr) {}
+            explicit vector_iterator_(iterator_type ptr) : current(ptr) {}
             // copy constructor
-            vector_iterator_(const vector_iterator_ &other)
+            template <class Iter>
+            vector_iterator_(const vector_iterator_<Iter> &other)
             {
                 *this = other;
             }
@@ -36,16 +38,16 @@ namespace ft
                 return *this;
             }
 
-            pointer base() const
+            iterator_type base() const
             {
                 return current;
             }
             // dereference operator
-            reference operator*()
+            reference operator*() const
             {
                 return *current;
             }
-            pointer operator->()
+            pointer operator->() const
             {
                 return current;
             }
@@ -100,7 +102,7 @@ namespace ft
             }
 
         private:
-            pointer current;
+            iterator_type current;
     };
 
     // Non-member functions
@@ -166,14 +168,14 @@ namespace ft
             typedef Allocator                                allocator_type;
             typedef typename allocator_type::reference       reference;
             typedef typename allocator_type::const_reference const_reference;
-            typedef ft::vector_iterator_<T>                  iterator;
-            typedef ft::vector_iterator_<const T>            const_iterator;
-            typedef typename allocator_type::size_type       size_type;
-            typedef typename allocator_type::difference_type difference_type;
             typedef typename allocator_type::pointer         pointer;
             typedef typename allocator_type::const_pointer   const_pointer;
-            typedef reverse_iterator<iterator>               reverse_iterator;
-            typedef std::reverse_iterator<const_iterator>    const_reverse_iterator;
+            typedef vector_iterator_<pointer>                  iterator;
+            typedef vector_iterator_<const_pointer>            const_iterator;
+            typedef typename allocator_type::size_type       size_type;
+            typedef typename allocator_type::difference_type difference_type;
+            typedef ft::reverse_iterator<iterator>               reverse_iterator;
+            typedef ft::reverse_iterator<const_iterator>    const_reverse_iterator;
 
             // Member functions
             explicit vector(const allocator_type& alloc = allocator_type()) : alloc_(alloc) {}

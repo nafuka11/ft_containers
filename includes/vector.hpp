@@ -29,12 +29,10 @@ namespace ft
             // destructor
             ~vector_iterator_() {}
             // assignment operator
-            vector_iterator_ &operator=(const vector_iterator_ &other)
+            template <class Iter>
+            vector_iterator_ &operator=(const vector_iterator_<Iter> &other)
             {
-                if (this != &other)
-                {
-                    current = other.current;
-                }
+                current = other.base();
                 return *this;
             }
 

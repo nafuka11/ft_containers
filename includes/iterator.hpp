@@ -41,10 +41,7 @@ namespace ft
         template <class Iter>
         reverse_iterator &operator=(const reverse_iterator<Iter> &other)
         {
-            if (this != &other)
-            {
-                current = other.current;
-            }
+            current = other.base();
             return *this;
         }
 

@@ -22,4 +22,6 @@ namespace ft = std;
 #include "Foo.hpp"
 #include "vector/test_vector.hpp"
 
+void print_test_case(std::string str);
+
 #endif /* COMMON_HPP */

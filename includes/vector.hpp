@@ -194,7 +194,12 @@ namespace ft
             }
             vector(const vector& x)
             {
-                (void)x;
+                size_type size = x.size();
+                if (size > 0)
+                {
+                    allocate(size);
+                    std::uninitialized_copy(x.first_, x.last_, first_);
+                }
             }
             // Member functions: Iterators
             iterator begin()
@@ -246,6 +251,7 @@ namespace ft
             // Member functions: Modifiers
             // Member functions: Allocator
             // Non-member functions
+
         private:
             allocator_type alloc_;
             pointer first_;
@@ -255,6 +261,8 @@ namespace ft
             void allocate(size_type size)
             {
                 first_ = alloc_.allocate(size);
+                last_ = first_ + size;
+                capacity_end_ = last_;
             }
 
             void construct_at_end(size_type size, const_reference value)
@@ -263,8 +271,6 @@ namespace ft
                 {
                     alloc_.construct(first_ + i, value);
                 }
-                last_ = first_ + size;
-                capacity_end_ = last_;
             }
     };
 

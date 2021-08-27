@@ -259,7 +259,26 @@ namespace ft
             {
                 return first_ == last_;
             }
-            // void reserve( size_type new_cap );
+            void reserve(size_type new_cap)
+            {
+                if (new_cap > max_size())
+                    throw std::length_error("allocator<T>::allocate(size_t n) 'n' exceeds maximum supported size");
+                if (new_cap > capacity())
+                {
+                    size_type old_capacity = capacity();
+                    pointer new_first = alloc_.allocate(new_cap);
+
+                    for (size_type i = 0; i < old_capacity; i++)
+                    {
+                        alloc_.construct(&new_first[i], first_[i]);
+                        alloc_.destroy(--last_);
+                    }
+                    alloc_.deallocate(first_, old_capacity);
+                    first_ = new_first;
+                    last_ = first_ + old_capacity;
+                    capacity_last_ = first_ + new_cap;
+                }
+            }
 
             // Member functions: Element access
             reference operator[] (size_type pos)

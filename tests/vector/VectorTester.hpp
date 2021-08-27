@@ -14,6 +14,7 @@ public:
     {
         test_max_size();
         test_empty();
+        test_reserve();
         test_subscript_operator();
         test_at();
         test_front_back();
@@ -53,6 +54,45 @@ private:
         std::cout << std::boolalpha << "vector().empty()=" << vecEmpty.empty() << std::endl;
         ft::vector<T> vecOne(1);
         std::cout << std::boolalpha << "vector(1).empty()=" << vecOne.empty() << std::endl;
+    }
+
+    void test_reserve()
+    {
+        print_test_case("vector::reserve()");
+        {
+            ft::vector<T> vec = originalVec;
+            std::cout << "vec.reserve(" << originalVec.size() - 1 << "): ";
+            vec.reserve(originalVec.size() - 1);
+            print_vector_info(vec);
+            print_vector_elements(vec);
+        }
+        {
+            ft::vector<T> vec = originalVec;
+            std::cout << "vec.reserve(" << originalVec.size() + 1 << "): ";
+            vec.reserve(originalVec.size() + 1);
+            print_vector_info(vec);
+            print_vector_elements(vec);
+        }
+        {
+            ft::vector<T> vec;
+            std::cout << "vector().reserve(42): ";
+            vec.reserve(42);
+            print_vector_info(vec);
+            print_vector_elements(vec);
+        }
+        {
+            ft::vector<T> vec = originalVec;
+            std::cout << "vec.reserve(" << vec.max_size() + 1 << "): ";
+            try
+            {
+                vec.reserve(vec.max_size() + 1);
+            }
+            catch (const std::length_error &e)
+            {
+                std::cout << e.what();
+            }
+            std::cout << std::endl;
+        }
     }
 
     void test_subscript_operator()

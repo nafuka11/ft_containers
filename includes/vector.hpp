@@ -263,6 +263,17 @@ namespace ft
             {
                 return first_[pos];
             }
+            reference at(size_type pos)
+            {
+                if (pos >= size())
+                    throw std::out_of_range("vector");
+                return first_[pos];
+            }
+            const_reference at( size_type pos ) const
+            {
+                if (pos >= size())
+                    throw std::out_of_range("vector");
+                return first_[pos];
             }
             // Member functions: Modifiers
             // Member functions: Allocator

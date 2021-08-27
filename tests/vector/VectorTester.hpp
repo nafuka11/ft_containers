@@ -15,6 +15,7 @@ public:
         test_max_size();
         test_empty();
         test_subscript_operator();
+        test_at();
     }
 
 private:
@@ -52,6 +53,23 @@ private:
         std::cout << std::endl;
     }
 
+    void test_at()
+    {
+        print_test_case("vector::at()");
+        for (size_t i = 0; i < originalVec.size() + 1; i++)
+        {
+            try
+            {
+                std::cout << "vec.at(" << i << ")=";
+                std::cout << originalVec.at(i) << " ";
+            }
+            catch(const std::out_of_range &e)
+            {
+                std::cout << e.what() << " ";
+            }
+        }
+        std::cout << std::endl;
+    }
 };
 
 #endif /* VECTORTESTER_HPP */

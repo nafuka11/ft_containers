@@ -233,11 +233,16 @@ namespace ft
             {
                 return const_reverse_iterator(begin());
             }
+            // Member functions: Capacity
             size_type size() const
             {
                 return last_ - first_;
             }
-            // Member functions: Capacity
+            size_type max_size() const
+            {
+                return std::min(static_cast<size_type>(std::numeric_limits<difference_type>::max()),
+                                std::numeric_limits<size_type>::max() /sizeof(value_type));
+            }
             // Member functions: Element access
             reference operator[] (size_type n)
             {

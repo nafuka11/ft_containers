@@ -12,12 +12,21 @@ public:
     ~VectorTester() {}
     void test_all()
     {
+        test_max_size();
     }
 
 private:
     ft::vector<T> originalVec;
 
     void print_vector_info(ft::vector<T> &vec)
+
+    void test_max_size()
+    {
+        print_test_case("vector::max_size()");
+        ft::vector<T> vec;
+        std::cout << vec.max_size() << std::endl;
+    }
+
 };
 
 #endif /* VECTORTESTER_HPP */

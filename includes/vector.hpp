@@ -255,21 +255,13 @@ namespace ft
             allocator_type alloc_;
             pointer first_;
             pointer last_;
-            pointer capacity_end_;
+            pointer capacity_last_;
 
             void allocate(size_type size)
             {
                 first_ = alloc_.allocate(size);
                 last_ = first_ + size;
-                capacity_end_ = last_;
-            }
-
-            void construct_at_end(size_type size, const_reference value)
-            {
-                for (size_type i = 0; i < size; i++)
-                {
-                    alloc_.construct(first_ + i, value);
-                }
+                capacity_last_ = last_;
             }
     };
 

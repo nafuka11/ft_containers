@@ -309,7 +309,10 @@ namespace ft
             }
 
             // Member functions: Allocator
-            // Non-member functions
+            allocator_type get_allocator() const
+            {
+                return alloc_;
+            }
 
         private:
             allocator_type alloc_;

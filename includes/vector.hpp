@@ -294,6 +294,10 @@ namespace ft
                 return *(end() - 1);
             }
             // Member functions: Modifiers
+            void pop_back()
+            {
+                destruct_at_end(last_ - 1);
+            }
             void clear()
             {
                 destruct_at_end(first_);

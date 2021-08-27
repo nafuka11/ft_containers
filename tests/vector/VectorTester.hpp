@@ -17,6 +17,7 @@ public:
         test_subscript_operator();
         test_at();
         test_front_back();
+        test_pop_back();
         test_clear();
     }
 
@@ -26,6 +27,15 @@ private:
     void print_vector_info(ft::vector<T> &vec)
     {
         std::cout << "size()=" << vec.size() << " capacity()=" << vec.capacity() << std::endl;
+    }
+
+    void print_vector_elements(ft::vector<T> &vec)
+    {
+        for (typename ft::vector<T>::iterator iter = vec.begin(); iter != vec.end(); ++iter)
+        {
+            std::cout << (*iter) << " ";
+        }
+        std::cout << std::endl;
     }
 
 
@@ -78,6 +88,15 @@ private:
         print_test_case("vector::front(), back()");
         std::cout << "vec.front()=" << originalVec.front() << std::endl;
         std::cout << "vec.back() =" << originalVec.back() << std::endl;
+    }
+
+    void test_pop_back()
+    {
+        print_test_case("vector::pop_back()");
+        ft::vector<T> vec = originalVec;
+        vec.pop_back();
+        print_vector_info(vec);
+        print_vector_elements(vec);
     }
 
     void test_clear()

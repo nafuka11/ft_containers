@@ -317,6 +317,20 @@ namespace ft
             {
                 return *(end() - 1);
             }
+            void assign(size_type count, const T& value)
+            {
+                if (count > capacity())
+                {
+                    reserve(count);
+                }
+                destruct_at_end(first_);
+                for (size_type i = 0; i < count; i++)
+                {
+                    alloc_.construct(&first_[i], value);
+                }
+                last_ = first_ + count;
+            }
+
             // Member functions: Modifiers
             void pop_back()
             {

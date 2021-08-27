@@ -18,6 +18,7 @@ public:
         test_subscript_operator();
         test_at();
         test_front_back();
+        test_assign();
         test_pop_back();
         test_clear();
     }
@@ -128,6 +129,24 @@ private:
         print_test_case("vector::front(), back()");
         std::cout << "vec.front()=" << originalVec.front() << std::endl;
         std::cout << "vec.back() =" << originalVec.back() << std::endl;
+    }
+
+    void test_assign()
+    {
+        print_test_case("vector::assign()");
+        test_assign_fill(0);
+        test_assign_fill(2);
+        test_assign_fill(5);
+        test_assign_fill(10);
+    }
+
+    void test_assign_fill(typename ft::vector<T>::size_type count)
+    {
+        ft::vector<T> vec = originalVec;
+        std::cout << "vec.assign(" << count << ", " << vec.back() << ")";
+        vec.assign(count, vec.back());
+        print_vector_info(vec);
+        print_vector_elements(vec);
     }
 
     void test_pop_back()

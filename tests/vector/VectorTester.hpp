@@ -14,6 +14,7 @@ public:
     {
         test_max_size();
         test_empty();
+        test_subscript_operator();
     }
 
 private:
@@ -40,6 +41,17 @@ private:
         ft::vector<T> vecOne(1);
         std::cout << std::boolalpha << "vector(1).empty()=" << vecOne.empty() << std::endl;
     }
+
+    void test_subscript_operator()
+    {
+        print_test_case("vector::operator[]");
+        for (size_t i = 0; i < originalVec.size(); i++)
+        {
+            std::cout << "vec[" << i << "]=" << originalVec[i] << " ";
+        }
+        std::cout << std::endl;
+    }
+
 };
 
 #endif /* VECTORTESTER_HPP */

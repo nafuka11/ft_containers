@@ -176,27 +176,28 @@ namespace ft
             typedef ft::reverse_iterator<const_iterator>    const_reverse_iterator;
 
             // Member functions
-            explicit vector(const allocator_type& alloc = allocator_type()) : alloc_(alloc) {}
+            explicit vector(const allocator_type& alloc = allocator_type()) : alloc_(alloc), first_(NULL), last_(NULL), capacity_last_(NULL) {}
             explicit vector(size_type n, const value_type& val = value_type(), const allocator_type& alloc = allocator_type()) : alloc_(alloc)
             {
                 allocate(n);
                 construct_at_end(n, val);
             }
-            template <class InputIterator>
-            vector(typename ft::enable_if<!ft::is_integral<InputIterator>::value>::type first,
-                   InputIterator last,
-                   const allocator_type& alloc = allocator_type()) : alloc_(alloc)
+            // TODO: push_backを実装する
+            // template <class InputIterator>
+            // vector(typename ft::enable_if<!ft::is_integral<InputIterator>::value>::type first,
+            //        InputIterator last,
+            //        const allocator_type& alloc = allocator_type()) : alloc_(alloc)
+            // {
+            //     (void) first;
+            //     (void) last;
+            // }
+            vector(const vector& other) : first_(NULL), last_(NULL), capacity_last_(NULL)
             {
-                (void)first;
-                (void)last;
-            }
-            vector(const vector& x)
-            {
-                size_type size = x.size();
+                size_type size = other.size();
                 if (size > 0)
                 {
                     allocate(size);
-                    std::uninitialized_copy(x.first_, x.last_, first_);
+                    std::uninitialized_copy(other.first_, other.last_, first_);
                 }
             }
             // Member functions: Iterators

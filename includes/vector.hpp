@@ -248,6 +248,12 @@ namespace ft
             {
                 return capacity_last_ - first_;
             }
+            bool empty() const
+            {
+                return first_ == last_;
+            }
+            // void reserve( size_type new_cap );
+
             // Member functions: Element access
             reference operator[] (size_type n)
             {

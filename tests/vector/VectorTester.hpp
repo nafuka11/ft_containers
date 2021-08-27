@@ -13,6 +13,7 @@ public:
     void test_all()
     {
         test_max_size();
+        test_empty();
     }
 
 private:
@@ -31,6 +32,14 @@ private:
         std::cout << vec.max_size() << std::endl;
     }
 
+    void test_empty()
+    {
+        print_test_case("vector::empty()");
+        ft::vector<T> vecEmpty;
+        std::cout << std::boolalpha << "vector().empty()=" << vecEmpty.empty() << std::endl;
+        ft::vector<T> vecOne(1);
+        std::cout << std::boolalpha << "vector(1).empty()=" << vecOne.empty() << std::endl;
+    }
 };
 
 #endif /* VECTORTESTER_HPP */

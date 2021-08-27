@@ -2,6 +2,8 @@
 #define VECTOR_HPP
 
 #include <memory>
+#include <limits>
+#include <exception>
 #include "iterator.hpp"
 #include "type_traits.hpp"
 
@@ -292,6 +294,11 @@ namespace ft
                 return *(end() - 1);
             }
             // Member functions: Modifiers
+            void clear()
+            {
+                destruct_at_end(first_);
+            }
+
             // Member functions: Allocator
             // Non-member functions
 
@@ -306,6 +313,15 @@ namespace ft
                 first_ = alloc_.allocate(size);
                 last_ = first_ + size;
                 capacity_last_ = last_;
+            }
+            void destruct_at_end(pointer new_last)
+            {
+                pointer now = last_;
+                while (now != new_last)
+                {
+                    alloc_.destroy(--now);
+                }
+                last_ = new_last;
             }
     };
 

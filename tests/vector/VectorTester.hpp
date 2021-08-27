@@ -17,6 +17,7 @@ public:
         test_subscript_operator();
         test_at();
         test_front_back();
+        test_clear();
     }
 
 private:
@@ -77,6 +78,14 @@ private:
         print_test_case("vector::front(), back()");
         std::cout << "vec.front()=" << originalVec.front() << std::endl;
         std::cout << "vec.back() =" << originalVec.back() << std::endl;
+    }
+
+    void test_clear()
+    {
+        print_test_case("vector::clear()");
+        ft::vector<T> vec = originalVec;
+        vec.clear();
+        print_vector_info(vec);
     }
 };
 

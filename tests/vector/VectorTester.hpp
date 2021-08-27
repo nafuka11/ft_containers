@@ -16,6 +16,7 @@ public:
         test_empty();
         test_subscript_operator();
         test_at();
+        test_front_back();
     }
 
 private:
@@ -69,6 +70,13 @@ private:
             }
         }
         std::cout << std::endl;
+    }
+
+    void test_front_back()
+    {
+        print_test_case("vector::front(), back()");
+        std::cout << "vec.front()=" << originalVec.front() << std::endl;
+        std::cout << "vec.back() =" << originalVec.back() << std::endl;
     }
 };
 

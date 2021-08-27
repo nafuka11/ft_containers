@@ -275,6 +275,22 @@ namespace ft
                     throw std::out_of_range("vector");
                 return first_[pos];
             }
+            reference front()
+            {
+                return *begin();
+            }
+            const_reference front() const
+            {
+                return *begin();
+            }
+            reference back()
+            {
+                return *(end() - 1);
+            }
+            const_reference back() const
+            {
+                return *(end() - 1);
+            }
             // Member functions: Modifiers
             // Member functions: Allocator
             // Non-member functions

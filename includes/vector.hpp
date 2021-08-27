@@ -28,8 +28,6 @@ namespace ft
             {
                 *this = other;
             }
-            // destructor
-            ~vector_iterator_() {}
             // assignment operator
             template <class Iter>
             vector_iterator_ &operator=(const vector_iterator_<Iter> &other)

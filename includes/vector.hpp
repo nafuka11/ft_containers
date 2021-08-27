@@ -202,6 +202,11 @@ namespace ft
                     std::uninitialized_copy(other.first_, other.last_, first_);
                 }
             }
+            ~vector()
+            {
+                clear();
+                deallocate();
+            }
             // Member functions: Iterators
             iterator begin()
             {
@@ -317,6 +322,10 @@ namespace ft
                 first_ = alloc_.allocate(size);
                 last_ = first_ + size;
                 capacity_last_ = last_;
+            }
+            void deallocate()
+            {
+                alloc_.deallocate(first_, capacity());
             }
             void destruct_at_end(pointer new_last)
             {

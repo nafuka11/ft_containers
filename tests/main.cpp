@@ -2,5 +2,5 @@
 
 int main()
 {
-    test_vector_iterator();
+    test_vector();
 }

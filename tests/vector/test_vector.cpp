@@ -1,4 +1,5 @@
 #include "common.hpp"
+#include "vector/VectorTester.hpp"
 #include "vector/VectorIteratorTester.hpp"
 
 void test_dereference(ft::vector<Foo> &vecFoo)
@@ -43,4 +44,17 @@ void test_vector_iterator()
 
     testerInt.test_all();
     testerFoo.test_all();
+}
+
+void test_vector()
+{
+    size_t size = 5;
+    ft::vector<int> vecInt(size, 42);
+    ft::vector<Foo> vecFoo(size);
+    prepare_vectors(vecInt, vecFoo);
+
+    test_vector_iterator();
+
+    VectorTester<int> tester(vecInt);
+    tester.test_all();
 }

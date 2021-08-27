@@ -243,6 +243,11 @@ namespace ft
                 return std::min(static_cast<size_type>(std::numeric_limits<difference_type>::max()),
                                 std::numeric_limits<size_type>::max() /sizeof(value_type));
             }
+            // void resize (size_type count, value_type value = value_type());
+            size_type capacity() const
+            {
+                return capacity_last_ - first_;
+            }
             // Member functions: Element access
             reference operator[] (size_type n)
             {

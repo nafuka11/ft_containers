@@ -19,6 +19,10 @@ private:
     ft::vector<T> originalVec;
 
     void print_vector_info(ft::vector<T> &vec)
+    {
+        std::cout << "size()=" << vec.size() << " capacity()=" << vec.capacity() << std::endl;
+    }
+
 
     void test_max_size()
     {

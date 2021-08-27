@@ -134,16 +134,29 @@ private:
     void test_assign()
     {
         print_test_case("vector::assign()");
+        test_assign_range(originalVec.begin(), originalVec.end());
+        test_assign_range(originalVec.begin(), originalVec.begin());
+        test_assign_range(originalVec.begin(), originalVec.end()-1);
         test_assign_fill(0);
         test_assign_fill(2);
         test_assign_fill(5);
         test_assign_fill(10);
     }
 
+    template <class InputIterator>
+    void test_assign_range(InputIterator first, InputIterator last)
+    {
+        ft::vector<T> vec = originalVec;
+        std::cout << "vec.assign(iter(" << (*first) << "), iter(" << (*last) << ")): ";
+        vec.assign(first, last);
+        print_vector_info(vec);
+        print_vector_elements(vec);
+    }
+
     void test_assign_fill(typename ft::vector<T>::size_type count)
     {
         ft::vector<T> vec = originalVec;
-        std::cout << "vec.assign(" << count << ", " << vec.back() << ")";
+        std::cout << "vec.assign(" << count << ", " << vec.back() << "): ";
         vec.assign(count, vec.back());
         print_vector_info(vec);
         print_vector_elements(vec);

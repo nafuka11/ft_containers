@@ -317,6 +317,21 @@ namespace ft
             {
                 return *(end() - 1);
             }
+            template <class InputIterator>
+            void assign(InputIterator first, InputIterator last)
+            {
+                size_type new_size = last - first;
+                if (new_size > capacity())
+                {
+                    reserve(new_size);
+                }
+                destruct_at_end(first_);
+                for (InputIterator iter = first; iter != last; ++iter)
+                {
+                    alloc_.construct(&first_[iter - first], *iter);
+                }
+                last_ = first_ + new_size;
+            }
             void assign(size_type count, const T& value)
             {
                 if (count > capacity())

@@ -255,13 +255,14 @@ namespace ft
             // void reserve( size_type new_cap );
 
             // Member functions: Element access
-            reference operator[] (size_type n)
+            reference operator[] (size_type pos)
             {
-                return first_[n];
+                return first_[pos];
             }
-            const_reference operator[] (size_type n) const
+            const_reference operator[] (size_type pos) const
             {
-                return first_[n];
+                return first_[pos];
+            }
             }
             // Member functions: Modifiers
             // Member functions: Allocator

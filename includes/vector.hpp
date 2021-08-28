@@ -415,6 +415,16 @@ namespace ft
                 }
                 last_ = new_last;
             }
+            size_type calc_new_capacity(size_type new_cap)
+            {
+                size_type max_cap = max_size();
+                if (new_cap > max_cap)
+                    throw std::length_error("allocator<T>::allocate(size_t n) 'n' exceeds maximum supported size");
+                size_type cap = capacity();
+                if (cap >= max_cap / 2)
+                    return max_cap;
+                return std::max(cap * 2, new_cap);
+            }
     };
 
     template<class T, class Alloc>

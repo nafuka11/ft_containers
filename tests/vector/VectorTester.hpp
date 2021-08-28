@@ -22,6 +22,7 @@ public:
         test_assign();
         test_push_back();
         test_pop_back();
+        test_insert();
         test_erase();
         test_swap();
         test_clear();
@@ -218,6 +219,93 @@ private:
         ft::vector<T> vec = originalVec;
         vec.pop_back();
         print_vector(vec);
+    }
+
+    void test_insert()
+    {
+        print_test_case("vector::insert()");
+        test_insert_single();
+        test_insert_fill();
+        test_insert_range();
+    }
+
+    void test_insert_single()
+    {
+        {
+            ft::vector<T> vec(5, 42);
+            vec.insert(vec.begin() + 2, originalVec.front());
+            std::cout << "vector(5, 42).insert(begin()+2, " << originalVec.front() << "): ";
+            print_vector(vec);
+        }
+        {
+            ft::vector<T> vec;
+            vec.insert(vec.begin(), originalVec.front());
+            std::cout << "vector().insert(begin(), " << originalVec.front() << "): ";
+            print_vector(vec);
+        }
+    }
+
+    void test_insert_fill()
+    {
+        {
+            ft::vector<T> vec(5, 42);
+            vec.insert(vec.begin(), 5, originalVec.back());
+            std::cout << "vector(5, 42).insert(begin(), 5, " << originalVec.back() << "): ";
+            print_vector(vec);
+        }
+        {
+            ft::vector<T> vec(5, 42);
+            vec.insert(vec.begin() + 1, 5, originalVec.back());
+            std::cout << "vector(5, 42).insert(begin()+1, 5, " << originalVec.back() << "): ";
+            print_vector(vec);
+        }
+        {
+            ft::vector<T> vec(5, 42);
+            vec.insert(vec.end() - 1, 5, originalVec.front());
+            std::cout << "vec.insert(end()-1, 5, " << originalVec.front() << "): ";
+            print_vector(vec);
+        }
+        {
+            ft::vector<T> vec(5, 42);
+            vec.insert(vec.end(), 5, originalVec.front());
+            std::cout << "vector(5, 42).insert(end(), 5, " << originalVec.front() << "): ";
+            print_vector(vec);
+        }
+        {
+            ft::vector<T> vec;
+            vec.insert(vec.begin(), 5, originalVec.front());
+            std::cout << "vector().insert(end(), 5, " << originalVec.front() << "): ";
+            print_vector(vec);
+        }
+    }
+
+    void test_insert_range()
+    {
+        {
+            ft::vector<T> vec(5, 42);
+            vec.insert(vec.begin(), originalVec.begin(), originalVec.end());
+            print_vector(vec, "vector(5, 42).insert(begin(), origVec.begin(), origVec.end())");
+        }
+        {
+            ft::vector<T> vec(5, 42);
+            vec.insert(vec.begin() + 1, originalVec.begin(), originalVec.end());
+            print_vector(vec, "vector(5, 42).insert(begin()+1, origVec.begin(), origVec.end())");
+        }
+        {
+            ft::vector<T> vec(5, 42);
+            vec.insert(vec.end() - 1, originalVec.begin(), originalVec.end());
+            print_vector(vec, "vector(5, 42).insert(end()-1, origVec.begin(), origVec.end())");
+        }
+        {
+            ft::vector<T> vec(5, 42);
+            vec.insert(vec.end(), originalVec.begin(), originalVec.end());
+            print_vector(vec, "vector(5, 42).insert(end(), origVec.begin(), origVec.end())");
+        }
+        {
+            ft::vector<T> vec;
+            vec.insert(vec.begin(), originalVec.begin(), originalVec.end());
+            print_vector(vec, "vector().insert(begin(), origVec.begin(), origVec.end())");
+        }
     }
 
     void test_erase()

@@ -354,6 +354,41 @@ namespace ft
             {
                 destruct_at_end(last_ - 1);
             }
+            iterator insert(iterator pos, const value_type &value)
+            {
+                insert(pos, 1, value);
+                return pos;
+            }
+            void insert(iterator pos, size_type count, const value_type& value)
+            {
+                size_type new_size = size() + count;
+                size_type offset = pos - begin();
+
+                if (new_size > capacity())
+                {
+                    reserve(calc_new_capacity(new_size));
+                }
+                move_range(offset, count);
+                std::fill_n(first_ + offset, count, value);
+                last_ += count;
+            }
+            template <class InputIterator>
+            void insert (iterator pos, InputIterator first,
+                         typename ft::enable_if<!ft::is_integral<InputIterator>::value, InputIterator>::type last)
+            {
+                size_type count = last - first;
+                size_type new_size = size() + count;
+                size_type offset = pos - begin();
+
+                if (new_size > capacity())
+                {
+                    reserve(calc_new_capacity(new_size));
+                }
+                move_range(offset, count);
+                std::copy(first, last, first_ + offset);
+
+                last_ += count;
+            }
             iterator erase(iterator pos)
             {
                 return erase(pos, pos + 1);
@@ -426,6 +461,20 @@ namespace ft
                 if (cap >= max_cap / 2)
                     return max_cap;
                 return std::max(cap * 2, new_cap);
+            }
+            void move_range(size_type offset, size_type count)
+            {
+                size_type now_size = size();
+                size_type new_size = now_size + count;
+
+                for (size_type i = 0; i < count; i++)
+                {
+                    alloc_.construct(first_ + now_size + i);
+                }
+                for (size_type i = 0; i < now_size - offset; i++)
+                {
+                    first_[new_size - i - 1] = first_[now_size - i - 1];
+                }
             }
     };
 

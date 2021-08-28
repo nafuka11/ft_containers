@@ -21,6 +21,7 @@ public:
         test_assign();
         test_pop_back();
         test_erase();
+        test_swap();
         test_clear();
     }
 
@@ -213,8 +214,29 @@ private:
             std::cout << "vec.erase(first=iter(" << *first << "), iter(first+" << last - first << ")): ";
             std::cout << "result=iter(begin()+" << (vec.erase(first, last) - vec.begin()) << ") ";
             print_vector(vec);
-            print_vector_info(vec);
-            print_vector_elements(vec);
+        }
+    }
+
+    void test_swap()
+    {
+        print_test_case("vector::swap()");
+        {
+            ft::vector<T> vec1(4, originalVec.front());
+            ft::vector<T> vec2(2, originalVec.back());
+            print_vector(vec1, "orig vec1    ");
+            print_vector(vec2, "orig vec2    ");
+            vec1.swap(vec2);
+            print_vector(vec1, "swapped vec1");
+            print_vector(vec2, "swapped vec2");
+        }
+        {
+            ft::vector<T> vec1(4, originalVec.front());
+            ft::vector<T> vec2(2, originalVec.back());
+            print_vector(vec1, "orig vec1    ");
+            print_vector(vec2, "orig vec2    ");
+            ft::swap(vec1, vec2);
+            print_vector(vec1, "swapped vec1");
+            print_vector(vec2, "swapped vec2");
         }
     }
 

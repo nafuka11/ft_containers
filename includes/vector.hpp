@@ -356,6 +356,19 @@ namespace ft
                 destruct_at_end(last_ - offset);
                 return first;
             }
+            void swap(vector& other)
+            {
+                pointer tmp_first = other.first_;
+                pointer tmp_last = other.last_;
+                pointer tmp_capacity_last = other.capacity_last_;
+
+                other.first_ = first_;
+                other.last_ = last_;
+                other.capacity_last_ = capacity_last_;
+                first_ = tmp_first;
+                last_ = tmp_last;
+                capacity_last_ = tmp_capacity_last;
+            }
             void clear()
             {
                 destruct_at_end(first_);
@@ -394,6 +407,11 @@ namespace ft
             }
     };
 
+    template<class T, class Alloc>
+    void swap(ft::vector<T,Alloc>& lhs, ft::vector<T,Alloc>& rhs)
+    {
+        lhs.swap(rhs);
+    }
 } /* namespace ft */
 
 #endif /* VECTOR_HPP */

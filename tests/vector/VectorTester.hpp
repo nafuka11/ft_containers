@@ -196,8 +196,8 @@ private:
     void test_assign_fill(typename ft::vector<T>::size_type count)
     {
         ft::vector<T> vec = originalVec;
-        std::cout << "vec.assign(" << count << ", " << vec.back() << "): ";
-        vec.assign(count, vec.back());
+        std::cout << "vec.assign(" << count << ", " << originalVec.back() << "): ";
+        vec.assign(count, originalVec.back());
         print_vector(vec);
     }
 

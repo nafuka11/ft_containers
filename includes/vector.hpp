@@ -351,6 +351,20 @@ namespace ft
             {
                 destruct_at_end(last_ - 1);
             }
+            iterator erase(iterator pos)
+            {
+                return erase(pos, pos + 1);
+            }
+            iterator erase(iterator first, iterator last)
+            {
+                difference_type offset = std::distance(first, last);
+                for (iterator iter = first; iter + offset != end(); ++iter)
+                {
+                    *iter = *(iter + offset);
+                }
+                destruct_at_end(last_ - offset);
+                return first;
+            }
             void clear()
             {
                 destruct_at_end(first_);

@@ -20,6 +20,7 @@ public:
         test_front_back();
         test_assign();
         test_pop_back();
+        test_erase();
         test_clear();
     }
 
@@ -169,6 +170,47 @@ private:
         vec.pop_back();
         print_vector_info(vec);
         print_vector_elements(vec);
+    }
+
+    void test_erase()
+    {
+        print_test_case("vector::erase()");
+        test_erase_one();
+        test_erase_range();
+    }
+
+    void test_erase_one()
+    {
+        for (size_t i = 0; i < originalVec.size(); i++)
+        {
+            ft::vector<T> vec = originalVec;
+            std::cout << "vec.erase(" << *(vec.begin() + i) << "): ";
+            std::cout << "result=iter(begin()+" << (vec.erase(vec.begin() + i) - vec.begin()) << ") ";
+            print_vector_info(vec);
+            print_vector_elements(vec);
+        }
+    }
+
+    void test_erase_range()
+    {
+        {
+            ft::vector<T> vec = originalVec;
+            typename ft::vector<T>::iterator first = vec.begin();
+            typename ft::vector<T>::iterator last = vec.end();
+            std::cout << "vec.erase(first=iter(" << *first << "), iter(first+" << last - first << ")): ";
+            std::cout << "result=iter(begin()+" << (vec.erase(first, last) - vec.begin()) << ") ";
+            print_vector_info(vec);
+            print_vector_elements(vec);
+        }
+        {
+            ft::vector<T> vec = originalVec;
+            typename ft::vector<T>::iterator first = vec.begin() + 1;
+            typename ft::vector<T>::iterator last = vec.end() - 1;
+            std::cout << "vec.erase(first=iter(" << *first << "), iter(first+" << last - first << ")): ";
+            std::cout << "result=iter(begin()+" << (vec.erase(first, last) - vec.begin()) << ") ";
+            print_vector_info(vec);
+            print_vector_elements(vec);
+        }
     }
 
     void test_clear()

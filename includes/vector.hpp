@@ -182,7 +182,7 @@ namespace ft
             explicit vector(size_type n, const value_type& val = value_type(), const allocator_type& alloc = allocator_type()) : alloc_(alloc)
             {
                 allocate(n);
-                construct_at_end(n, val);
+                std::uninitialized_fill_n(first_, n, val);
             }
             // TODO: push_backを実装する
             // template <class InputIterator>
@@ -268,11 +268,8 @@ namespace ft
                     size_type old_capacity = capacity();
                     pointer new_first = alloc_.allocate(new_cap);
 
-                    for (size_type i = 0; i < old_capacity; i++)
-                    {
-                        alloc_.construct(&new_first[i], first_[i]);
-                        alloc_.destroy(--last_);
-                    }
+                    std::uninitialized_copy(first_, last_, new_first);
+                    clear();
                     alloc_.deallocate(first_, old_capacity);
                     first_ = new_first;
                     last_ = first_ + old_capacity;
@@ -325,11 +322,8 @@ namespace ft
                 {
                     reserve(new_size);
                 }
-                destruct_at_end(first_);
-                for (InputIterator iter = first; iter != last; ++iter)
-                {
-                    alloc_.construct(&first_[iter - first], *iter);
-                }
+                clear();
+                std::uninitialized_copy(first, last, first_);
                 last_ = first_ + new_size;
             }
             void assign(size_type count, const T& value)
@@ -338,11 +332,8 @@ namespace ft
                 {
                     reserve(count);
                 }
-                destruct_at_end(first_);
-                for (size_type i = 0; i < count; i++)
-                {
-                    alloc_.construct(&first_[i], value);
-                }
+                clear();
+                std::uninitialized_fill_n(first_, count, value);
                 last_ = first_ + count;
             }
 

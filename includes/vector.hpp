@@ -338,6 +338,16 @@ namespace ft
             }
 
             // Member functions: Modifiers
+            void push_back(const value_type &value)
+            {
+                size_type new_size = size() + 1;
+                if (new_size > capacity())
+                {
+                    reserve(calc_new_capacity(new_size));
+                }
+                alloc_.construct(last_, value);
+                last_++;
+            }
             void pop_back()
             {
                 destruct_at_end(last_ - 1);

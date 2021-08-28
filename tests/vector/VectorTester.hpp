@@ -19,6 +19,7 @@ public:
         test_at();
         test_front_back();
         test_assign();
+        test_push_back();
         test_pop_back();
         test_erase();
         test_swap();
@@ -169,6 +170,18 @@ private:
         std::cout << "vec.assign(" << count << ", " << vec.back() << "): ";
         vec.assign(count, vec.back());
         print_vector(vec);
+    }
+
+    void test_push_back()
+    {
+        print_test_case("vector::push_back()");
+        ft::vector<T> vec;
+        print_vector(vec);
+        for (size_t i = 0; i < originalVec.size(); i++)
+        {
+            vec.push_back(originalVec[i]);
+            print_vector(vec);
+        }
     }
 
     void test_pop_back()

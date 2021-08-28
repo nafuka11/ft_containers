@@ -179,20 +179,22 @@ namespace ft
 
             // Member functions
             explicit vector(const allocator_type& alloc = allocator_type()) : alloc_(alloc), first_(NULL), last_(NULL), capacity_last_(NULL) {}
-            explicit vector(size_type n, const value_type& val = value_type(), const allocator_type& alloc = allocator_type()) : alloc_(alloc)
+            explicit vector(size_type count, const value_type& value = value_type(), const allocator_type& alloc = allocator_type()) : alloc_(alloc),  first_(NULL), last_(NULL), capacity_last_(NULL)
             {
-                allocate(n);
-                std::uninitialized_fill_n(first_, n, val);
+                if (count > 0)
+                {
+                    allocate(count);
+                    std::uninitialized_fill_n(first_, count, value);
+                }
             }
-            // TODO: push_backを実装する
-            // template <class InputIterator>
-            // vector(typename ft::enable_if<!ft::is_integral<InputIterator>::value>::type first,
-            //        InputIterator last,
-            //        const allocator_type& alloc = allocator_type()) : alloc_(alloc)
-            // {
-            //     (void) first;
-            //     (void) last;
-            // }
+            template <class InputIterator>
+            vector(InputIterator first,
+                   typename ft::enable_if<!ft::is_integral<InputIterator>::value, InputIterator>::type last,
+                   const allocator_type& alloc = allocator_type()) : alloc_(alloc)
+            {
+                allocate(last - first);
+                std::uninitialized_copy(first, last, first_);
+            }
             vector(const vector& other) : first_(NULL), last_(NULL), capacity_last_(NULL)
             {
                 size_type size = other.size();

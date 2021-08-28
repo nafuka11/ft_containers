@@ -12,6 +12,7 @@ public:
     ~VectorTester() {}
     void test_all()
     {
+        test_constructor();
         test_max_size();
         test_empty();
         test_reserve();
@@ -56,6 +57,33 @@ private:
         std::cout << std::endl;
     }
 
+    void test_constructor()
+    {
+        print_test_case("vector::constructor");
+        {
+            ft::vector<T> vec;
+            print_vector(vec, "vector()");
+        }
+        {
+            ft::vector<T> vec(10);
+            print_vector(vec, "vector(10)");
+        }
+        {
+            ft::vector<T> vec(10, *originalVec.begin());
+            std::cout << "vector(10, " << *originalVec.begin() << "): ";
+            print_vector(vec);
+        }
+        {
+            ft::vector<T> vec(originalVec.begin(), originalVec.end());
+            std::cout << "vector(begin, end): ";
+            print_vector_info(vec);
+            print_vector_elements(vec);
+        }
+        {
+            ft::vector<T> vec(originalVec);
+            print_vector(vec, "vector(otherVec)");
+        }
+    }
 
     void test_max_size()
     {

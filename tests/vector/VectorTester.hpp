@@ -311,11 +311,11 @@ private:
     void test_erase()
     {
         print_test_case("vector::erase()");
-        test_erase_one();
+        test_erase_single();
         test_erase_range();
     }
 
-    void test_erase_one()
+    void test_erase_single()
     {
         for (size_t i = 0; i < originalVec.size(); i++)
         {
@@ -352,8 +352,8 @@ private:
         {
             ft::vector<T> vec1(4, originalVec.front());
             ft::vector<T> vec2(2, originalVec.back());
-            print_vector(vec1, "orig vec1    ");
-            print_vector(vec2, "orig vec2    ");
+            print_vector(vec1, "orig vec1   ");
+            print_vector(vec2, "orig vec2   ");
             vec1.swap(vec2);
             print_vector(vec1, "swapped vec1");
             print_vector(vec2, "swapped vec2");
@@ -361,8 +361,8 @@ private:
         {
             ft::vector<T> vec1(4, originalVec.front());
             ft::vector<T> vec2(2, originalVec.back());
-            print_vector(vec1, "orig vec1    ");
-            print_vector(vec2, "orig vec2    ");
+            print_vector(vec1, "orig vec1   ");
+            print_vector(vec2, "orig vec2   ");
             ft::swap(vec1, vec2);
             print_vector(vec1, "swapped vec1");
             print_vector(vec2, "swapped vec2");

@@ -209,6 +209,12 @@ namespace ft
                 clear();
                 deallocate();
             }
+            vector &operator=(const vector &other)
+            {
+                assign(other.first_, other.last_);
+                return *this;
+            }
+
             // Member functions: Iterators
             iterator begin()
             {

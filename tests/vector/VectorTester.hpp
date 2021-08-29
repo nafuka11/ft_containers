@@ -13,6 +13,7 @@ public:
     void test_all()
     {
         test_constructor();
+        test_assignment_operator();
         test_max_size();
         test_empty();
         test_reserve();
@@ -83,6 +84,40 @@ private:
         {
             ft::vector<T> vec(originalVec);
             print_vector(vec, "vector(otherVec)");
+        }
+    }
+
+    void test_assignment_operator()
+    {
+        print_test_case("vector::operator=");
+        {
+            ft::vector<T> dest(2, originalVec.front());
+            ft::vector<T> src(5, originalVec.back());
+            src.reserve(20);
+            dest = src;
+            print_vector(src, "src ");
+            print_vector(dest, "dest");
+        }
+        {
+            ft::vector<T> dest(6, originalVec.back());
+            ft::vector<T> src(5, originalVec.front());
+            dest = src;
+            print_vector(src, "src ");
+            print_vector(dest, "dest");
+        }
+        {
+            ft::vector<T> dest;
+            ft::vector<T> src(1, originalVec.front());
+            dest = src;
+            print_vector(src, "src ");
+            print_vector(dest, "dest");
+        }
+        {
+            ft::vector<T> dest(1, originalVec.back());
+            ft::vector<T> src;
+            dest = src;
+            print_vector(src, "src ");
+            print_vector(dest, "dest");
         }
     }
 

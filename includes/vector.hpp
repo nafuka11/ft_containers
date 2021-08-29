@@ -2,9 +2,11 @@
 #define VECTOR_HPP
 
 #include <memory>
+#include <algorithm>
 #include <limits>
 #include <exception>
 #include "iterator.hpp"
+#include "algorithm.hpp"
 #include "type_traits.hpp"
 
 namespace ft
@@ -310,7 +312,7 @@ namespace ft
                     throw std::out_of_range("vector");
                 return first_[pos];
             }
-            const_reference at( size_type pos ) const
+            const_reference at(size_type pos) const
             {
                 if (pos >= size())
                     throw std::out_of_range("vector");
@@ -494,6 +496,17 @@ namespace ft
             }
     };
 
+    // vector: Non-member functions
+    template <class T, class Alloc>
+    bool operator==(const vector<T,Alloc> &lhs, const vector<T,Alloc> &rhs)
+    {
+        return lhs.size() == rhs.size() && ft::equal(lhs.begin(), lhs.end(), rhs.begin());
+    }
+    template <class T, class Alloc>
+    bool operator!=(const vector<T,Alloc> &lhs, const vector<T,Alloc> &rhs)
+    {
+        return !(lhs == rhs);
+    }
     template<class T, class Alloc>
     void swap(ft::vector<T,Alloc>& lhs, ft::vector<T,Alloc>& rhs)
     {

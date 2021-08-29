@@ -15,6 +15,7 @@ public:
         test_constructor();
         test_assignment_operator();
         test_max_size();
+        test_resize();
         test_empty();
         test_reserve();
         test_subscript_operator();
@@ -126,6 +127,35 @@ private:
         print_test_case("vector::max_size()");
         ft::vector<T> vec;
         std::cout << vec.max_size() << std::endl;
+    }
+
+    void test_resize()
+    {
+        print_test_case("vector::resize()");
+        {
+            ft::vector<T> vec(5, originalVec.front());
+            vec.resize(4);
+            std::cout << "vector(5, " << originalVec.front() << ").resize(4): ";
+            print_vector(vec);
+        }
+        {
+            ft::vector<T> vec(5, originalVec.front());
+            vec.resize(6);
+            std::cout << "vector(5, " << originalVec.front() << ").resize(6): ";
+            print_vector(vec);
+        }
+        {
+            ft::vector<T> vec(5, originalVec.front());
+            vec.resize(7, originalVec.back());
+            std::cout << "vector(5, " << originalVec.front() << ").resize(7, " << originalVec.back() << "): ";
+            print_vector(vec);
+        }
+        {
+            ft::vector<T> vec(5, originalVec.front());
+            vec.resize(0);
+            std::cout << "vector(5, " << originalVec.front() << ").resize(0): ";
+            print_vector(vec);
+        }
     }
 
     void test_empty()

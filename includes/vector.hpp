@@ -258,7 +258,17 @@ namespace ft
                 return std::min(static_cast<size_type>(std::numeric_limits<difference_type>::max()),
                                 std::numeric_limits<size_type>::max() /sizeof(value_type));
             }
-            // void resize (size_type count, value_type value = value_type());
+            void resize(size_type count, value_type value = value_type())
+            {
+                if (count < size())
+                {
+                    erase(begin() + count, end());
+                }
+                else if (count > size())
+                {
+                    insert(end(), count - size(), value);
+                }
+            }
             size_type capacity() const
             {
                 return capacity_last_ - first_;

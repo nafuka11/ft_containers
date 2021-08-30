@@ -26,9 +26,9 @@ void prepare_vectors(ft::vector<int> &vecInt, ft::vector<Foo> &vecFoo)
     {
         vecInt[i] = i + 1;
     }
-    for (size_t i = 0; i < vecFoo.size(); i++)
+    for (size_t i = 0; i < vecInt.size(); i++)
     {
-        vecFoo[i].setAllocated(i);
+        vecFoo.push_back(Foo(i, i));
     }
 }
 
@@ -50,11 +50,13 @@ void test_vector()
 {
     size_t size = 5;
     ft::vector<int> vecInt(size, 42);
-    ft::vector<Foo> vecFoo(size);
+    ft::vector<Foo> vecFoo;
     prepare_vectors(vecInt, vecFoo);
 
     test_vector_iterator();
 
-    VectorTester<int> tester(vecInt);
-    tester.test_all();
+    VectorTester<int> testerInt(vecInt);
+    VectorTester<Foo> testerFoo(vecFoo);
+    testerInt.test_all();
+    testerFoo.test_all();
 }

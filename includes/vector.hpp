@@ -194,7 +194,7 @@ namespace ft
                    typename ft::enable_if<!ft::is_integral<InputIterator>::value, InputIterator>::type last,
                    const allocator_type& alloc = allocator_type()) : alloc_(alloc)
             {
-                allocate(last - first);
+                allocate(std::distance(first, last));
                 std::uninitialized_copy(first, last, first_);
             }
             vector(const vector& other) : alloc_(other.alloc_), first_(NULL), last_(NULL), capacity_last_(NULL)
@@ -337,7 +337,7 @@ namespace ft
             template <class InputIterator>
             void assign(InputIterator first, InputIterator last)
             {
-                size_type new_size = last - first;
+                size_type new_size = std::distance(first, last);
                 if (new_size > capacity())
                 {
                     reserve(new_size);
@@ -394,7 +394,7 @@ namespace ft
             void insert (iterator pos, InputIterator first,
                          typename ft::enable_if<!ft::is_integral<InputIterator>::value, InputIterator>::type last)
             {
-                size_type count = last - first;
+                size_type count = std::distance(first, last);
                 size_type new_size = size() + count;
                 size_type offset = pos - begin();
 

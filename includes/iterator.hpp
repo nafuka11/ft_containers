@@ -35,8 +35,6 @@ namespace ft
         {
             *this = other;
         }
-        // destructor
-        ~reverse_iterator() {}
         // assignment operator
         template <class Iter>
         reverse_iterator &operator=(const reverse_iterator<Iter> &other)

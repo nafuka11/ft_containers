@@ -64,7 +64,7 @@ private:
             Iter iter = begin;
             while (iter != end - 1)
             {
-                std::cout << " " << *(++iter);
+                std::cout << *(++iter) << " ";
             }
             std::cout << std::endl;
         }
@@ -73,7 +73,7 @@ private:
             Iter iter = begin;
             while (iter != end)
             {
-                std::cout << " " << *(iter++);
+                std::cout << *(iter++) << " ";
             }
             std::cout << std::endl;
         }
@@ -82,7 +82,7 @@ private:
             Iter iter = end - 1;
             while (iter != begin + 1)
             {
-                std::cout << " " << *(--iter);
+                std::cout << *(--iter) << " ";
             }
             std::cout << std::endl;
         }
@@ -91,7 +91,7 @@ private:
             Iter iter = end - 1;
             while (iter != begin)
             {
-                std::cout << " " << *(iter--);
+                std::cout << *(iter--) << " ";
             }
             std::cout << std::endl;
         }

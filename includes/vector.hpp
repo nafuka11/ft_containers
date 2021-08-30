@@ -336,7 +336,8 @@ namespace ft
                 return *(end() - 1);
             }
             template <class InputIterator>
-            void assign(InputIterator first, InputIterator last)
+            void assign(InputIterator first,
+                        typename ft::enable_if<!ft::is_integral<InputIterator>::value, InputIterator>::type last)
             {
                 size_type new_size = std::distance(first, last);
                 if (new_size > capacity())

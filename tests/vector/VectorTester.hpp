@@ -32,7 +32,7 @@ public:
         test_swap();
         test_clear();
         // Non-member function
-        test_equality_operator();
+        test_relational_operator();
     }
 
 private:
@@ -447,9 +447,9 @@ private:
         print_vector_info(vec);
     }
 
-    void test_equality_operator()
+    void test_relational_operator()
     {
-        print_test_case("vector::operator==, operator!=");
+        print_test_case("vector::operator==, !=, <, <=, >, >=");
         {
             ft::vector<T> empty1;
             ft::vector<T> empty2;
@@ -457,6 +457,7 @@ private:
             ft::vector<T> five2(5, originalVec.front());
             ft::vector<T> frontDiff(5, originalVec.front());
             ft::vector<T> backDiff(5, originalVec.front());
+            ft::vector<T> six(6, originalVec.front());
             frontDiff[0] = originalVec.back();
             backDiff[backDiff.size() - 1] = originalVec.back();
 
@@ -472,6 +473,50 @@ private:
                       << "five  != five      : " << (five1 != five2) << std::endl
                       << "five  != frontDiff : " << (five1 != frontDiff) << std::endl
                       << "five  != backDiff  : " << (five2 != backDiff) << std::endl;
+            std::cout << std::boolalpha
+                      << "empty    <  empty     : " << (empty1 < empty2) << std::endl
+                      << "empty    <  five      : " << (empty1 < five1) << std::endl
+                      << "five     <  empty     : " << (five1 < empty1) << std::endl
+                      << "five     <  five      : " << (five1 < five2) << std::endl
+                      << "six      <  five      : " << (six < five1) << std::endl
+                      << "five     <  six       : " << (five1 < six) << std::endl
+                      << "five     <  frontDiff : " << (five1 < frontDiff) << std::endl
+                      << "frontDiff<  five      : " << (frontDiff < five1) << std::endl
+                      << "five     <  backDiff  : " << (five2 < backDiff) << std::endl
+                      << "backDiff <  five      : " << (backDiff < backDiff) << std::endl;
+            std::cout << std::boolalpha
+                      << "empty    <= empty     : " << (empty1 <= empty2) << std::endl
+                      << "empty    <= five      : " << (empty1 <= five1) << std::endl
+                      << "five     <= empty     : " << (five1 <= empty1) << std::endl
+                      << "five     <= five      : " << (five1 <= five2) << std::endl
+                      << "six      <= five      : " << (six <= five1) << std::endl
+                      << "five     <= six       : " << (five1 <= six) << std::endl
+                      << "five     <= frontDiff : " << (five1 <= frontDiff) << std::endl
+                      << "frontDiff<= five      : " << (frontDiff <= five1) << std::endl
+                      << "five     <= backDiff  : " << (five2 <= backDiff) << std::endl
+                      << "backDiff <= five      : " << (backDiff <= backDiff) << std::endl;
+            std::cout << std::boolalpha
+                      << "empty    >  empty     : " << (empty1 > empty2) << std::endl
+                      << "empty    >  five      : " << (empty1 > five1) << std::endl
+                      << "five     >  empty     : " << (five1 > empty1) << std::endl
+                      << "five     >  five      : " << (five1 > five2) << std::endl
+                      << "six      >  five      : " << (six > five1) << std::endl
+                      << "five     >  six       : " << (five1 > six) << std::endl
+                      << "five     >  frontDiff : " << (five1 > frontDiff) << std::endl
+                      << "frontDiff>  five      : " << (frontDiff > five1) << std::endl
+                      << "five     >  backDiff  : " << (five2 > backDiff) << std::endl
+                      << "backDiff >  five      : " << (backDiff > backDiff) << std::endl;
+            std::cout << std::boolalpha
+                      << "empty    >= empty     : " << (empty1 >= empty2) << std::endl
+                      << "empty    >= five      : " << (empty1 >= five1) << std::endl
+                      << "five     >= empty     : " << (five1 >= empty1) << std::endl
+                      << "five     >= five      : " << (five1 >= five2) << std::endl
+                      << "six      >= five      : " << (six >= five1) << std::endl
+                      << "five     >= six       : " << (five1 >= six) << std::endl
+                      << "five     >= frontDiff : " << (five1 >= frontDiff) << std::endl
+                      << "frontDiff>= five      : " << (frontDiff >= five1) << std::endl
+                      << "five     >= backDiff  : " << (five2 >= backDiff) << std::endl
+                      << "backDiff >= five      : " << (backDiff >= backDiff) << std::endl;
         }
     }
 };

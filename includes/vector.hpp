@@ -286,13 +286,14 @@ namespace ft
                 if (new_cap > capacity())
                 {
                     size_type old_capacity = capacity();
+                    size_type old_size = size();
                     pointer new_first = alloc_.allocate(new_cap);
 
                     std::uninitialized_copy(first_, last_, new_first);
                     clear();
                     alloc_.deallocate(first_, old_capacity);
                     first_ = new_first;
-                    last_ = first_ + old_capacity;
+                    last_ = first_ + old_size;
                     capacity_last_ = first_ + new_cap;
                 }
             }

@@ -197,7 +197,7 @@ namespace ft
                 allocate(last - first);
                 std::uninitialized_copy(first, last, first_);
             }
-            vector(const vector& other) : first_(NULL), last_(NULL), capacity_last_(NULL)
+            vector(const vector& other) : alloc_(other.alloc_), first_(NULL), last_(NULL), capacity_last_(NULL)
             {
                 size_type size = other.size();
                 if (size > 0)

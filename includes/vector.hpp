@@ -397,11 +397,37 @@ namespace ft
 
                 if (new_size > capacity())
                 {
-                    reserve(calc_new_capacity(new_size));
+                    new_size = calc_new_capacity(new_size);
+                    size_type old_capacity = capacity();
+                    size_type old_size = size();
+                    pointer new_first = alloc_.allocate(new_size);
+
+                    std::uninitialized_copy(begin(), pos, new_first);
+                    std::uninitialized_fill_n(new_first + offset, count, value);
+                    std::uninitialized_copy(pos, end(), new_first + offset + count);
+
+                    clear();
+                    alloc_.deallocate(first_, old_capacity);
+                    first_ = new_first;
+                    last_ = first_ + old_size + count;
+                    capacity_last_ = first_ + new_size;
                 }
-                move_range(offset, count);
-                std::fill_n(first_ + offset, count, value);
-                last_ += count;
+                else
+                {
+                    move_range(offset, count);
+                    for (size_type i = 0; i < count; i++)
+                    {
+                        if (offset + i >= size())
+                        {
+                            alloc_.construct(&first_[offset + i] , value);
+                        }
+                        else
+                        {
+                            first_[offset + i] = value;
+                        }
+                    }
+                    last_ += count;
+                }
             }
             template <class InputIterator>
             void insert (iterator pos, InputIterator first,
@@ -413,12 +439,38 @@ namespace ft
 
                 if (new_size > capacity())
                 {
-                    reserve(calc_new_capacity(new_size));
-                }
-                move_range(offset, count);
-                std::copy(first, last, first_ + offset);
+                    new_size = calc_new_capacity(new_size);
+                    size_type old_capacity = capacity();
+                    size_type old_size = size();
+                    pointer new_first = alloc_.allocate(new_size);
 
-                last_ += count;
+                    std::uninitialized_copy(begin(), pos, new_first);
+                    std::uninitialized_copy(first, last, new_first + offset);
+                    std::uninitialized_copy(pos, end(), new_first + offset + count);
+
+                    clear();
+                    alloc_.deallocate(first_, old_capacity);
+                    first_ = new_first;
+                    last_ = first_ + old_size + count;
+                    capacity_last_ = first_ + new_size;
+                }
+                else
+                {
+                    move_range(offset, count);
+                    for (size_type i = 0; i < count; i++)
+                    {
+                        if (offset + i >= size())
+                        {
+                            alloc_.construct(&first_[offset + i] , *first);
+                        }
+                        else
+                        {
+                            first_[offset + i] = *first;
+                        }
+                        ++first;
+                    }
+                    last_ += count;
+                }
             }
             iterator erase(iterator pos)
             {
@@ -498,13 +550,16 @@ namespace ft
                 size_type now_size = size();
                 size_type new_size = now_size + count;
 
-                for (size_type i = 0; i < count; i++)
+                for (size_t i = 0; i < now_size - offset; i++)
                 {
-                    alloc_.construct(first_ + now_size + i);
-                }
-                for (size_type i = 0; i < now_size - offset; i++)
-                {
-                    first_[new_size - i - 1] = first_[now_size - i - 1];
+                    if (new_size - i > now_size)
+                    {
+                        alloc_.construct(&first_[new_size - i - 1] , first_[now_size - i - 1]);
+                    }
+                    else
+                    {
+                        first_[new_size - i - 1] = first_[now_size - i - 1];
+                    }
                 }
             }
     };

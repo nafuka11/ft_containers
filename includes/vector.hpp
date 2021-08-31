@@ -386,8 +386,9 @@ namespace ft
             }
             iterator insert(iterator pos, const value_type &value)
             {
+                size_type offset = pos - begin();
                 insert(pos, 1, value);
-                return pos;
+                return begin() + offset;
             }
             void insert(iterator pos, size_type count, const value_type& value)
             {

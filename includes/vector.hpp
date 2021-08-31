@@ -342,20 +342,30 @@ namespace ft
                 size_type new_size = std::distance(first, last);
                 if (new_size > capacity())
                 {
+                    clear();
                     reserve(new_size);
+                    std::uninitialized_copy(first, last, first_);
                 }
-                clear();
-                std::uninitialized_copy(first, last, first_);
+                else
+                {
+                    destruct_at_end(first_ + new_size);
+                    std::copy(first, last, first_);
+                }
                 last_ = first_ + new_size;
             }
             void assign(size_type count, const T& value)
             {
                 if (count > capacity())
                 {
+                    clear();
                     reserve(count);
+                    std::uninitialized_fill_n(first_, count, value);
                 }
-                clear();
-                std::uninitialized_fill_n(first_, count, value);
+                else
+                {
+                    destruct_at_end(first_ + count);
+                    std::fill_n(first_, count, value);
+                }
                 last_ = first_ + count;
             }
 

@@ -194,7 +194,7 @@ namespace ft
                    typename ft::enable_if<!ft::is_integral<InputIterator>::value, InputIterator>::type last,
                    const allocator_type& alloc = allocator_type()) : alloc_(alloc)
             {
-                allocate(last - first);
+                allocate(std::distance(first, last));
                 std::uninitialized_copy(first, last, first_);
             }
             vector(const vector& other) : alloc_(other.alloc_), first_(NULL), last_(NULL), capacity_last_(NULL)
@@ -286,13 +286,14 @@ namespace ft
                 if (new_cap > capacity())
                 {
                     size_type old_capacity = capacity();
+                    size_type old_size = size();
                     pointer new_first = alloc_.allocate(new_cap);
 
                     std::uninitialized_copy(first_, last_, new_first);
                     clear();
                     alloc_.deallocate(first_, old_capacity);
                     first_ = new_first;
-                    last_ = first_ + old_capacity;
+                    last_ = first_ + old_size;
                     capacity_last_ = first_ + new_cap;
                 }
             }
@@ -335,25 +336,36 @@ namespace ft
                 return *(end() - 1);
             }
             template <class InputIterator>
-            void assign(InputIterator first, InputIterator last)
+            void assign(InputIterator first,
+                        typename ft::enable_if<!ft::is_integral<InputIterator>::value, InputIterator>::type last)
             {
-                size_type new_size = last - first;
+                size_type new_size = std::distance(first, last);
                 if (new_size > capacity())
                 {
+                    clear();
                     reserve(new_size);
+                    std::uninitialized_copy(first, last, first_);
                 }
-                clear();
-                std::uninitialized_copy(first, last, first_);
+                else
+                {
+                    destruct_at_end(first_ + new_size);
+                    std::copy(first, last, first_);
+                }
                 last_ = first_ + new_size;
             }
             void assign(size_type count, const T& value)
             {
                 if (count > capacity())
                 {
+                    clear();
                     reserve(count);
+                    std::uninitialized_fill_n(first_, count, value);
                 }
-                clear();
-                std::uninitialized_fill_n(first_, count, value);
+                else
+                {
+                    destruct_at_end(first_ + count);
+                    std::fill_n(first_, count, value);
+                }
                 last_ = first_ + count;
             }
 
@@ -374,8 +386,9 @@ namespace ft
             }
             iterator insert(iterator pos, const value_type &value)
             {
+                size_type offset = pos - begin();
                 insert(pos, 1, value);
-                return pos;
+                return begin() + offset;
             }
             void insert(iterator pos, size_type count, const value_type& value)
             {
@@ -384,28 +397,80 @@ namespace ft
 
                 if (new_size > capacity())
                 {
-                    reserve(calc_new_capacity(new_size));
+                    new_size = calc_new_capacity(new_size);
+                    size_type old_capacity = capacity();
+                    size_type old_size = size();
+                    pointer new_first = alloc_.allocate(new_size);
+
+                    std::uninitialized_copy(begin(), pos, new_first);
+                    std::uninitialized_fill_n(new_first + offset, count, value);
+                    std::uninitialized_copy(pos, end(), new_first + offset + count);
+
+                    clear();
+                    alloc_.deallocate(first_, old_capacity);
+                    first_ = new_first;
+                    last_ = first_ + old_size + count;
+                    capacity_last_ = first_ + new_size;
                 }
-                move_range(offset, count);
-                std::fill_n(first_ + offset, count, value);
-                last_ += count;
+                else
+                {
+                    move_range(offset, count);
+                    for (size_type i = 0; i < count; i++)
+                    {
+                        if (offset + i >= size())
+                        {
+                            alloc_.construct(&first_[offset + i] , value);
+                        }
+                        else
+                        {
+                            first_[offset + i] = value;
+                        }
+                    }
+                    last_ += count;
+                }
             }
             template <class InputIterator>
             void insert (iterator pos, InputIterator first,
                          typename ft::enable_if<!ft::is_integral<InputIterator>::value, InputIterator>::type last)
             {
-                size_type count = last - first;
+                size_type count = std::distance(first, last);
                 size_type new_size = size() + count;
                 size_type offset = pos - begin();
 
                 if (new_size > capacity())
                 {
-                    reserve(calc_new_capacity(new_size));
-                }
-                move_range(offset, count);
-                std::copy(first, last, first_ + offset);
+                    new_size = calc_new_capacity(new_size);
+                    size_type old_capacity = capacity();
+                    size_type old_size = size();
+                    pointer new_first = alloc_.allocate(new_size);
 
-                last_ += count;
+                    std::uninitialized_copy(begin(), pos, new_first);
+                    std::uninitialized_copy(first, last, new_first + offset);
+                    std::uninitialized_copy(pos, end(), new_first + offset + count);
+
+                    clear();
+                    alloc_.deallocate(first_, old_capacity);
+                    first_ = new_first;
+                    last_ = first_ + old_size + count;
+                    capacity_last_ = first_ + new_size;
+                }
+                else
+                {
+                    move_range(offset, count);
+                    for (size_type i = 0; i < count; i++)
+                    {
+                        if (offset + i >= size())
+                        {
+                            alloc_.construct(&first_[offset + i] , *first);
+                        }
+                        else
+                        {
+                            first_[offset + i] = *first;
+                        }
+                        ++first;
+                    }
+                    last_ += count;
+                }
             }
             iterator erase(iterator pos)
             {
@@ -485,13 +550,16 @@ namespace ft
                 size_type now_size = size();
                 size_type new_size = now_size + count;
 
-                for (size_type i = 0; i < count; i++)
+                for (size_t i = 0; i < now_size - offset; i++)
                 {
-                    alloc_.construct(first_ + now_size + i);
-                }
-                for (size_type i = 0; i < now_size - offset; i++)
-                {
-                    first_[new_size - i - 1] = first_[now_size - i - 1];
+                    if (new_size - i > now_size)
+                    {
+                        alloc_.construct(&first_[new_size - i - 1] , first_[now_size - i - 1]);
+                    }
+                    else
+                    {
+                        first_[new_size - i - 1] = first_[now_size - i - 1];
+                    }
                 }
             }
     };

@@ -11,6 +11,7 @@
 // #include <map.hpp>
 // #include <stack.hpp>
 #include <vector.hpp>
+#include <utility.hpp>
 // CREATE A REAL STL EXAMPLE
 #else
 #include <map>
@@ -21,6 +22,7 @@ namespace ft = std;
 
 #include "Foo.hpp"
 #include "vector/test_vector.hpp"
+#include "map/test_map.hpp"
 
 void print_test_case(std::string str);
 

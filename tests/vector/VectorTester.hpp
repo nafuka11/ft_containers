@@ -8,7 +8,7 @@ template <class T>
 class VectorTester
 {
 public:
-    VectorTester(ft::vector<T> &vec): originalVec(vec) {}
+    VectorTester(ft::vector<T> &vec) : originalVec(vec) {}
     ~VectorTester() {}
     void test_all()
     {
@@ -227,7 +227,7 @@ private:
                 std::cout << "vec.at(" << i << ")=";
                 std::cout << originalVec.at(i) << " ";
             }
-            catch(const std::out_of_range &e)
+            catch (const std::out_of_range &e)
             {
                 std::cout << e.what() << " ";
             }
@@ -247,7 +247,7 @@ private:
         print_test_case("vector::assign()");
         test_assign_range(originalVec.begin(), originalVec.end());
         test_assign_range(originalVec.begin(), originalVec.begin());
-        test_assign_range(originalVec.begin(), originalVec.end()-1);
+        test_assign_range(originalVec.begin(), originalVec.end() - 1);
         test_assign_fill(0);
         test_assign_fill(2);
         test_assign_fill(5);

@@ -121,16 +121,16 @@ private:
             Iter first = begin;
             Iter second = first + 1;
             std::cout << std::boolalpha
-                    << "first  < first  = " << (first < first) << std::endl
-                    << "first  < second = " << (first < second) << std::endl
-                    << "first  > first  = " << (first > first) << std::endl
-                    << "second > first  = " << (second > first) << std::endl
-                    << "first <= first  = " << (first <= first) << std::endl
-                    << "first <= second = " << (first <= second) << std::endl
-                    << "second<= first  = " << (second <= first) << std::endl
-                    << "first >= first  = " << (first >= first) << std::endl
-                    << "first >= second = " << (first >= second) << std::endl
-                    << "second>= first  = " << (second >= first) << std::endl;
+                      << "first  < first  = " << (first < first) << std::endl
+                      << "first  < second = " << (first < second) << std::endl
+                      << "first  > first  = " << (first > first) << std::endl
+                      << "second > first  = " << (second > first) << std::endl
+                      << "first <= first  = " << (first <= first) << std::endl
+                      << "first <= second = " << (first <= second) << std::endl
+                      << "second<= first  = " << (second <= first) << std::endl
+                      << "first >= first  = " << (first >= first) << std::endl
+                      << "first >= second = " << (first >= second) << std::endl
+                      << "second>= first  = " << (second >= first) << std::endl;
         }
     }
 

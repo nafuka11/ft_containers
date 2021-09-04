@@ -1,6 +1,6 @@
 #include "common.hpp"
-#include "vector/VectorTester.hpp"
 #include "vector/VectorIteratorTester.hpp"
+#include "vector/VectorTester.hpp"
 
 void test_dereference(ft::vector<Foo> &vecFoo)
 {

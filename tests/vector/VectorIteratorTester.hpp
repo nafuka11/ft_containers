@@ -45,14 +45,16 @@ private:
     {
         print_test_case("iter == iter");
         {
-            std::cout << std::boolalpha << "begin() == begin(): " << (begin == begin) << std::endl;
-            std::cout << std::boolalpha << "begin() ==   end(): " << (begin == end) << std::endl;
+            std::cout << std::boolalpha
+                      << "begin() == begin(): " << (begin == begin) << std::endl
+                      << "begin() ==   end(): " << (begin == end) << std::endl;
         }
 
         print_test_case("iter != iter");
         {
-            std::cout << std::boolalpha << "begin() != begin(): " << (begin != begin) << std::endl;
-            std::cout << std::boolalpha << "begin() !=   end(): " << (begin != end) << std::endl;
+            std::cout << std::boolalpha
+                      << "begin() != begin(): " << (begin != begin) << std::endl
+                      << "begin() !=   end(): " << (begin != end) << std::endl;
         }
     }
 

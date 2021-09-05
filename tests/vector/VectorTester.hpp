@@ -8,7 +8,7 @@ template <class T>
 class VectorTester
 {
 public:
-    VectorTester(ft::vector<T> &vec) : originalVec(vec) {}
+    VectorTester(ft::vector<T> &vec) : original_vec(vec) {}
     ~VectorTester() {}
     void test_all()
     {
@@ -36,7 +36,7 @@ public:
     }
 
 private:
-    ft::vector<T> originalVec;
+    ft::vector<T> original_vec;
 
     void print_vector(ft::vector<T> &vec)
     {
@@ -53,7 +53,8 @@ private:
 
     void print_vector_info(ft::vector<T> &vec)
     {
-        std::cout << "size()=" << vec.size() << " capacity()=" << vec.capacity() << std::endl;
+        std::cout << "size()=" << vec.size()
+                  << " capacity()=" << vec.capacity() << std::endl;
     }
 
     void print_vector_elements(ft::vector<T> &vec)
@@ -77,18 +78,18 @@ private:
             print_vector(vec, "vector(10)");
         }
         {
-            ft::vector<T> vec(10, *originalVec.begin());
-            std::cout << "vector(10, " << *originalVec.begin() << "): ";
+            ft::vector<T> vec(10, *original_vec.begin());
+            std::cout << "vector(10, " << *original_vec.begin() << "): ";
             print_vector(vec);
         }
         {
-            ft::vector<T> vec(originalVec.begin(), originalVec.end());
+            ft::vector<T> vec(original_vec.begin(), original_vec.end());
             std::cout << "vector(begin, end): ";
             print_vector_info(vec);
             print_vector_elements(vec);
         }
         {
-            ft::vector<T> vec(originalVec);
+            ft::vector<T> vec(original_vec);
             print_vector(vec, "vector(otherVec)");
         }
     }
@@ -97,29 +98,29 @@ private:
     {
         print_test_case("vector::operator=");
         {
-            ft::vector<T> dest(2, originalVec.front());
-            ft::vector<T> src(5, originalVec.back());
+            ft::vector<T> dest(2, original_vec.front());
+            ft::vector<T> src(5, original_vec.back());
             src.reserve(20);
             dest = src;
             print_vector(src, "src ");
             print_vector(dest, "dest");
         }
         {
-            ft::vector<T> dest(6, originalVec.back());
-            ft::vector<T> src(5, originalVec.front());
+            ft::vector<T> dest(6, original_vec.back());
+            ft::vector<T> src(5, original_vec.front());
             dest = src;
             print_vector(src, "src ");
             print_vector(dest, "dest");
         }
         {
             ft::vector<T> dest;
-            ft::vector<T> src(1, originalVec.front());
+            ft::vector<T> src(1, original_vec.front());
             dest = src;
             print_vector(src, "src ");
             print_vector(dest, "dest");
         }
         {
-            ft::vector<T> dest(1, originalVec.back());
+            ft::vector<T> dest(1, original_vec.back());
             ft::vector<T> src;
             dest = src;
             print_vector(src, "src ");
@@ -138,27 +139,27 @@ private:
     {
         print_test_case("vector::resize()");
         {
-            ft::vector<T> vec(5, originalVec.front());
+            ft::vector<T> vec(5, original_vec.front());
             vec.resize(4);
-            std::cout << "vector(5, " << originalVec.front() << ").resize(4): ";
+            std::cout << "vector(5, " << original_vec.front() << ").resize(4): ";
             print_vector(vec);
         }
         {
-            ft::vector<T> vec(5, originalVec.front());
+            ft::vector<T> vec(5, original_vec.front());
             vec.resize(6);
-            std::cout << "vector(5, " << originalVec.front() << ").resize(6): ";
+            std::cout << "vector(5, " << original_vec.front() << ").resize(6): ";
             print_vector(vec);
         }
         {
-            ft::vector<T> vec(5, originalVec.front());
-            vec.resize(7, originalVec.back());
-            std::cout << "vector(5, " << originalVec.front() << ").resize(7, " << originalVec.back() << "): ";
+            ft::vector<T> vec(5, original_vec.front());
+            vec.resize(7, original_vec.back());
+            std::cout << "vector(5, " << original_vec.front() << ").resize(7, " << original_vec.back() << "): ";
             print_vector(vec);
         }
         {
-            ft::vector<T> vec(5, originalVec.front());
+            ft::vector<T> vec(5, original_vec.front());
             vec.resize(0);
-            std::cout << "vector(5, " << originalVec.front() << ").resize(0): ";
+            std::cout << "vector(5, " << original_vec.front() << ").resize(0): ";
             print_vector(vec);
         }
     }
@@ -166,25 +167,25 @@ private:
     void test_empty()
     {
         print_test_case("vector::empty()");
-        ft::vector<T> vecEmpty;
-        std::cout << std::boolalpha << "vector().empty()=" << vecEmpty.empty() << std::endl;
-        ft::vector<T> vecOne(1);
-        std::cout << std::boolalpha << "vector(1).empty()=" << vecOne.empty() << std::endl;
+        ft::vector<T> vec_empty;
+        std::cout << std::boolalpha << "vector().empty()=" << vec_empty.empty() << std::endl;
+        ft::vector<T> vec_one(1);
+        std::cout << std::boolalpha << "vector(1).empty()=" << vec_one.empty() << std::endl;
     }
 
     void test_reserve()
     {
         print_test_case("vector::reserve()");
         {
-            ft::vector<T> vec = originalVec;
-            std::cout << "vec.reserve(" << originalVec.size() - 1 << "): ";
-            vec.reserve(originalVec.size() - 1);
+            ft::vector<T> vec = original_vec;
+            std::cout << "vec.reserve(" << original_vec.size() - 1 << "): ";
+            vec.reserve(original_vec.size() - 1);
             print_vector(vec);
         }
         {
-            ft::vector<T> vec = originalVec;
-            std::cout << "vec.reserve(" << originalVec.size() + 1 << "): ";
-            vec.reserve(originalVec.size() + 1);
+            ft::vector<T> vec = original_vec;
+            std::cout << "vec.reserve(" << original_vec.size() + 1 << "): ";
+            vec.reserve(original_vec.size() + 1);
             print_vector(vec);
         }
         {
@@ -193,7 +194,7 @@ private:
             print_vector(vec, "vector().reserve(42)");
         }
         {
-            ft::vector<T> vec = originalVec;
+            ft::vector<T> vec = original_vec;
             std::cout << "vec.reserve(" << vec.max_size() + 1 << "): ";
             try
             {
@@ -210,9 +211,9 @@ private:
     void test_subscript_operator()
     {
         print_test_case("vector::operator[]");
-        for (size_t i = 0; i < originalVec.size(); i++)
+        for (size_t i = 0; i < original_vec.size(); i++)
         {
-            std::cout << "vec[" << i << "]=" << originalVec[i] << " ";
+            std::cout << "vec[" << i << "]=" << original_vec[i] << " ";
         }
         std::cout << std::endl;
     }
@@ -220,12 +221,12 @@ private:
     void test_at()
     {
         print_test_case("vector::at()");
-        for (size_t i = 0; i < originalVec.size() + 1; i++)
+        for (size_t i = 0; i < original_vec.size() + 1; i++)
         {
             try
             {
                 std::cout << "vec.at(" << i << ")=";
-                std::cout << originalVec.at(i) << " ";
+                std::cout << original_vec.at(i) << " ";
             }
             catch (const std::out_of_range &e)
             {
@@ -238,16 +239,16 @@ private:
     void test_front_back()
     {
         print_test_case("vector::front(), back()");
-        std::cout << "vec.front()=" << originalVec.front() << std::endl;
-        std::cout << "vec.back() =" << originalVec.back() << std::endl;
+        std::cout << "vec.front()=" << original_vec.front() << std::endl;
+        std::cout << "vec.back() =" << original_vec.back() << std::endl;
     }
 
     void test_assign()
     {
         print_test_case("vector::assign()");
-        test_assign_range(originalVec.begin(), originalVec.end());
-        test_assign_range(originalVec.begin(), originalVec.begin());
-        test_assign_range(originalVec.begin(), originalVec.end() - 1);
+        test_assign_range(original_vec.begin(), original_vec.end());
+        test_assign_range(original_vec.begin(), original_vec.begin());
+        test_assign_range(original_vec.begin(), original_vec.end() - 1);
         test_assign_fill(0);
         test_assign_fill(2);
         test_assign_fill(5);
@@ -257,7 +258,7 @@ private:
     template <class InputIterator>
     void test_assign_range(InputIterator first, InputIterator last)
     {
-        ft::vector<T> vec(originalVec.size());
+        ft::vector<T> vec(original_vec.size());
         std::cout << "vec.assign(first=iter(" << (*first) << "), iter(first+" << last - first << ")): ";
         vec.assign(first, last);
         print_vector(vec);
@@ -265,9 +266,9 @@ private:
 
     void test_assign_fill(typename ft::vector<T>::size_type count)
     {
-        ft::vector<T> vec = originalVec;
-        std::cout << "vec.assign(" << count << ", " << originalVec.back() << "): ";
-        vec.assign(count, originalVec.back());
+        ft::vector<T> vec = original_vec;
+        std::cout << "vec.assign(" << count << ", " << original_vec.back() << "): ";
+        vec.assign(count, original_vec.back());
         print_vector(vec);
     }
 
@@ -276,9 +277,9 @@ private:
         print_test_case("vector::push_back()");
         ft::vector<T> vec;
         print_vector(vec);
-        for (size_t i = 0; i < originalVec.size(); i++)
+        for (size_t i = 0; i < original_vec.size(); i++)
         {
-            vec.push_back(originalVec[i]);
+            vec.push_back(original_vec[i]);
             print_vector(vec);
         }
     }
@@ -286,7 +287,7 @@ private:
     void test_pop_back()
     {
         print_test_case("vector::pop_back()");
-        ft::vector<T> vec = originalVec;
+        ft::vector<T> vec = original_vec;
         vec.pop_back();
         print_vector(vec);
     }
@@ -302,15 +303,15 @@ private:
     void test_insert_single()
     {
         {
-            ft::vector<T> vec(5, originalVec.front());
-            vec.insert(vec.begin() + 2, originalVec.front());
-            std::cout << "vector(5, 42).insert(begin()+2, " << originalVec.front() << "): ";
+            ft::vector<T> vec(5, original_vec.front());
+            vec.insert(vec.begin() + 2, original_vec.front());
+            std::cout << "vector(5, 42).insert(begin()+2, " << original_vec.front() << "): ";
             print_vector(vec);
         }
         {
             ft::vector<T> vec;
-            vec.insert(vec.begin(), originalVec.front());
-            std::cout << "vector().insert(begin(), " << originalVec.front() << "): ";
+            vec.insert(vec.begin(), original_vec.front());
+            std::cout << "vector().insert(begin(), " << original_vec.front() << "): ";
             print_vector(vec);
         }
     }
@@ -318,33 +319,33 @@ private:
     void test_insert_fill()
     {
         {
-            ft::vector<T> vec(5, originalVec.front());
-            vec.insert(vec.begin(), 5, originalVec.back());
-            std::cout << "vector(5, " << originalVec.front() << ").insert(begin(), 5, " << originalVec.back() << "): ";
+            ft::vector<T> vec(5, original_vec.front());
+            vec.insert(vec.begin(), 5, original_vec.back());
+            std::cout << "vector(5, " << original_vec.front() << ").insert(begin(), 5, " << original_vec.back() << "): ";
             print_vector(vec);
         }
         {
-            ft::vector<T> vec(5, originalVec.front());
-            vec.insert(vec.begin() + 1, 5, originalVec.back());
-            std::cout << "vector(5, " << originalVec.front() << ").insert(begin()+1, 5, " << originalVec.back() << "): ";
+            ft::vector<T> vec(5, original_vec.front());
+            vec.insert(vec.begin() + 1, 5, original_vec.back());
+            std::cout << "vector(5, " << original_vec.front() << ").insert(begin()+1, 5, " << original_vec.back() << "): ";
             print_vector(vec);
         }
         {
-            ft::vector<T> vec(5, originalVec.back());
-            vec.insert(vec.end() - 1, 5, originalVec.front());
-            std::cout << "vec.insert(end()-1, 5, " << originalVec.front() << "): ";
+            ft::vector<T> vec(5, original_vec.back());
+            vec.insert(vec.end() - 1, 5, original_vec.front());
+            std::cout << "vec.insert(end()-1, 5, " << original_vec.front() << "): ";
             print_vector(vec);
         }
         {
-            ft::vector<T> vec(5, originalVec.back());
-            vec.insert(vec.end(), 5, originalVec.front());
-            std::cout << "vector(5, " << originalVec.back() << ").insert(end(), 5, " << originalVec.front() << "): ";
+            ft::vector<T> vec(5, original_vec.back());
+            vec.insert(vec.end(), 5, original_vec.front());
+            std::cout << "vector(5, " << original_vec.back() << ").insert(end(), 5, " << original_vec.front() << "): ";
             print_vector(vec);
         }
         {
             ft::vector<T> vec;
-            vec.insert(vec.begin(), 5, originalVec.front());
-            std::cout << "vector().insert(end(), 5, " << originalVec.front() << "): ";
+            vec.insert(vec.begin(), 5, original_vec.front());
+            std::cout << "vector().insert(end(), 5, " << original_vec.front() << "): ";
             print_vector(vec);
         }
     }
@@ -352,32 +353,32 @@ private:
     void test_insert_range()
     {
         {
-            ft::vector<T> vec(5, originalVec.back());
-            vec.insert(vec.begin(), originalVec.begin(), originalVec.end());
-            std::cout << "vector(5, " << originalVec.back() << ").insert(begin(), origVec.begin(), origVec.end()): ";
+            ft::vector<T> vec(5, original_vec.back());
+            vec.insert(vec.begin(), original_vec.begin(), original_vec.end());
+            std::cout << "vector(5, " << original_vec.back() << ").insert(begin(), origVec.begin(), origVec.end()): ";
             print_vector(vec);
         }
         {
-            ft::vector<T> vec(5, originalVec.back());
-            vec.insert(vec.begin() + 1, originalVec.begin(), originalVec.end());
-            std::cout << "vector(5, " << originalVec.back() << ").insert(begin()+1, origVec.begin(), origVec.end()): ";
+            ft::vector<T> vec(5, original_vec.back());
+            vec.insert(vec.begin() + 1, original_vec.begin(), original_vec.end());
+            std::cout << "vector(5, " << original_vec.back() << ").insert(begin()+1, origVec.begin(), origVec.end()): ";
             print_vector(vec);
         }
         {
-            ft::vector<T> vec(5, originalVec.front());
-            vec.insert(vec.end() - 1, originalVec.begin(), originalVec.end());
-            std::cout << "vector(5, " << originalVec.front() << ").insert(end()-1, origVec.begin(), origVec.end()): ";
+            ft::vector<T> vec(5, original_vec.front());
+            vec.insert(vec.end() - 1, original_vec.begin(), original_vec.end());
+            std::cout << "vector(5, " << original_vec.front() << ").insert(end()-1, origVec.begin(), origVec.end()): ";
             print_vector(vec);
         }
         {
-            ft::vector<T> vec(5, originalVec.front());
-            vec.insert(vec.end(), originalVec.begin(), originalVec.end());
-            std::cout << "vector(5, " << originalVec.front() << ").insert(end(), origVec.begin(), origVec.end()): ";
+            ft::vector<T> vec(5, original_vec.front());
+            vec.insert(vec.end(), original_vec.begin(), original_vec.end());
+            std::cout << "vector(5, " << original_vec.front() << ").insert(end(), origVec.begin(), origVec.end()): ";
             print_vector(vec);
         }
         {
             ft::vector<T> vec;
-            vec.insert(vec.begin(), originalVec.begin(), originalVec.end());
+            vec.insert(vec.begin(), original_vec.begin(), original_vec.end());
             print_vector(vec, "vector().insert(begin(), origVec.begin(), origVec.end())");
         }
     }
@@ -391,9 +392,9 @@ private:
 
     void test_erase_single()
     {
-        for (size_t i = 0; i < originalVec.size(); i++)
+        for (size_t i = 0; i < original_vec.size(); i++)
         {
-            ft::vector<T> vec = originalVec;
+            ft::vector<T> vec = original_vec;
             std::cout << "vec.erase(" << *(vec.begin() + i) << "): ";
             std::cout << "result=iter(begin()+" << (vec.erase(vec.begin() + i) - vec.begin()) << ") ";
             print_vector(vec);
@@ -403,7 +404,7 @@ private:
     void test_erase_range()
     {
         {
-            ft::vector<T> vec = originalVec;
+            ft::vector<T> vec = original_vec;
             typename ft::vector<T>::iterator first = vec.begin();
             typename ft::vector<T>::iterator last = vec.end();
             std::cout << "vec.erase(first=iter(" << *first << "), iter(first+" << last - first << ")): ";
@@ -411,7 +412,7 @@ private:
             print_vector(vec);
         }
         {
-            ft::vector<T> vec = originalVec;
+            ft::vector<T> vec = original_vec;
             typename ft::vector<T>::iterator first = vec.begin() + 1;
             typename ft::vector<T>::iterator last = vec.end() - 1;
             std::cout << "vec.erase(first=iter(" << *first << "), iter(first+" << last - first << ")): ";
@@ -424,8 +425,8 @@ private:
     {
         print_test_case("vector::swap()");
         {
-            ft::vector<T> vec1(4, originalVec.front());
-            ft::vector<T> vec2(2, originalVec.back());
+            ft::vector<T> vec1(4, original_vec.front());
+            ft::vector<T> vec2(2, original_vec.back());
             print_vector(vec1, "orig vec1   ");
             print_vector(vec2, "orig vec2   ");
             vec1.swap(vec2);
@@ -433,8 +434,8 @@ private:
             print_vector(vec2, "swapped vec2");
         }
         {
-            ft::vector<T> vec1(4, originalVec.front());
-            ft::vector<T> vec2(2, originalVec.back());
+            ft::vector<T> vec1(4, original_vec.front());
+            ft::vector<T> vec2(2, original_vec.back());
             print_vector(vec1, "orig vec1   ");
             print_vector(vec2, "orig vec2   ");
             ft::swap(vec1, vec2);
@@ -446,7 +447,7 @@ private:
     void test_clear()
     {
         print_test_case("vector::clear()");
-        ft::vector<T> vec = originalVec;
+        ft::vector<T> vec = original_vec;
         vec.clear();
         print_vector_info(vec);
     }
@@ -454,74 +455,72 @@ private:
     void test_relational_operator()
     {
         print_test_case("vector::operator==, !=, <, <=, >, >=");
-        {
-            ft::vector<T> empty1;
-            ft::vector<T> empty2;
-            ft::vector<T> five1(5, originalVec.front());
-            ft::vector<T> five2(5, originalVec.front());
-            ft::vector<T> frontDiff(5, originalVec.front());
-            ft::vector<T> backDiff(5, originalVec.front());
-            ft::vector<T> six(6, originalVec.front());
-            frontDiff[0] = originalVec.back();
-            backDiff[backDiff.size() - 1] = originalVec.back();
+        ft::vector<T> empty1;
+        ft::vector<T> empty2;
+        ft::vector<T> five1(5, original_vec.front());
+        ft::vector<T> five2(5, original_vec.front());
+        ft::vector<T> front_diff(5, original_vec.front());
+        ft::vector<T> back_diff(5, original_vec.front());
+        ft::vector<T> six(6, original_vec.front());
+        front_diff[0] = original_vec.back();
+        back_diff[back_diff.size() - 1] = original_vec.back();
 
-            std::cout << std::boolalpha
-                      << "empty == empty     : " << (empty1 == empty2) << std::endl
-                      << "empty == five      : " << (empty1 == five1) << std::endl
-                      << "five  == five      : " << (five1 == five2) << std::endl
-                      << "five  == frontDiff : " << (five1 == frontDiff) << std::endl
-                      << "five  == backDiff  : " << (five2 == backDiff) << std::endl;
-            std::cout << std::boolalpha
-                      << "empty != empty     : " << (empty1 != empty2) << std::endl
-                      << "empty != five      : " << (empty1 != five1) << std::endl
-                      << "five  != five      : " << (five1 != five2) << std::endl
-                      << "five  != frontDiff : " << (five1 != frontDiff) << std::endl
-                      << "five  != backDiff  : " << (five2 != backDiff) << std::endl;
-            std::cout << std::boolalpha
-                      << "empty    <  empty     : " << (empty1 < empty2) << std::endl
-                      << "empty    <  five      : " << (empty1 < five1) << std::endl
-                      << "five     <  empty     : " << (five1 < empty1) << std::endl
-                      << "five     <  five      : " << (five1 < five2) << std::endl
-                      << "six      <  five      : " << (six < five1) << std::endl
-                      << "five     <  six       : " << (five1 < six) << std::endl
-                      << "five     <  frontDiff : " << (five1 < frontDiff) << std::endl
-                      << "frontDiff<  five      : " << (frontDiff < five1) << std::endl
-                      << "five     <  backDiff  : " << (five2 < backDiff) << std::endl
-                      << "backDiff <  five      : " << (backDiff < backDiff) << std::endl;
-            std::cout << std::boolalpha
-                      << "empty    <= empty     : " << (empty1 <= empty2) << std::endl
-                      << "empty    <= five      : " << (empty1 <= five1) << std::endl
-                      << "five     <= empty     : " << (five1 <= empty1) << std::endl
-                      << "five     <= five      : " << (five1 <= five2) << std::endl
-                      << "six      <= five      : " << (six <= five1) << std::endl
-                      << "five     <= six       : " << (five1 <= six) << std::endl
-                      << "five     <= frontDiff : " << (five1 <= frontDiff) << std::endl
-                      << "frontDiff<= five      : " << (frontDiff <= five1) << std::endl
-                      << "five     <= backDiff  : " << (five2 <= backDiff) << std::endl
-                      << "backDiff <= five      : " << (backDiff <= backDiff) << std::endl;
-            std::cout << std::boolalpha
-                      << "empty    >  empty     : " << (empty1 > empty2) << std::endl
-                      << "empty    >  five      : " << (empty1 > five1) << std::endl
-                      << "five     >  empty     : " << (five1 > empty1) << std::endl
-                      << "five     >  five      : " << (five1 > five2) << std::endl
-                      << "six      >  five      : " << (six > five1) << std::endl
-                      << "five     >  six       : " << (five1 > six) << std::endl
-                      << "five     >  frontDiff : " << (five1 > frontDiff) << std::endl
-                      << "frontDiff>  five      : " << (frontDiff > five1) << std::endl
-                      << "five     >  backDiff  : " << (five2 > backDiff) << std::endl
-                      << "backDiff >  five      : " << (backDiff > backDiff) << std::endl;
-            std::cout << std::boolalpha
-                      << "empty    >= empty     : " << (empty1 >= empty2) << std::endl
-                      << "empty    >= five      : " << (empty1 >= five1) << std::endl
-                      << "five     >= empty     : " << (five1 >= empty1) << std::endl
-                      << "five     >= five      : " << (five1 >= five2) << std::endl
-                      << "six      >= five      : " << (six >= five1) << std::endl
-                      << "five     >= six       : " << (five1 >= six) << std::endl
-                      << "five     >= frontDiff : " << (five1 >= frontDiff) << std::endl
-                      << "frontDiff>= five      : " << (frontDiff >= five1) << std::endl
-                      << "five     >= backDiff  : " << (five2 >= backDiff) << std::endl
-                      << "backDiff >= five      : " << (backDiff >= backDiff) << std::endl;
-        }
+        std::cout << std::boolalpha
+                  << "empty == empty     : " << (empty1 == empty2) << std::endl
+                  << "empty == five      : " << (empty1 == five1) << std::endl
+                  << "five  == five      : " << (five1 == five2) << std::endl
+                  << "five  == frontDiff : " << (five1 == front_diff) << std::endl
+                  << "five  == backDiff  : " << (five2 == back_diff) << std::endl;
+        std::cout << std::boolalpha
+                  << "empty != empty     : " << (empty1 != empty2) << std::endl
+                  << "empty != five      : " << (empty1 != five1) << std::endl
+                  << "five  != five      : " << (five1 != five2) << std::endl
+                  << "five  != frontDiff : " << (five1 != front_diff) << std::endl
+                  << "five  != backDiff  : " << (five2 != back_diff) << std::endl;
+        std::cout << std::boolalpha
+                  << "empty    <  empty     : " << (empty1 < empty2) << std::endl
+                  << "empty    <  five      : " << (empty1 < five1) << std::endl
+                  << "five     <  empty     : " << (five1 < empty1) << std::endl
+                  << "five     <  five      : " << (five1 < five2) << std::endl
+                  << "six      <  five      : " << (six < five1) << std::endl
+                  << "five     <  six       : " << (five1 < six) << std::endl
+                  << "five     <  frontDiff : " << (five1 < front_diff) << std::endl
+                  << "frontDiff<  five      : " << (front_diff < five1) << std::endl
+                  << "five     <  backDiff  : " << (five2 < back_diff) << std::endl
+                  << "backDiff <  five      : " << (back_diff < back_diff) << std::endl;
+        std::cout << std::boolalpha
+                  << "empty    <= empty     : " << (empty1 <= empty2) << std::endl
+                  << "empty    <= five      : " << (empty1 <= five1) << std::endl
+                  << "five     <= empty     : " << (five1 <= empty1) << std::endl
+                  << "five     <= five      : " << (five1 <= five2) << std::endl
+                  << "six      <= five      : " << (six <= five1) << std::endl
+                  << "five     <= six       : " << (five1 <= six) << std::endl
+                  << "five     <= frontDiff : " << (five1 <= front_diff) << std::endl
+                  << "frontDiff<= five      : " << (front_diff <= five1) << std::endl
+                  << "five     <= backDiff  : " << (five2 <= back_diff) << std::endl
+                  << "backDiff <= five      : " << (back_diff <= back_diff) << std::endl;
+        std::cout << std::boolalpha
+                  << "empty    >  empty     : " << (empty1 > empty2) << std::endl
+                  << "empty    >  five      : " << (empty1 > five1) << std::endl
+                  << "five     >  empty     : " << (five1 > empty1) << std::endl
+                  << "five     >  five      : " << (five1 > five2) << std::endl
+                  << "six      >  five      : " << (six > five1) << std::endl
+                  << "five     >  six       : " << (five1 > six) << std::endl
+                  << "five     >  frontDiff : " << (five1 > front_diff) << std::endl
+                  << "frontDiff>  five      : " << (front_diff > five1) << std::endl
+                  << "five     >  backDiff  : " << (five2 > back_diff) << std::endl
+                  << "backDiff >  five      : " << (back_diff > back_diff) << std::endl;
+        std::cout << std::boolalpha
+                  << "empty    >= empty     : " << (empty1 >= empty2) << std::endl
+                  << "empty    >= five      : " << (empty1 >= five1) << std::endl
+                  << "five     >= empty     : " << (five1 >= empty1) << std::endl
+                  << "five     >= five      : " << (five1 >= five2) << std::endl
+                  << "six      >= five      : " << (six >= five1) << std::endl
+                  << "five     >= six       : " << (five1 >= six) << std::endl
+                  << "five     >= frontDiff : " << (five1 >= front_diff) << std::endl
+                  << "frontDiff>= five      : " << (front_diff >= five1) << std::endl
+                  << "five     >= backDiff  : " << (five2 >= back_diff) << std::endl
+                  << "backDiff >= five      : " << (back_diff >= back_diff) << std::endl;
     }
 };
 

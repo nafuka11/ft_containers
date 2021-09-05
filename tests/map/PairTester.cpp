@@ -12,6 +12,7 @@ void PairTester::test_all()
     test_constructor();
     test_assignment_operator();
     test_relational_operator();
+    test_make_pair();
 }
 
 void PairTester::test_constructor()
@@ -73,4 +74,9 @@ void PairTester::test_relational_operator()
               << p1 << " >= " << p3 << ": " << (p1 >= p3) << std::endl
               << p2 << " >= " << p1 << ": " << (p2 >= p1) << std::endl
               << p3 << " >= " << p1 << ": " << (p3 >= p1) << std::endl;
+}
+
+void PairTester::test_make_pair()
+{
+    std::cout << ft::make_pair<int, int>(1, 2) << std::endl;
 }

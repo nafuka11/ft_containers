@@ -7,18 +7,18 @@ template <class T>
 class VectorIteratorTester
 {
 public:
-    VectorIteratorTester(ft::vector<T> &vec) : vec(vec) {}
+    VectorIteratorTester(ft::vector<T> &vec) : vec_(vec) {}
     ~VectorIteratorTester() {}
     void test_all()
     {
-        typename ft::vector<T>::iterator begin = vec.begin();
-        typename ft::vector<T>::iterator end = vec.end();
-        typename ft::vector<T>::const_iterator cbegin = vec.begin();
-        typename ft::vector<T>::const_iterator cend = vec.end();
-        typename ft::vector<T>::reverse_iterator rbegin = vec.rbegin();
-        typename ft::vector<T>::reverse_iterator rend = vec.rend();
-        typename ft::vector<T>::const_reverse_iterator crbegin = vec.rbegin();
-        typename ft::vector<T>::const_reverse_iterator crend = vec.rend();
+        typename ft::vector<T>::iterator begin = vec_.begin();
+        typename ft::vector<T>::iterator end = vec_.end();
+        typename ft::vector<T>::const_iterator cbegin = vec_.begin();
+        typename ft::vector<T>::const_iterator cend = vec_.end();
+        typename ft::vector<T>::reverse_iterator rbegin = vec_.rbegin();
+        typename ft::vector<T>::reverse_iterator rend = vec_.rend();
+        typename ft::vector<T>::const_reverse_iterator crbegin = vec_.rbegin();
+        typename ft::vector<T>::const_reverse_iterator crend = vec_.rend();
 
         test_iterator(begin, end);
         test_iterator(rbegin, rend);
@@ -27,7 +27,7 @@ public:
     }
 
 private:
-    ft::vector<T> vec;
+    ft::vector<T> vec_;
 
     template <class Iter>
     void test_iterator(Iter begin, Iter end)
@@ -45,14 +45,16 @@ private:
     {
         print_test_case("iter == iter");
         {
-            std::cout << std::boolalpha << "begin() == begin(): " << (begin == begin) << std::endl;
-            std::cout << std::boolalpha << "begin() ==   end(): " << (begin == end) << std::endl;
+            std::cout << std::boolalpha
+                      << "begin() == begin(): " << (begin == begin) << std::endl
+                      << "begin() ==   end(): " << (begin == end) << std::endl;
         }
 
         print_test_case("iter != iter");
         {
-            std::cout << std::boolalpha << "begin() != begin(): " << (begin != begin) << std::endl;
-            std::cout << std::boolalpha << "begin() !=   end(): " << (begin != end) << std::endl;
+            std::cout << std::boolalpha
+                      << "begin() != begin(): " << (begin != begin) << std::endl
+                      << "begin() !=   end(): " << (begin != end) << std::endl;
         }
     }
 
@@ -121,16 +123,16 @@ private:
             Iter first = begin;
             Iter second = first + 1;
             std::cout << std::boolalpha
-                    << "first  < first  = " << (first < first) << std::endl
-                    << "first  < second = " << (first < second) << std::endl
-                    << "first  > first  = " << (first > first) << std::endl
-                    << "second > first  = " << (second > first) << std::endl
-                    << "first <= first  = " << (first <= first) << std::endl
-                    << "first <= second = " << (first <= second) << std::endl
-                    << "second<= first  = " << (second <= first) << std::endl
-                    << "first >= first  = " << (first >= first) << std::endl
-                    << "first >= second = " << (first >= second) << std::endl
-                    << "second>= first  = " << (second >= first) << std::endl;
+                      << "first  < first  = " << (first < first) << std::endl
+                      << "first  < second = " << (first < second) << std::endl
+                      << "first  > first  = " << (first > first) << std::endl
+                      << "second > first  = " << (second > first) << std::endl
+                      << "first <= first  = " << (first <= first) << std::endl
+                      << "first <= second = " << (first <= second) << std::endl
+                      << "second<= first  = " << (second <= first) << std::endl
+                      << "first >= first  = " << (first >= first) << std::endl
+                      << "first >= second = " << (first >= second) << std::endl
+                      << "second>= first  = " << (second >= first) << std::endl;
         }
     }
 

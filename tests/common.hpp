@@ -24,6 +24,6 @@ namespace ft = std;
 #include "vector/test_vector.hpp"
 #include "map/test_map.hpp"
 
-void print_test_case(std::string str);
+void print_test_case(const std::string &str);
 
 #endif /* COMMON_HPP */

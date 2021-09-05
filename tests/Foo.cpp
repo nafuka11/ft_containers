@@ -37,11 +37,11 @@ bool Foo::operator!=(const Foo &rhs) const
 {
     return !operator==(rhs);
 }
-bool Foo::operator< (const Foo &rhs) const
+bool Foo::operator<(const Foo &rhs) const
 {
     return *allocated_ < *rhs.allocated_;
 }
-bool Foo::operator> (const Foo &rhs) const
+bool Foo::operator>(const Foo &rhs) const
 {
     return *allocated_ > *rhs.allocated_;
 }

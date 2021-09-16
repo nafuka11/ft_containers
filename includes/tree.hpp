@@ -2,8 +2,8 @@
 #define TREE_HPP
 
 #include <cstddef>
-#include <memory>
 #include <iterator>
+#include <memory>
 
 namespace ft
 {
@@ -148,7 +148,8 @@ namespace ft
                         rotate_left(node->parent);
                         sibling = node->parent->right;
                     }
-                    if (sibling->left->color == rb_node_<T>::BLACK && sibling->right->color == rb_node_<T>::BLACK)
+                    if (sibling->left->color == rb_node_<T>::BLACK &&
+                        sibling->right->color == rb_node_<T>::BLACK)
                     {
                         sibling->color = rb_node_<T>::RED;
                         node = node->parent;
@@ -179,7 +180,8 @@ namespace ft
                         rotate_right(node->parent);
                         sibling = node->parent->left;
                     }
-                    if (sibling->right->color == rb_node_<T>::BLACK && sibling->left->color == rb_node_<T>::BLACK)
+                    if (sibling->right->color == rb_node_<T>::BLACK &&
+                        sibling->left->color == rb_node_<T>::BLACK)
                     {
                         sibling->color = rb_node_<T>::RED;
                         node = node->parent;

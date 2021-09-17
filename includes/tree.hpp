@@ -105,15 +105,15 @@ namespace ft
         typedef rb_node_<T> *link_type;
         typedef const rb_node_<T> *const_link_type;
 
-        link_type nil;
-        link_type root;
-        Allocator alloc;
-        Compare compare;
+        link_type nil_;
+        link_type root_;
+        Allocator alloc_;
+        Compare compare_;
 
         link_type create_node(const key_type &key)
         {
-            link_type new_node = alloc.allocate(1);
-            alloc.construct(new_node, nil, key);
+            link_type new_node = alloc_.allocate(1);
+            alloc_.construct(new_node, nil_, key);
             return new_node;
         }
 
@@ -121,11 +121,11 @@ namespace ft
         {
             link_type y = node->right;
             node->right = y->left;
-            if (y->left != nil)
+            if (y->left != nil_)
                 y->left->parent = node;
             y->parent = node->parent;
-            if (node->parent == nil)
-                root = y;
+            if (node->parent == nil_)
+                root_ = y;
             else if (node == node->parent->left)
                 node->parent->left = y;
             else
@@ -138,11 +138,11 @@ namespace ft
         {
             link_type y = node->left;
             node->left = y->right;
-            if (y->right != nil)
+            if (y->right != nil_)
                 y->right->parent = node;
             y->parent = node->parent;
-            if (node->parent == nil)
-                root = y;
+            if (node->parent == nil_)
+                root_ = y;
             else if (node == node->parent->right)
                 node->parent->right = y;
             else
@@ -200,13 +200,13 @@ namespace ft
                     }
                 }
             }
-            root->color = rb_node_<T>::BLACK;
+            root_->color = rb_node_<T>::BLACK;
         }
 
         void delete_fixup(link_type node)
         {
             link_type sibling;
-            while (node != root && node->color == rb_node_<T>::BLACK)
+            while (node != root_ && node->color == rb_node_<T>::BLACK)
             {
                 if (node == node->parent->right)
                 {
@@ -237,7 +237,7 @@ namespace ft
                         node->parent->color = rb_node_<T>::BLACK;
                         sibling->right->color = rb_node_<T>::BLACK;
                         rotate_left(node->parent);
-                        node = root;
+                        node = root_;
                     }
                 }
                 else
@@ -269,7 +269,7 @@ namespace ft
                         node->parent->color = rb_node_<T>::BLACK;
                         sibling->left->color = rb_node_<T>::BLACK;
                         rotate_right(node->parent);
-                        node = root;
+                        node = root_;
                     }
                 }
             }
@@ -278,22 +278,22 @@ namespace ft
 
         link_type find_node(const key_type &key) const
         {
-            link_type node = root;
-            while (node != nil)
+            link_type node = root_;
+            while (node != nil_)
             {
-                if (compare(key, node->key))
+                if (compare_(key, node->key))
                     node = node->left;
-                else if (compare(node->key, key))
+                else if (compare_(node->key, key))
                     node = node->right;
                 else
                     return node;
             }
-            return nil;
+            return nil_;
         }
 
         link_type search_min_node(link_type node) const
         {
-            while (node->left != nil)
+            while (node->left != nil_)
             {
                 node = node->left;
             }
@@ -302,8 +302,8 @@ namespace ft
 
         void transplant(link_type x, link_type y)
         {
-            if (x->parent == nil)
-                root = y;
+            if (x->parent == nil_)
+                root_ = y;
             else if (x == x->parent->left)
                 x->parent->left = y;
             else
@@ -315,12 +315,12 @@ namespace ft
         {
             deleted_color = node->color;
             link_type replaced_node;
-            if (node->left == nil)
+            if (node->left == nil_)
             {
                 replaced_node = node->right;
                 transplant(node, node->right);
             }
-            else if (node->right == nil)
+            else if (node->right == nil_)
             {
                 replaced_node = node->left;
                 transplant(node, node->left);
@@ -351,49 +351,50 @@ namespace ft
     public:
         rb_tree_()
         {
-            alloc = Allocator();
-            nil = alloc.allocate(1);
-            alloc.construct(nil);
-            nil->left = nil;
-            nil->right = nil;
-            root = nil;
-            compare = Compare();
+            alloc_ = Allocator();
+            nil_ = alloc_.allocate(1);
+            alloc_.construct(nil_);
+            nil_->left = nil_;
+            nil_->right = nil_;
+            root_ = nil;
+            compare_ = Compare();
         }
+
         ~rb_tree_()
         {
-            destroy(root);
-            alloc.destroy(nil);
-            alloc.deallocate(nil, 1);
+            destroy(root_);
+            alloc_.destroy(nil_);
+            alloc_.deallocate(nil_, 1);
         }
 
         void destroy(link_type node)
         {
-            if (node != nil)
+            if (node != nil_)
             {
                 destroy(node->left);
                 destroy(node->right);
-                alloc.destroy(node);
-                alloc.deallocate(node, 1);
+                alloc_.destroy(node);
+                alloc_.deallocate(node, 1);
             }
         }
 
         void insert_node(const key_type &key)
         {
             link_type new_node = create_node(key);
-            link_type prev_node = nil;
-            link_type now_node = root;
-            while (now_node != nil)
+            link_type prev_node = nil_;
+            link_type now_node = root_;
+            while (now_node != nil_)
             {
                 prev_node = now_node;
-                if (compare(key, now_node->key))
+                if (compare_(key, now_node->key))
                     now_node = now_node->left;
                 else
                     now_node = now_node->right;
             }
             new_node->parent = prev_node;
-            if (prev_node == nil)
-                root = new_node;
-            else if (compare(key, prev_node->key))
+            if (prev_node == nil_)
+                root_ = new_node;
+            else if (compare_(key, prev_node->key))
                 prev_node->left = new_node;
             else
                 prev_node->right = new_node;
@@ -403,15 +404,15 @@ namespace ft
         void delete_node(const key_type &key)
         {
             link_type node = find_node(key);
-            if (node == nil)
+            if (node == nil_)
                 return;
 
             bool deleted_color;
             link_type replaced = replace_node(node, deleted_color);
             if (deleted_color == rb_node_<T>::BLACK)
                 delete_fixup(replaced);
-            alloc.destroy(node);
-            alloc.deallocate(node, 1);
+            alloc_.destroy(node);
+            alloc_.deallocate(node, 1);
         }
 
     };

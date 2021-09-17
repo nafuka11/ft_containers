@@ -7,6 +7,76 @@
 
 namespace ft
 {
+    template <class T>
+    class tree_iterator_ : public std::iterator<std::bidirectional_iterator_tag, T>
+    {
+    public:
+        typedef T iterator_type;
+        typedef typename iterator_traits<T>::iterator_category iterator_category;
+        typedef typename iterator_traits<T>::value_type value_type;
+        typedef typename iterator_traits<T>::difference_type difference_type;
+        typedef typename iterator_traits<T>::pointer pointer;
+        typedef typename iterator_traits<T>::reference reference;
+
+        // Member functions
+        // constructor
+        tree_iterator_() : current(NULL) {}
+        explicit tree_iterator_(iterator_type ptr) : current(ptr) {}
+        // copy constructor
+        template <class Iter>
+        tree_iterator_(const tree_iterator_<Iter> &other)
+        {
+            *this = other;
+        }
+        // assignment operator
+        template <class Iter>
+        tree_iterator_ &operator=(const tree_iterator_<Iter> &other)
+        {
+            current = other.base();
+            return *this;
+        }
+
+        iterator_type base() const
+        {
+            return current;
+        }
+        // dereference operator
+        reference operator*() const
+        {
+            return *current;
+        }
+        pointer operator->() const
+        {
+            return current;
+        }
+        // prefix/postfix increment
+        tree_iterator_ &operator++()
+        {
+            current++;
+            return *this;
+        }
+        tree_iterator_ operator++(int)
+        {
+            tree_iterator_ tmp = *this;
+            current++;
+            return tmp;
+        }
+        // prefix/postfix decrement
+        tree_iterator_ &operator--()
+        {
+            current--;
+            return *this;
+        }
+        tree_iterator_ operator--(int)
+        {
+            tree_iterator_ tmp = *this;
+            current--;
+            return tmp;
+        }
+
+    private:
+        iterator_type current;
+    };
 
     template <class T>
     class rb_node_

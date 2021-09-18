@@ -131,6 +131,12 @@ namespace ft
             return new_node;
         }
 
+        void delete_node(link_type node)
+        {
+            alloc_.destroy(node);
+            alloc_.deallocate(node, 1);
+        }
+
         void rotate_left(link_type node)
         {
             link_type y = node->right;
@@ -381,10 +387,8 @@ namespace ft
         ~rb_tree_()
         {
             destroy(get_root());
-            alloc_.destroy(nil_);
-            alloc_.deallocate(nil_, 1);
-            alloc_.destroy(end_);
-            alloc_.deallocate(end_, 1);
+            delete_node(nil_);
+            delete_node(end_);
         }
 
         iterator begin() const
@@ -403,8 +407,7 @@ namespace ft
             {
                 destroy(node->left);
                 destroy(node->right);
-                alloc_.destroy(node);
-                alloc_.deallocate(node, 1);
+                delete_node(node);
             }
         }
 
@@ -441,8 +444,7 @@ namespace ft
             link_type replaced = replace_node(node, deleted_color);
             if (deleted_color == rb_node_<T>::BLACK)
                 delete_fixup(replaced);
-            alloc_.destroy(node);
-            alloc_.deallocate(node, 1);
+            delete_node(node);
         }
 
     };

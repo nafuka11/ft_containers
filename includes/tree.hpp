@@ -47,14 +47,18 @@ namespace ft
     template <class T>
     class tree_iterator_ : public std::iterator<std::bidirectional_iterator_tag, T>
     {
+        // types
     public:
-        typedef T iterator_type;
         typedef typename iterator_traits<T>::iterator_category iterator_category;
         typedef typename iterator_traits<T>::value_type value_type;
         typedef typename iterator_traits<T>::difference_type difference_type;
         typedef typename iterator_traits<T>::pointer pointer;
         typedef typename iterator_traits<T>::reference reference;
 
+    private:
+        typedef rb_node_<value_type> *link_type;
+
+    public:
         // Member functions
         // constructor
         tree_iterator_() : current(NULL) {}

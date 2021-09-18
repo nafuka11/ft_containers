@@ -170,11 +170,13 @@ namespace ft
               class Allocator = std::allocator<rb_node_<T> > >
     class rb_tree_
     {
+    public:
+        typedef tree_iterator_<T *> iterator;
+
     private:
         typedef T key_type;
         typedef rb_node_<T> *link_type;
         typedef const rb_node_<T> *const_link_type;
-        typedef tree_iterator_<T> iterator;
 
         link_type nil_;
         link_type begin_;

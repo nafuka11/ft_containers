@@ -62,7 +62,7 @@ namespace ft
         // Member functions
         // constructor
         tree_iterator_() : current(NULL) {}
-        explicit tree_iterator_(iterator_type ptr) : current(ptr) {}
+        explicit tree_iterator_(link_type ptr, link_type nil) : current(ptr), nil(nil) {}
         // copy constructor
         template <class Iter>
         tree_iterator_(const tree_iterator_<Iter> &other)
@@ -73,22 +73,19 @@ namespace ft
         template <class Iter>
         tree_iterator_ &operator=(const tree_iterator_<Iter> &other)
         {
-            current = other.base();
+            current = other.current;
+            nil = other.nil;
             return *this;
         }
 
-        iterator_type base() const
-        {
-            return current;
-        }
         // dereference operator
         reference operator*() const
         {
-            return *current;
+            return current->key;
         }
         pointer operator->() const
         {
-            return current;
+            return &current->key;
         }
         // prefix/postfix increment
         tree_iterator_ &operator++()
@@ -116,8 +113,8 @@ namespace ft
         }
 
     private:
-        iterator_type current;
-    };
+        link_type current;
+        link_type nil;
 
     template <class T>
     class rb_node_
@@ -424,14 +421,14 @@ namespace ft
             delete_node(end_);
         }
 
-        iterator begin() const
+        iterator begin()
         {
-            return iterator(begin_);
+            return iterator(begin_, nil_);
         }
 
-        iterator end() const
+        iterator end()
         {
-            return iterator(end_);
+            return iterator(end_, nil_);
         }
 
         void destroy(link_type node)

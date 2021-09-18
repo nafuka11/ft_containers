@@ -29,7 +29,7 @@ namespace ft
     // Functions
     // nodeを頂点とした木から最小のノードを返す
     template <class T>
-    rb_node_<T> *search_tree_min(rb_node_<T> *node, rb_node_<T> *nil)
+    rb_node_<T> *search_tree_min_(rb_node_<T> *node, rb_node_<T> *nil)
     {
         while (node->left != nil)
         {
@@ -40,7 +40,7 @@ namespace ft
 
     // nodeを頂点とした木から最大のノードを返す
     template <class T>
-    rb_node_<T> *search_tree_max(rb_node_<T> *node, rb_node_<T> *nil)
+    rb_node_<T> *search_tree_max_(rb_node_<T> *node, rb_node_<T> *nil)
     {
         while (node->right != nil)
         {
@@ -51,27 +51,27 @@ namespace ft
 
     // nodeが親の左の子ならtrueを、そうでないならfalseを返す
     template <class T>
-    bool is_left_child(rb_node_<T> *node)
+    bool is_left_child_(rb_node_<T> *node)
     {
         return node == node->parent->left;
     }
 
     // nodeが親の右の子ならtrueを、そうでないならfalseを返す
     template <class T>
-    bool is_right_child(rb_node_<T> *node)
+    bool is_right_child_(rb_node_<T> *node)
     {
         return node == node->parent->right;
     }
 
     // nodeを始点に次に大きいノードを返す
     template <class T>
-    rb_node_<T> *search_next_node(rb_node_<T> *node, rb_node_<T> *nil)
+    rb_node_<T> *search_next_node_(rb_node_<T> *node, rb_node_<T> *nil)
     {
         if (node->right != nil)
         {
-            return search_tree_min(node->right, nil);
+            return search_tree_min_(node->right, nil);
         }
-        while (!is_left_child(node))
+        while (!is_left_child_(node))
         {
             node = node->parent;
         }
@@ -80,13 +80,13 @@ namespace ft
 
     // nodeを始点にnodeの一つ小さいノードを返す
     template <class T>
-    rb_node_<T> *search_prev_node(rb_node_<T> *node, rb_node_<T> *nil)
+    rb_node_<T> *search_prev_node_(rb_node_<T> *node, rb_node_<T> *nil)
     {
         if (node->left != nil)
         {
-            return search_tree_max(node->left, nil);
+            return search_tree_max_(node->left, nil);
         }
-        while (!is_right_child(node))
+        while (!is_right_child_(node))
         {
             node = node->parent;
         }
@@ -139,7 +139,7 @@ namespace ft
         // prefix/postfix increment
         tree_iterator_ &operator++()
         {
-            current = search_next_node(current, nil);
+            current = search_next_node_(current, nil);
             return *this;
         }
         tree_iterator_ operator++(int)
@@ -151,7 +151,7 @@ namespace ft
         // prefix/postfix decrement
         tree_iterator_ &operator--()
         {
-            current = search_prev_node(current, nil);
+            current = search_prev_node_(current, nil);
             return *this;
         }
         tree_iterator_ operator--(int)
@@ -218,7 +218,7 @@ namespace ft
             y->parent = node->parent;
             if (node->parent == nil_)
                 set_root(y);
-            else if (is_left_child(node))
+            else if (is_left_child_(node))
                 node->parent->left = y;
             else
                 node->parent->right = y;
@@ -235,7 +235,7 @@ namespace ft
             y->parent = node->parent;
             if (node->parent == nil_)
                 set_root(y);
-            else if (is_right_child(node))
+            else if (is_right_child_(node))
                 node->parent->right = y;
             else
                 node->parent->left = y;
@@ -247,7 +247,7 @@ namespace ft
         {
             while (node->parent->color == rb_node_<T>::RED)
             {
-                if (is_left_child(node->parent))
+                if (is_left_child_(node->parent))
                 {
                     link_type y = node->parent->parent->right;
                     if (y->color == rb_node_<T>::RED)
@@ -259,7 +259,7 @@ namespace ft
                     }
                     else
                     {
-                        if (is_right_child(node))
+                        if (is_right_child_(node))
                         {
                             node = node->parent;
                             rotate_left(node);
@@ -281,7 +281,7 @@ namespace ft
                     }
                     else
                     {
-                        if (is_left_child(node))
+                        if (is_left_child_(node))
                         {
                             node = node->parent;
                             rotate_right(node);
@@ -300,7 +300,7 @@ namespace ft
             link_type sibling;
             while (node != get_root() && node->color == rb_node_<T>::BLACK)
             {
-                if (is_right_child(node))
+                if (is_right_child_(node))
                 {
                     sibling = node->parent->right;
                     if (sibling->color == rb_node_<T>::RED)
@@ -387,7 +387,7 @@ namespace ft
         {
             if (x->parent == nil_)
                 set_root(y);
-            else if (is_left_child(x))
+            else if (is_left_child_(x))
                 x->parent->left = y;
             else
                 x->parent->right = y;
@@ -410,7 +410,7 @@ namespace ft
             }
             else
             {
-                link_type y = search_tree_min(node->right, nil_);
+                link_type y = search_tree_min_(node->right, nil_);
                 deleted_color = y->color;
                 replaced_node = y->right;
                 if (y->parent == node)
@@ -514,7 +514,7 @@ namespace ft
                 return;
 
             if (node == begin_)
-                begin_ = search_next_node(begin_, nil_);
+                begin_ = search_next_node_(begin_, nil_);
 
             bool deleted_color;
             link_type replaced = replace_node(node, deleted_color);

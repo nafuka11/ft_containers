@@ -394,6 +394,7 @@ namespace ft
             end_ = alloc_.allocate(1);
             alloc_.construct(end_);
             end_->left = nil_;
+            begin_ = end_;
 
             compare_ = Compare();
         }

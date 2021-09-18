@@ -7,6 +7,29 @@
 
 namespace ft
 {
+    // Functions
+    // nodeを頂点とした木から最小のノードを返す
+    template <class T>
+    rb_node_<T> *search_tree_min(rb_node_<T> *node, rb_node_<T> *nil)
+    {
+        while (node->left != nil)
+        {
+            node = node->left;
+        }
+        return node;
+    }
+
+    // nodeを頂点とした木から最大のノードを返す
+    template <class T>
+    rb_node_<T> *search_tree_max(rb_node_<T> *node, rb_node_<T> *nil)
+    {
+        while (node->right != nil)
+        {
+            node = node->right;
+        }
+        return node;
+    }
+
     template <class T>
     class tree_iterator_ : public std::iterator<std::bidirectional_iterator_tag, T>
     {
@@ -311,15 +334,6 @@ namespace ft
             return nil_;
         }
 
-        link_type search_min_node(link_type node) const
-        {
-            while (node->left != nil_)
-            {
-                node = node->left;
-            }
-            return node;
-        }
-
         void transplant(link_type x, link_type y)
         {
             if (x->parent == nil_)
@@ -347,7 +361,7 @@ namespace ft
             }
             else
             {
-                link_type y = search_min_node(node->right);
+                link_type y = search_tree_min(node->right, nil_);
                 deleted_color = y->color;
                 replaced_node = y->right;
                 if (y->parent == node)

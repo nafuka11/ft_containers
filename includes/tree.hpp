@@ -4,10 +4,10 @@
 #include <cstddef>
 #include <iterator>
 #include <memory>
+#include "type_traits.hpp"
 
 namespace ft
 {
-
     template <class T>
     class rb_node_
     {
@@ -26,37 +26,199 @@ namespace ft
             : parent(nil), left(nil), right(nil), color(RED), key(key) {}
     };
 
+    // Functions
+    // nodeを頂点とした木から最小のノードを返す
+    template <class T>
+    rb_node_<T> *search_tree_min_(rb_node_<T> *node, rb_node_<T> *nil)
+    {
+        while (node->left != nil)
+        {
+            node = node->left;
+        }
+        return node;
+    }
+
+    // nodeを頂点とした木から最大のノードを返す
+    template <class T>
+    rb_node_<T> *search_tree_max_(rb_node_<T> *node, rb_node_<T> *nil)
+    {
+        while (node->right != nil)
+        {
+            node = node->right;
+        }
+        return node;
+    }
+
+    // nodeが親の左の子ならtrueを、そうでないならfalseを返す
+    template <class T>
+    bool is_left_child_(rb_node_<T> *node)
+    {
+        return node == node->parent->left;
+    }
+
+    // nodeが親の右の子ならtrueを、そうでないならfalseを返す
+    template <class T>
+    bool is_right_child_(rb_node_<T> *node)
+    {
+        return node == node->parent->right;
+    }
+
+    // nodeを始点に次に大きいノードを返す
+    template <class T>
+    rb_node_<T> *search_next_node_(rb_node_<T> *node, rb_node_<T> *nil)
+    {
+        if (node->right != nil)
+        {
+            return search_tree_min_(node->right, nil);
+        }
+        while (!is_left_child_(node))
+        {
+            node = node->parent;
+        }
+        return node->parent;
+    }
+
+    // nodeを始点にnodeの一つ小さいノードを返す
+    template <class T>
+    rb_node_<T> *search_prev_node_(rb_node_<T> *node, rb_node_<T> *nil)
+    {
+        if (node->left != nil)
+        {
+            return search_tree_max_(node->left, nil);
+        }
+        while (!is_right_child_(node))
+        {
+            node = node->parent;
+        }
+        return node->parent;
+    }
+
+    template <class T>
+    class tree_iterator_ : public std::iterator<std::bidirectional_iterator_tag, T>
+    {
+        // types
+    public:
+        typedef typename iterator_traits<T>::iterator_category iterator_category;
+        typedef typename iterator_traits<T>::value_type value_type;
+        typedef typename iterator_traits<T>::difference_type difference_type;
+        typedef typename iterator_traits<T>::pointer pointer;
+        typedef typename iterator_traits<T>::reference reference;
+
+    private:
+        typedef rb_node_<value_type> *link_type;
+
+    public:
+        // Member functions
+        // constructor
+        tree_iterator_() : current(NULL) {}
+        explicit tree_iterator_(link_type ptr, link_type nil) : current(ptr), nil(nil) {}
+        // copy constructor
+        template <class Iter>
+        tree_iterator_(const tree_iterator_<Iter> &other)
+        {
+            *this = other;
+        }
+        // assignment operator
+        template <class Iter>
+        tree_iterator_ &operator=(const tree_iterator_<Iter> &other)
+        {
+            current = other.current;
+            nil = other.nil;
+            return *this;
+        }
+
+        // dereference operator
+        reference operator*() const
+        {
+            return current->key;
+        }
+        pointer operator->() const
+        {
+            return &current->key;
+        }
+        // prefix/postfix increment
+        tree_iterator_ &operator++()
+        {
+            current = search_next_node_(current, nil);
+            return *this;
+        }
+        tree_iterator_ operator++(int)
+        {
+            tree_iterator_ tmp(*this);
+            ++(*this);
+            return tmp;
+        }
+        // prefix/postfix decrement
+        tree_iterator_ &operator--()
+        {
+            current = search_prev_node_(current, nil);
+            return *this;
+        }
+        tree_iterator_ operator--(int)
+        {
+            tree_iterator_ tmp(*this);
+            --(*this);
+            return tmp;
+        }
+
+    private:
+        link_type current;
+        link_type nil;
+    };
+
     template <class T, class Compare,
               class Allocator = std::allocator<rb_node_<T> > >
     class rb_tree_
     {
+    public:
+        typedef tree_iterator_<T *> iterator;
+
     private:
         typedef T key_type;
         typedef rb_node_<T> *link_type;
         typedef const rb_node_<T> *const_link_type;
 
-        link_type nil;
-        link_type root;
-        Allocator alloc;
-        Compare compare;
+        link_type nil_;
+        link_type begin_;
+        link_type end_;
+
+        Allocator alloc_;
+        Compare compare_;
+
+        link_type get_root() const
+        {
+            return end_->left;
+        }
+
+        void set_root(link_type node)
+        {
+            node->parent = end_;
+            end_->left = node;
+        }
 
         link_type create_node(const key_type &key)
         {
-            link_type new_node = alloc.allocate(1);
-            alloc.construct(new_node, nil, key);
+            link_type new_node = alloc_.allocate(1);
+            alloc_.construct(new_node, nil_, key);
             return new_node;
+        }
+
+        void delete_node(link_type node)
+        {
+            alloc_.destroy(node);
+            alloc_.deallocate(node, 1);
         }
 
         void rotate_left(link_type node)
         {
             link_type y = node->right;
             node->right = y->left;
-            if (y->left != nil)
+            if (y->left != nil_)
                 y->left->parent = node;
             y->parent = node->parent;
-            if (node->parent == nil)
-                root = y;
-            else if (node == node->parent->left)
+            if (node->parent == nil_)
+                set_root(y);
+            else if (is_left_child_(node))
                 node->parent->left = y;
             else
                 node->parent->right = y;
@@ -68,12 +230,12 @@ namespace ft
         {
             link_type y = node->left;
             node->left = y->right;
-            if (y->right != nil)
+            if (y->right != nil_)
                 y->right->parent = node;
             y->parent = node->parent;
-            if (node->parent == nil)
-                root = y;
-            else if (node == node->parent->right)
+            if (node->parent == nil_)
+                set_root(y);
+            else if (is_right_child_(node))
                 node->parent->right = y;
             else
                 node->parent->left = y;
@@ -85,7 +247,7 @@ namespace ft
         {
             while (node->parent->color == rb_node_<T>::RED)
             {
-                if (node->parent == node->parent->parent->left)
+                if (is_left_child_(node->parent))
                 {
                     link_type y = node->parent->parent->right;
                     if (y->color == rb_node_<T>::RED)
@@ -97,7 +259,7 @@ namespace ft
                     }
                     else
                     {
-                        if (node == node->parent->right)
+                        if (is_right_child_(node))
                         {
                             node = node->parent;
                             rotate_left(node);
@@ -119,7 +281,7 @@ namespace ft
                     }
                     else
                     {
-                        if (node == node->parent->left)
+                        if (is_left_child_(node))
                         {
                             node = node->parent;
                             rotate_right(node);
@@ -130,15 +292,15 @@ namespace ft
                     }
                 }
             }
-            root->color = rb_node_<T>::BLACK;
+            get_root()->color = rb_node_<T>::BLACK;
         }
 
         void delete_fixup(link_type node)
         {
             link_type sibling;
-            while (node != root && node->color == rb_node_<T>::BLACK)
+            while (node != get_root() && node->color == rb_node_<T>::BLACK)
             {
-                if (node == node->parent->right)
+                if (is_right_child_(node))
                 {
                     sibling = node->parent->right;
                     if (sibling->color == rb_node_<T>::RED)
@@ -167,7 +329,7 @@ namespace ft
                         node->parent->color = rb_node_<T>::BLACK;
                         sibling->right->color = rb_node_<T>::BLACK;
                         rotate_left(node->parent);
-                        node = root;
+                        node = get_root();
                     }
                 }
                 else
@@ -199,7 +361,7 @@ namespace ft
                         node->parent->color = rb_node_<T>::BLACK;
                         sibling->left->color = rb_node_<T>::BLACK;
                         rotate_right(node->parent);
-                        node = root;
+                        node = get_root();
                     }
                 }
             }
@@ -208,33 +370,24 @@ namespace ft
 
         link_type find_node(const key_type &key) const
         {
-            link_type node = root;
-            while (node != nil)
+            link_type node = get_root();
+            while (node != nil_)
             {
-                if (compare(key, node->key))
+                if (compare_(key, node->key))
                     node = node->left;
-                else if (compare(node->key, key))
+                else if (compare_(node->key, key))
                     node = node->right;
                 else
                     return node;
             }
-            return nil;
-        }
-
-        link_type search_min_node(link_type node) const
-        {
-            while (node->left != nil)
-            {
-                node = node->left;
-            }
-            return node;
+            return nil_;
         }
 
         void transplant(link_type x, link_type y)
         {
-            if (x->parent == nil)
-                root = y;
-            else if (x == x->parent->left)
+            if (x->parent == nil_)
+                set_root(y);
+            else if (is_left_child_(x))
                 x->parent->left = y;
             else
                 x->parent->right = y;
@@ -245,19 +398,19 @@ namespace ft
         {
             deleted_color = node->color;
             link_type replaced_node;
-            if (node->left == nil)
+            if (node->left == nil_)
             {
                 replaced_node = node->right;
                 transplant(node, node->right);
             }
-            else if (node->right == nil)
+            else if (node->right == nil_)
             {
                 replaced_node = node->left;
                 transplant(node, node->left);
             }
             else
             {
-                link_type y = search_min_node(node->right);
+                link_type y = search_tree_min_(node->right, nil_);
                 deleted_color = y->color;
                 replaced_node = y->right;
                 if (y->parent == node)
@@ -278,70 +431,96 @@ namespace ft
             return replaced_node;
         }
 
+        void update_begin_node(link_type insert_node)
+        {
+            if (begin_ == end_ || compare_(insert_node->key, begin_->key))
+            {
+                begin_ = insert_node;
+            }
+        }
+
     public:
         rb_tree_()
         {
-            alloc = Allocator();
-            nil = alloc.allocate(1);
-            alloc.construct(nil);
-            nil->left = nil;
-            nil->right = nil;
-            root = nil;
-            compare = Compare();
+            alloc_ = Allocator();
+            nil_ = alloc_.allocate(1);
+            alloc_.construct(nil_);
+            nil_->left = nil_;
+            nil_->right = nil_;
+
+            end_ = alloc_.allocate(1);
+            alloc_.construct(end_);
+            end_->left = nil_;
+            begin_ = end_;
+
+            compare_ = Compare();
         }
+
         ~rb_tree_()
         {
-            destroy(root);
-            alloc.destroy(nil);
-            alloc.deallocate(nil, 1);
+            destroy(get_root());
+            delete_node(nil_);
+            delete_node(end_);
+        }
+
+        iterator begin()
+        {
+            return iterator(begin_, nil_);
+        }
+
+        iterator end()
+        {
+            return iterator(end_, nil_);
         }
 
         void destroy(link_type node)
         {
-            if (node != nil)
+            if (node != nil_)
             {
                 destroy(node->left);
                 destroy(node->right);
-                alloc.destroy(node);
-                alloc.deallocate(node, 1);
+                delete_node(node);
             }
         }
 
         void insert_node(const key_type &key)
         {
             link_type new_node = create_node(key);
-            link_type prev_node = nil;
-            link_type now_node = root;
-            while (now_node != nil)
+            link_type prev_node = nil_;
+            link_type now_node = get_root();
+            while (now_node != nil_)
             {
                 prev_node = now_node;
-                if (compare(key, now_node->key))
+                if (compare_(key, now_node->key))
                     now_node = now_node->left;
                 else
                     now_node = now_node->right;
             }
             new_node->parent = prev_node;
-            if (prev_node == nil)
-                root = new_node;
-            else if (compare(key, prev_node->key))
+            if (prev_node == nil_)
+                set_root(new_node);
+            else if (compare_(key, prev_node->key))
                 prev_node->left = new_node;
             else
                 prev_node->right = new_node;
             insert_fixup(new_node);
+            update_begin_node(new_node);
         }
 
-        void delete_node(const key_type &key)
+        void erase(const key_type &key)
         {
             link_type node = find_node(key);
-            if (node == nil)
+            if (node == nil_)
                 return;
+
+            if (node == begin_)
+                begin_ = search_next_node_(begin_, nil_);
 
             bool deleted_color;
             link_type replaced = replace_node(node, deleted_color);
             if (deleted_color == rb_node_<T>::BLACK)
                 delete_fixup(replaced);
-            alloc.destroy(node);
-            alloc.deallocate(node, 1);
+            delete_node(node);
         }
 
     };

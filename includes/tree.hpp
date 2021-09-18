@@ -7,6 +7,24 @@
 
 namespace ft
 {
+    template <class T>
+    class rb_node_
+    {
+    public:
+        rb_node_ *parent;
+        rb_node_ *left;
+        rb_node_ *right;
+        bool color;
+        T key;
+
+        static const bool BLACK = true;
+        static const bool RED = false;
+
+        rb_node_() : parent(NULL), left(NULL), right(NULL), color(BLACK) {}
+        rb_node_(rb_node_ *nil, const T &key)
+            : parent(nil), left(nil), right(nil), color(RED), key(key) {}
+    };
+
     // Functions
     // nodeを頂点とした木から最小のノードを返す
     template <class T>
@@ -90,25 +108,25 @@ namespace ft
         // prefix/postfix increment
         tree_iterator_ &operator++()
         {
-            current++;
+            current = search_next_node(current);
             return *this;
         }
         tree_iterator_ operator++(int)
         {
-            tree_iterator_ tmp = *this;
-            current++;
+            tree_iterator_ tmp(*this);
+            ++(*this);
             return tmp;
         }
         // prefix/postfix decrement
         tree_iterator_ &operator--()
         {
-            current--;
+            current = search_prev_node(current);
             return *this;
         }
         tree_iterator_ operator--(int)
         {
-            tree_iterator_ tmp = *this;
-            current--;
+            tree_iterator_ tmp(*this);
+            --(*this);
             return tmp;
         }
 
@@ -116,22 +134,31 @@ namespace ft
         link_type current;
         link_type nil;
 
-    template <class T>
-    class rb_node_
-    {
-    public:
-        rb_node_ *parent;
-        rb_node_ *left;
-        rb_node_ *right;
-        bool color;
-        T key;
+        link_type search_next_node(link_type node)
+        {
+            if (node->right != nil)
+            {
+                return search_tree_min(node->right, nil);
+            }
+            while (!is_left_child(node))
+            {
+                node = node->parent;
+            }
+            return node->parent;
+        }
 
-        static const bool BLACK = true;
-        static const bool RED = false;
-
-        rb_node_() : parent(NULL), left(NULL), right(NULL), color(BLACK) {}
-        rb_node_(rb_node_ *nil, const T &key)
-            : parent(nil), left(nil), right(nil), color(RED), key(key) {}
+        link_type search_prev_node(link_type node)
+        {
+            if (node->left != nil)
+            {
+                return search_tree_max(node->left, nil);
+            }
+            while (!is_right_child(node))
+            {
+                node = node->parent;
+            }
+            return node->parent;
+        }
     };
 
     template <class T, class Compare,

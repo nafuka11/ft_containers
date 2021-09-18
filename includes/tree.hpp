@@ -4,6 +4,7 @@
 #include <cstddef>
 #include <iterator>
 #include <memory>
+#include "type_traits.hpp"
 
 namespace ft
 {
@@ -62,6 +63,36 @@ namespace ft
         return node == node->parent->right;
     }
 
+    // nodeを始点に次に大きいノードを返す
+    template <class T>
+    rb_node_<T> *search_next_node(rb_node_<T> *node, rb_node_<T> *nil)
+    {
+        if (node->right != nil)
+        {
+            return search_tree_min(node->right, nil);
+        }
+        while (!is_left_child(node))
+        {
+            node = node->parent;
+        }
+        return node->parent;
+    }
+
+    // nodeを始点にnodeの一つ小さいノードを返す
+    template <class T>
+    rb_node_<T> *search_prev_node(rb_node_<T> *node, rb_node_<T> *nil)
+    {
+        if (node->left != nil)
+        {
+            return search_tree_max(node->left, nil);
+        }
+        while (!is_right_child(node))
+        {
+            node = node->parent;
+        }
+        return node->parent;
+    }
+
     template <class T>
     class tree_iterator_ : public std::iterator<std::bidirectional_iterator_tag, T>
     {
@@ -108,7 +139,7 @@ namespace ft
         // prefix/postfix increment
         tree_iterator_ &operator++()
         {
-            current = search_next_node(current);
+            current = search_next_node(current, nil);
             return *this;
         }
         tree_iterator_ operator++(int)
@@ -120,7 +151,7 @@ namespace ft
         // prefix/postfix decrement
         tree_iterator_ &operator--()
         {
-            current = search_prev_node(current);
+            current = search_prev_node(current, nil);
             return *this;
         }
         tree_iterator_ operator--(int)
@@ -133,32 +164,6 @@ namespace ft
     private:
         link_type current;
         link_type nil;
-
-        link_type search_next_node(link_type node)
-        {
-            if (node->right != nil)
-            {
-                return search_tree_min(node->right, nil);
-            }
-            while (!is_left_child(node))
-            {
-                node = node->parent;
-            }
-            return node->parent;
-        }
-
-        link_type search_prev_node(link_type node)
-        {
-            if (node->left != nil)
-            {
-                return search_tree_max(node->left, nil);
-            }
-            while (!is_right_child(node))
-            {
-                node = node->parent;
-            }
-            return node->parent;
-        }
     };
 
     template <class T, class Compare,
@@ -424,6 +429,14 @@ namespace ft
             return replaced_node;
         }
 
+        void update_begin_node(link_type insert_node)
+        {
+            if (begin_ == end_ || compare_(insert_node->key, begin_->key))
+            {
+                begin_ = insert_node;
+            }
+        }
+
     public:
         rb_tree_()
         {
@@ -489,13 +502,17 @@ namespace ft
             else
                 prev_node->right = new_node;
             insert_fixup(new_node);
+            update_begin_node(new_node);
         }
 
-        void delete_node(const key_type &key)
+        void erase(const key_type &key)
         {
             link_type node = find_node(key);
             if (node == nil_)
                 return;
+
+            if (node == begin_)
+                begin_ = search_next_node(begin_, nil_);
 
             bool deleted_color;
             link_type replaced = replace_node(node, deleted_color);

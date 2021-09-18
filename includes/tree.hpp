@@ -30,6 +30,20 @@ namespace ft
         return node;
     }
 
+    // nodeが親の左の子ならtrueを、そうでないならfalseを返す
+    template <class T>
+    bool is_left_child(rb_node_<T> *node)
+    {
+        return node == node->parent->left;
+    }
+
+    // nodeが親の右の子ならtrueを、そうでないならfalseを返す
+    template <class T>
+    bool is_right_child(rb_node_<T> *node)
+    {
+        return node == node->parent->right;
+    }
+
     template <class T>
     class tree_iterator_ : public std::iterator<std::bidirectional_iterator_tag, T>
     {
@@ -169,7 +183,7 @@ namespace ft
             y->parent = node->parent;
             if (node->parent == nil_)
                 set_root(y);
-            else if (node == node->parent->left)
+            else if (is_left_child(node))
                 node->parent->left = y;
             else
                 node->parent->right = y;
@@ -186,7 +200,7 @@ namespace ft
             y->parent = node->parent;
             if (node->parent == nil_)
                 set_root(y);
-            else if (node == node->parent->right)
+            else if (is_right_child(node))
                 node->parent->right = y;
             else
                 node->parent->left = y;
@@ -198,7 +212,7 @@ namespace ft
         {
             while (node->parent->color == rb_node_<T>::RED)
             {
-                if (node->parent == node->parent->parent->left)
+                if (is_left_child(node->parent))
                 {
                     link_type y = node->parent->parent->right;
                     if (y->color == rb_node_<T>::RED)
@@ -210,7 +224,7 @@ namespace ft
                     }
                     else
                     {
-                        if (node == node->parent->right)
+                        if (is_right_child(node))
                         {
                             node = node->parent;
                             rotate_left(node);
@@ -232,7 +246,7 @@ namespace ft
                     }
                     else
                     {
-                        if (node == node->parent->left)
+                        if (is_left_child(node))
                         {
                             node = node->parent;
                             rotate_right(node);
@@ -251,7 +265,7 @@ namespace ft
             link_type sibling;
             while (node != get_root() && node->color == rb_node_<T>::BLACK)
             {
-                if (node == node->parent->right)
+                if (is_right_child(node))
                 {
                     sibling = node->parent->right;
                     if (sibling->color == rb_node_<T>::RED)
@@ -338,7 +352,7 @@ namespace ft
         {
             if (x->parent == nil_)
                 set_root(y);
-            else if (x == x->parent->left)
+            else if (is_left_child(x))
                 x->parent->left = y;
             else
                 x->parent->right = y;

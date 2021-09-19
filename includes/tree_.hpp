@@ -96,8 +96,8 @@ namespace ft
     template <class T>
     class tree_iterator_ : public std::iterator<std::bidirectional_iterator_tag, T>
     {
-        // types
     public:
+        // Types
         typedef typename iterator_traits<T>::iterator_category iterator_category;
         typedef typename iterator_traits<T>::value_type value_type;
         typedef typename iterator_traits<T>::difference_type difference_type;
@@ -111,13 +111,16 @@ namespace ft
         // Member functions
         // constructor
         tree_iterator_() : current(NULL) {}
-        explicit tree_iterator_(link_type ptr, link_type nil) : current(ptr), nil(nil) {}
+        explicit tree_iterator_(link_type ptr, link_type nil)
+            : current(ptr), nil(nil) {}
+
         // copy constructor
         template <class Iter>
         tree_iterator_(const tree_iterator_<Iter> &other)
         {
             *this = other;
         }
+
         // assignment operator
         template <class Iter>
         tree_iterator_ &operator=(const tree_iterator_<Iter> &other)
@@ -136,6 +139,7 @@ namespace ft
         {
             return &current->key;
         }
+
         // prefix/postfix increment
         tree_iterator_ &operator++()
         {
@@ -148,6 +152,7 @@ namespace ft
             ++(*this);
             return tmp;
         }
+
         // prefix/postfix decrement
         tree_iterator_ &operator--()
         {
@@ -338,50 +343,60 @@ namespace ft
             {
                 if (is_left_child_(node->parent))
                 {
-                    link_type y = node->parent->parent->right;
-                    if (y->color == rb_node_<T>::RED)
-                    {
-                        node->parent->color = rb_node_<T>::BLACK;
-                        y->color = rb_node_<T>::BLACK;
-                        node->parent->parent->color = rb_node_<T>::RED;
-                        node = node->parent->parent;
-                    }
-                    else
-                    {
-                        if (is_right_child_(node))
-                        {
-                            node = node->parent;
-                            rotate_left(node);
-                        }
-                        node->parent->color = rb_node_<T>::BLACK;
-                        node->parent->parent->color = rb_node_<T>::RED;
-                        rotate_right(node->parent->parent);
-                    }
+                    insert_fixup_left(node);
                 }
                 else
                 {
-                    link_type y = node->parent->parent->left;
-                    if (y->color == rb_node_<T>::RED)
-                    {
-                        node->parent->color = rb_node_<T>::BLACK;
-                        y->color = rb_node_<T>::BLACK;
-                        node->parent->parent->color = rb_node_<T>::RED;
-                        node = node->parent->parent;
-                    }
-                    else
-                    {
-                        if (is_left_child_(node))
-                        {
-                            node = node->parent;
-                            rotate_right(node);
-                        }
-                        node->parent->color = rb_node_<T>::BLACK;
-                        node->parent->parent->color = rb_node_<T>::RED;
-                        rotate_left(node->parent->parent);
-                    }
+                    insert_fixup_right(node);
                 }
             }
             get_root()->color = rb_node_<T>::BLACK;
+        }
+
+        void insert_fixup_left(link_type &node)
+        {
+            link_type y = node->parent->parent->right;
+            if (y->color == rb_node_<T>::RED)
+            {
+                node->parent->color = rb_node_<T>::BLACK;
+                y->color = rb_node_<T>::BLACK;
+                node->parent->parent->color = rb_node_<T>::RED;
+                node = node->parent->parent;
+            }
+            else
+            {
+                if (is_right_child_(node))
+                {
+                    node = node->parent;
+                    rotate_left(node);
+                }
+                node->parent->color = rb_node_<T>::BLACK;
+                node->parent->parent->color = rb_node_<T>::RED;
+                rotate_right(node->parent->parent);
+            }
+        }
+
+        void insert_fixup_right(link_type &node)
+        {
+            link_type y = node->parent->parent->left;
+            if (y->color == rb_node_<T>::RED)
+            {
+                node->parent->color = rb_node_<T>::BLACK;
+                y->color = rb_node_<T>::BLACK;
+                node->parent->parent->color = rb_node_<T>::RED;
+                node = node->parent->parent;
+            }
+            else
+            {
+                if (is_left_child_(node))
+                {
+                    node = node->parent;
+                    rotate_right(node);
+                }
+                node->parent->color = rb_node_<T>::BLACK;
+                node->parent->parent->color = rb_node_<T>::RED;
+                rotate_left(node->parent->parent);
+            }
         }
 
         void delete_fixup(link_type node)
@@ -391,70 +406,80 @@ namespace ft
             {
                 if (is_right_child_(node))
                 {
-                    sibling = node->parent->right;
-                    if (sibling->color == rb_node_<T>::RED)
-                    {
-                        sibling->color = rb_node_<T>::BLACK;
-                        node->parent->color = rb_node_<T>::RED;
-                        rotate_left(node->parent);
-                        sibling = node->parent->right;
-                    }
-                    if (sibling->left->color == rb_node_<T>::BLACK &&
-                        sibling->right->color == rb_node_<T>::BLACK)
-                    {
-                        sibling->color = rb_node_<T>::RED;
-                        node = node->parent;
-                    }
-                    else
-                    {
-                        if (sibling->right->color == rb_node_<T>::BLACK)
-                        {
-                            sibling->left->color = rb_node_<T>::BLACK;
-                            sibling->color = rb_node_<T>::RED;
-                            rotate_right(sibling);
-                            sibling = node->parent->right;
-                        }
-                        sibling->color = node->parent->color;
-                        node->parent->color = rb_node_<T>::BLACK;
-                        sibling->right->color = rb_node_<T>::BLACK;
-                        rotate_left(node->parent);
-                        node = get_root();
-                    }
+                    delete_fixup_right(node);
                 }
                 else
                 {
-                    sibling = node->parent->left;
-                    if (sibling->color == rb_node_<T>::RED)
-                    {
-                        sibling->color = rb_node_<T>::BLACK;
-                        node->parent->color = rb_node_<T>::RED;
-                        rotate_right(node->parent);
-                        sibling = node->parent->left;
-                    }
-                    if (sibling->right->color == rb_node_<T>::BLACK &&
-                        sibling->left->color == rb_node_<T>::BLACK)
-                    {
-                        sibling->color = rb_node_<T>::RED;
-                        node = node->parent;
-                    }
-                    else
-                    {
-                        if (sibling->left->color == rb_node_<T>::BLACK)
-                        {
-                            sibling->right->color = rb_node_<T>::BLACK;
-                            sibling->color = rb_node_<T>::RED;
-                            rotate_left(sibling);
-                            sibling = node->parent->left;
-                        }
-                        sibling->color = node->parent->color;
-                        node->parent->color = rb_node_<T>::BLACK;
-                        sibling->left->color = rb_node_<T>::BLACK;
-                        rotate_right(node->parent);
-                        node = get_root();
-                    }
+                    delete_fixup_left(node);
                 }
             }
             node->color = rb_node_<T>::BLACK;
+        }
+
+        void delete_fixup_right(link_type &node)
+        {
+            link_type sibling = node->parent->right;
+            if (sibling->color == rb_node_<T>::RED)
+            {
+                sibling->color = rb_node_<T>::BLACK;
+                node->parent->color = rb_node_<T>::RED;
+                rotate_left(node->parent);
+                sibling = node->parent->right;
+            }
+            if (sibling->left->color == rb_node_<T>::BLACK &&
+                sibling->right->color == rb_node_<T>::BLACK)
+            {
+                sibling->color = rb_node_<T>::RED;
+                node = node->parent;
+            }
+            else
+            {
+                if (sibling->right->color == rb_node_<T>::BLACK)
+                {
+                    sibling->left->color = rb_node_<T>::BLACK;
+                    sibling->color = rb_node_<T>::RED;
+                    rotate_right(sibling);
+                    sibling = node->parent->right;
+                }
+                sibling->color = node->parent->color;
+                node->parent->color = rb_node_<T>::BLACK;
+                sibling->right->color = rb_node_<T>::BLACK;
+                rotate_left(node->parent);
+                node = get_root();
+            }
+        }
+
+        void delete_fixup_left(link_type &node)
+        {
+            link_type sibling = node->parent->left;
+            if (sibling->color == rb_node_<T>::RED)
+            {
+                sibling->color = rb_node_<T>::BLACK;
+                node->parent->color = rb_node_<T>::RED;
+                rotate_right(node->parent);
+                sibling = node->parent->left;
+            }
+            if (sibling->right->color == rb_node_<T>::BLACK &&
+                sibling->left->color == rb_node_<T>::BLACK)
+            {
+                sibling->color = rb_node_<T>::RED;
+                node = node->parent;
+            }
+            else
+            {
+                if (sibling->left->color == rb_node_<T>::BLACK)
+                {
+                    sibling->right->color = rb_node_<T>::BLACK;
+                    sibling->color = rb_node_<T>::RED;
+                    rotate_left(sibling);
+                    sibling = node->parent->left;
+                }
+                sibling->color = node->parent->color;
+                node->parent->color = rb_node_<T>::BLACK;
+                sibling->left->color = rb_node_<T>::BLACK;
+                rotate_right(node->parent);
+                node = get_root();
+            }
         }
 
         link_type find_node(const key_type &key) const

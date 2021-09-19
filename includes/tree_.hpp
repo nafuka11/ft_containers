@@ -171,6 +171,7 @@ namespace ft
     class rb_tree_
     {
     public:
+        // Types
         typedef tree_iterator_<T *> iterator;
 
     private:
@@ -178,6 +179,79 @@ namespace ft
         typedef rb_node_<T> *link_type;
         typedef const rb_node_<T> *const_link_type;
 
+    public:
+        rb_tree_() : alloc_(Allocator()), compare_(Compare())
+        {
+            nil_ = alloc_.allocate(1);
+            alloc_.construct(nil_);
+            nil_->left = nil_;
+            nil_->right = nil_;
+
+            end_ = alloc_.allocate(1);
+            alloc_.construct(end_);
+            end_->left = nil_;
+            begin_ = end_;
+        }
+
+        ~rb_tree_()
+        {
+            destroy(get_root());
+            delete_node(nil_);
+            delete_node(end_);
+        }
+
+        iterator begin()
+        {
+            return iterator(begin_, nil_);
+        }
+
+        iterator end()
+        {
+            return iterator(end_, nil_);
+        }
+
+        void destroy(link_type node)
+        {
+            if (node != nil_)
+            {
+                destroy(node->left);
+                destroy(node->right);
+                delete_node(node);
+            }
+        }
+
+        void insert_node(const key_type &key)
+        {
+            link_type new_node = create_node(key);
+            link_type insert_place = search_insert_place(key);
+            new_node->parent = insert_place;
+            if (insert_place == nil_)
+                set_root(new_node);
+            else if (compare_(key, insert_place->key))
+                insert_place->left = new_node;
+            else
+                insert_place->right = new_node;
+            insert_fixup(new_node);
+            update_begin_node(new_node);
+        }
+
+        void erase(const key_type &key)
+        {
+            link_type node = find_node(key);
+            if (node == nil_)
+                return;
+
+            if (node == begin_)
+                begin_ = search_next_node_(begin_, nil_);
+
+            bool deleted_color;
+            link_type replaced = replace_node(node, deleted_color);
+            if (deleted_color == rb_node_<T>::BLACK)
+                delete_fixup(replaced);
+            delete_node(node);
+        }
+
+    private:
         link_type nil_;
         link_type begin_;
         link_type end_;
@@ -241,6 +315,21 @@ namespace ft
                 node->parent->left = y;
             y->right = node;
             node->parent = y;
+        }
+
+        link_type search_insert_place(const key_type &key)
+        {
+            link_type prev_node = nil_;
+            link_type now_node = get_root();
+            while (now_node != nil_)
+            {
+                prev_node = now_node;
+                if (compare_(key, now_node->key))
+                    now_node = now_node->left;
+                else
+                    now_node = now_node->right;
+            }
+            return prev_node;
         }
 
         void insert_fixup(link_type node)
@@ -438,91 +527,6 @@ namespace ft
                 begin_ = insert_node;
             }
         }
-
-    public:
-        rb_tree_()
-        {
-            alloc_ = Allocator();
-            nil_ = alloc_.allocate(1);
-            alloc_.construct(nil_);
-            nil_->left = nil_;
-            nil_->right = nil_;
-
-            end_ = alloc_.allocate(1);
-            alloc_.construct(end_);
-            end_->left = nil_;
-            begin_ = end_;
-
-            compare_ = Compare();
-        }
-
-        ~rb_tree_()
-        {
-            destroy(get_root());
-            delete_node(nil_);
-            delete_node(end_);
-        }
-
-        iterator begin()
-        {
-            return iterator(begin_, nil_);
-        }
-
-        iterator end()
-        {
-            return iterator(end_, nil_);
-        }
-
-        void destroy(link_type node)
-        {
-            if (node != nil_)
-            {
-                destroy(node->left);
-                destroy(node->right);
-                delete_node(node);
-            }
-        }
-
-        void insert_node(const key_type &key)
-        {
-            link_type new_node = create_node(key);
-            link_type prev_node = nil_;
-            link_type now_node = get_root();
-            while (now_node != nil_)
-            {
-                prev_node = now_node;
-                if (compare_(key, now_node->key))
-                    now_node = now_node->left;
-                else
-                    now_node = now_node->right;
-            }
-            new_node->parent = prev_node;
-            if (prev_node == nil_)
-                set_root(new_node);
-            else if (compare_(key, prev_node->key))
-                prev_node->left = new_node;
-            else
-                prev_node->right = new_node;
-            insert_fixup(new_node);
-            update_begin_node(new_node);
-        }
-
-        void erase(const key_type &key)
-        {
-            link_type node = find_node(key);
-            if (node == nil_)
-                return;
-
-            if (node == begin_)
-                begin_ = search_next_node_(begin_, nil_);
-
-            bool deleted_color;
-            link_type replaced = replace_node(node, deleted_color);
-            if (deleted_color == rb_node_<T>::BLACK)
-                delete_fixup(replaced);
-            delete_node(node);
-        }
-
     };
 
 } /* namespace ft */

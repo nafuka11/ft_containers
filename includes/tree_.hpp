@@ -171,8 +171,7 @@ namespace ft
         link_type nil;
     };
 
-    template <class T, class Compare,
-              class Allocator = std::allocator<rb_node_<T> > >
+    template <class T, class Compare, class Allocator = std::allocator<T> >
     class rb_tree_
     {
     public:
@@ -184,9 +183,12 @@ namespace ft
         typedef rb_node_<T> *link_type;
         typedef const rb_node_<T> *const_link_type;
         typedef typename Allocator::size_type size_type;
+        typedef typename Allocator::template rebind<rb_node_<T> >::other
+            node_allocator_type;
 
     public:
-        rb_tree_() : alloc_(Allocator()), compare_(Compare())
+        rb_tree_(const Compare &compare, const Allocator &allocator)
+            : compare_(compare), alloc_(node_allocator_type(allocator)), size_(0)
         {
             nil_ = alloc_.allocate(1);
             alloc_.construct(nil_);
@@ -269,8 +271,9 @@ namespace ft
         link_type begin_;
         link_type end_;
 
-        Allocator alloc_;
         Compare compare_;
+        node_allocator_type alloc_;
+
         size_type size_;
 
         link_type get_root() const

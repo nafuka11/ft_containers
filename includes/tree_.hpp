@@ -220,6 +220,7 @@ namespace ft
             return iterator(end_, nil_);
         }
 
+        // Capacity
         size_type size() const
         {
             return size_;
@@ -272,6 +273,11 @@ namespace ft
                 delete_fixup(replaced);
             delete_node(node);
             size_--;
+        }
+
+        node_allocator_type get_allocator() const
+        {
+            return alloc_;
         }
 
     private:

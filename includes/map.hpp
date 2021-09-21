@@ -124,7 +124,10 @@ namespace ft
         // pair<const_iterator, const_iterator> equal_range(const key_type &k) const;
         // pair<iterator, iterator> equal_range(const key_type &k);
 
-        // allocator_type get_allocator() const;
+        allocator_type get_allocator() const
+        {
+            return allocator_type(tree_.get_allocator());
+        }
 
     private:
         typedef rb_tree_<value_type, key_compare, allocator_type> tree;

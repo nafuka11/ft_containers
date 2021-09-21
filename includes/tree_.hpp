@@ -183,6 +183,7 @@ namespace ft
         typedef T key_type;
         typedef rb_node_<T> *link_type;
         typedef const rb_node_<T> *const_link_type;
+        typedef typename Allocator::size_type size_type;
 
     public:
         rb_tree_() : alloc_(Allocator()), compare_(Compare())
@@ -215,6 +216,11 @@ namespace ft
             return iterator(end_, nil_);
         }
 
+        size_type size() const
+        {
+            return size_;
+        }
+
         void destroy(link_type node)
         {
             if (node != nil_)
@@ -238,6 +244,7 @@ namespace ft
                 insert_place->right = new_node;
             insert_fixup(new_node);
             update_begin_node(new_node);
+            size_++;
         }
 
         void erase(const key_type &key)
@@ -254,6 +261,7 @@ namespace ft
             if (deleted_color == rb_node_<T>::BLACK)
                 delete_fixup(replaced);
             delete_node(node);
+            size_--;
         }
 
     private:
@@ -263,6 +271,7 @@ namespace ft
 
         Allocator alloc_;
         Compare compare_;
+        size_type size_;
 
         link_type get_root() const
         {

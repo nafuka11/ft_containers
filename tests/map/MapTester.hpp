@@ -17,6 +17,8 @@ public:
 
         // Capacity
         test_max_size();
+
+        test_get_allocator();
     }
 
 private:
@@ -41,6 +43,13 @@ private:
         print_test_case("map::max_size()");
         ft::map<Key, T> m;
         std::cout << m.max_size() << std::endl;
+    }
+
+    void test_get_allocator()
+    {
+        print_test_case("map::get_allocator()");
+        ft::map<Key, T, std::less<Key>, MyAllocator<ft::pair<const Key, T> > > m;
+        std::cout << m.get_allocator().getNum() << std::endl;
     }
 };
 

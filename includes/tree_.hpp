@@ -1,6 +1,7 @@
 #ifndef TREE_HPP
 #define TREE_HPP
 
+#include <algorithm>
 #include <cstddef>
 #include <iterator>
 #include <memory>
@@ -185,6 +186,7 @@ namespace ft
         typedef typename Allocator::size_type size_type;
         typedef typename Allocator::template rebind<rb_node_<T> >::other
             node_allocator_type;
+        typedef typename node_allocator_type::difference_type difference_type;
 
     public:
         rb_tree_(const Compare &compare, const Allocator &allocator)
@@ -221,6 +223,12 @@ namespace ft
         size_type size() const
         {
             return size_;
+        }
+        size_type max_size() const
+        {
+            return std::min(
+                static_cast<size_type>(std::numeric_limits<difference_type>::max()),
+                alloc_.max_size());
         }
 
         void destroy(link_type node)

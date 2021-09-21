@@ -14,6 +14,9 @@ public:
     void test_all()
     {
         test_constructor();
+
+        // Capacity
+        test_max_size();
     }
 
 private:
@@ -31,6 +34,13 @@ private:
         print_test_case("map()");
         ft::map<Key, T> m;
         print_map(m);
+    }
+
+    void test_max_size()
+    {
+        print_test_case("map::max_size()");
+        ft::map<Key, T> m;
+        std::cout << m.max_size() << std::endl;
     }
 };
 

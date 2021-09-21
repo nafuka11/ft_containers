@@ -21,6 +21,7 @@ namespace ft = std;
 #endif
 
 #include "Foo.hpp"
+#include "MyAllocator.hpp"
 #include "vector/test_vector.hpp"
 #include "map/test_map.hpp"
 

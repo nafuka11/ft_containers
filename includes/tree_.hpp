@@ -242,20 +242,17 @@ namespace ft
             }
         }
 
-        void insert_node(const key_type &key)
+        pair<iterator, bool> insert(const key_type &key)
         {
             link_type new_node = create_node(key);
-            link_type insert_place = search_insert_place(key);
-            new_node->parent = insert_place;
-            if (insert_place == nil_)
-                set_root(new_node);
-            else if (compare_(key, insert_place->key))
-                insert_place->left = new_node;
-            else
-                insert_place->right = new_node;
-            insert_fixup(new_node);
-            update_begin_node(new_node);
-            size_++;
+            link_type same_node = find_node(key);
+            if (same_node == nil_)
+            {
+                insert_node(new_node);
+                return ft::make_pair<iterator, bool>(iterator(new_node, nil_), true);
+            }
+            delete_node(new_node);
+            return ft::make_pair<iterator, bool>(iterator(same_node, nil_), false);
         }
 
         void erase(const key_type &key)
@@ -361,6 +358,21 @@ namespace ft
                     now_node = now_node->right;
             }
             return prev_node;
+        }
+
+        void insert_node(link_type node)
+        {
+            link_type insert_place = search_insert_place(node->key);
+            node->parent = insert_place;
+            if (insert_place == nil_)
+                set_root(node);
+            else if (compare_(node->key, insert_place->key))
+                insert_place->left = node;
+            else
+                insert_place->right = node;
+            insert_fixup(node);
+            update_begin_node(node);
+            size_++;
         }
 
         void insert_fixup(link_type node)

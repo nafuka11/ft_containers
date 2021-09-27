@@ -167,6 +167,11 @@ namespace ft
             return tmp;
         }
 
+        link_type base() const
+        {
+            return current;
+        }
+
     private:
         link_type current;
         link_type nil;

@@ -102,7 +102,10 @@ namespace ft
         {
             return tree_.insert(val);
         }
-        // iterator insert(iterator position, const value_type &val);
+        iterator insert(iterator position, const value_type &val)
+        {
+            return tree_.insert(position, val);
+        }
         // template <class InputIterator>
         // void insert(InputIterator first, InputIterator last);
 

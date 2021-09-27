@@ -6,6 +6,7 @@
 #include <iterator>
 #include <memory>
 #include "type_traits.hpp"
+#include "utility.hpp"
 
 namespace ft
 {
@@ -291,11 +292,49 @@ namespace ft
             return insert_node(key, insert_place);
         }
 
-                insert_node(new_node);
-                return ft::make_pair<iterator, bool>(iterator(new_node, nil_), true);
+        iterator insert(iterator position, const key_type &key)
+        {
+            if (position == end())
+            {
+                iterator max = end();
+                if (size_ > 0 && compare_(*(--max), key))
+                    return insert_node(key, max.base()).first;
+                else
+                    return insert(key).first;
             }
-            delete_node(new_node);
-            return ft::make_pair<iterator, bool>(iterator(same_node, nil_), false);
+            if (compare_(key, *position))   // key < pos
+            {
+                if (position == begin())
+                    return insert_node(key, begin_).first;
+                iterator prev = position;
+                --prev;
+                if (compare_(*prev, key))
+                {
+                    if (prev.base()->right == nil_)
+                        return insert_node(key, prev.base()).first;
+                    else
+                        return insert_node(key, position.base()).first;
+                }
+                return insert(key).first;
+            }
+            if (compare_(*position, key))   // pos < key
+            {
+                iterator max = end();
+                --max;
+                if (position == max)
+                    return insert_node(key, max.base()).first;
+                iterator next = position;
+                ++next;
+                if (compare_(key, *next))
+                {
+                    if (position.base()->right == nil_)
+                        return insert_node(key, position.base()).first;
+                    else
+                        return insert_node(key, next.base()).first;
+                }
+                return insert(key).first;
+            }
+            return position;
         }
 
         void erase(const key_type &key)

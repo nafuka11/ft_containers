@@ -62,8 +62,8 @@ namespace ft
         //     const allocator_type &alloc = allocator_type())
         // {}
         // map(const map &x) {}
-        // // destructor
-        // ~map();
+        // destructor
+        ~map() {}
         // // operator=
         // map &operator=(const map &x) {}
 

@@ -135,9 +135,15 @@ namespace ft
         // void swap(map &x);
         // void clear();
 
-        // // Observers
-        // key_compare key_comp() const;
-        // value_compare value_comp() const;
+        // Observers
+        key_compare key_comp() const
+        {
+            return key_comp_;
+        }
+        value_compare value_comp() const
+        {
+            return value_comp_;
+        }
 
         // // Operations
         // iterator find(const key_type &k);

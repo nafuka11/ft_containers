@@ -20,6 +20,10 @@ public:
 
         test_insert();
 
+        // Observers
+        test_key_comp();
+        test_value_comp();
+
         test_get_allocator();
     }
 
@@ -120,7 +124,9 @@ private:
         std::cout << ", Inserted: " << std::boolalpha << ret.second << std::endl;
     }
 
-    void test_insert_with_hint(ft::map<Key, T> &m, typename ft::map<Key, T>::iterator pos, const ft::pair<const Key, T> &value)
+    void test_insert_with_hint(ft::map<Key, T> &m,
+                               typename ft::map<Key, T>::iterator pos,
+                               const ft::pair<const Key, T> &value)
     {
         std::cout << "insert(iter, ";
         print_pair(value);
@@ -130,6 +136,45 @@ private:
         print_pair(*ret);
         std::cout << std::endl;
         print_map(m);
+    }
+
+    void test_key_comp()
+    {
+        print_test_case("map::key_comp()");
+        ft::map<Key, T> m;
+        typename ft::map<Key, T>::key_compare comp = m.key_comp();
+        test_key_comp_sub(comp, items_[0].first, items_[1].first);
+        test_key_comp_sub(comp, items_[1].first, items_[1].first);
+        test_key_comp_sub(comp, items_[1].first, items_[0].first);
+    }
+
+    void test_key_comp_sub(const typename ft::map<Key, T>::key_compare &comp,
+                           const Key &lhs, const Key &rhs)
+    {
+        std::cout << "key_comp(" << lhs << ", " << rhs << ") = "
+                  << std::boolalpha << comp(lhs, rhs) << std::endl;
+    }
+
+    void test_value_comp()
+    {
+        print_test_case("map::value_comp()");
+        ft::map<Key, T> m;
+        typename ft::map<Key, T>::value_compare comp = m.value_comp();
+        test_value_comp_sub(comp, items_[0], items_[1]);
+        test_value_comp_sub(comp, items_[1], items_[1]);
+        test_value_comp_sub(comp, items_[1], items_[0]);
+    }
+
+    void test_value_comp_sub(const typename ft::map<Key, T>::value_compare &comp,
+                             const typename ft::map<Key, T>::value_type &lhs,
+                             const typename ft::map<Key, T>::value_type &rhs)
+    {
+        std::cout << "value_comp(";
+        print_pair(lhs);
+        std::cout << ", ";
+        print_pair(rhs);
+        std::cout << ") = "
+                  << std::boolalpha << comp(lhs, rhs) << std::endl;
     }
 
     void test_get_allocator()

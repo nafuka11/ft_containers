@@ -172,6 +172,44 @@ namespace ft
         link_type nil;
     };
 
+    // Non-member functions
+    template <class Iterator1, class Iterator2>
+    bool operator==(const ft::tree_iterator_<Iterator1> &lhs,
+                    const ft::tree_iterator_<Iterator2> &rhs)
+    {
+        return lhs.base() == rhs.base();
+    }
+    template <class Iterator1, class Iterator2>
+    bool operator!=(const ft::tree_iterator_<Iterator1> &lhs,
+                    const ft::tree_iterator_<Iterator2> &rhs)
+    {
+        return lhs.base() != rhs.base();
+    }
+    template <class Iterator1, class Iterator2>
+    bool operator<(const ft::tree_iterator_<Iterator1> &lhs,
+                   const ft::tree_iterator_<Iterator2> &rhs)
+    {
+        return lhs.base() < rhs.base();
+    }
+    template <class Iterator1, class Iterator2>
+    bool operator<=(const ft::tree_iterator_<Iterator1> &lhs,
+                    const ft::tree_iterator_<Iterator2> &rhs)
+    {
+        return lhs.base() <= rhs.base();
+    }
+    template <class Iterator1, class Iterator2>
+    bool operator>(const ft::tree_iterator_<Iterator1> &lhs,
+                   const ft::tree_iterator_<Iterator2> &rhs)
+    {
+        return lhs.base() > rhs.base();
+    }
+    template <class Iterator1, class Iterator2>
+    bool operator>=(const ft::tree_iterator_<Iterator1> &lhs,
+                    const ft::tree_iterator_<Iterator2> &rhs)
+    {
+        return lhs.base() >= rhs.base();
+    }
+
     template <class T, class Compare, class Allocator = std::allocator<T> >
     class rb_tree_
     {

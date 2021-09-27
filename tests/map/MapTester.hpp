@@ -97,6 +97,16 @@ private:
             m.insert(items_[2]);
             test_insert_with_hint(m, ++m.begin(), items_[1]);
         }
+        print_test_case("map::insert() : range");
+        {
+            ft::map<Key, T> src, dest;
+            for (size_t i = 0; i < items_len_; i++)
+            {
+                src.insert(items_[i]);
+            }
+            dest.insert(src.begin(), src.end());
+            print_map(dest);
+        }
     }
 
     void test_insert_single(ft::map<Key, T> &m, const ft::pair<const Key, T> &value)

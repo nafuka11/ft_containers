@@ -2,6 +2,7 @@
 #define MAP_HPP
 
 #include <functional>
+#include "iterator.hpp"
 #include "tree_.hpp"
 #include "utility.hpp"
 
@@ -118,8 +119,14 @@ namespace ft
         {
             return tree_.insert(position, val);
         }
-        // template <class InputIterator>
-        // void insert(InputIterator first, InputIterator last);
+        template <class InputIterator>
+        void insert(InputIterator first, InputIterator last)
+        {
+            for (; first != last; ++first)
+            {
+                tree_.insert(end(), *first);
+            }
+        }
 
         // void erase(iterator position);
         // size_type erase(const key_type &k);

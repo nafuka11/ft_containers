@@ -287,10 +287,10 @@ namespace ft
 
         pair<iterator, bool> insert(const key_type &key)
         {
-            link_type new_node = create_node(key);
-            link_type same_node = find_node(key);
-            if (same_node == nil_)
-            {
+            link_type insert_place = search_insert_place(key);
+            return insert_node(key, insert_place);
+        }
+
                 insert_node(new_node);
                 return ft::make_pair<iterator, bool>(iterator(new_node, nil_), true);
             }
@@ -397,25 +397,33 @@ namespace ft
                 prev_node = now_node;
                 if (compare_(key, now_node->key))
                     now_node = now_node->left;
-                else
+                else if (compare_(now_node->key, key))
                     now_node = now_node->right;
+                else
+                    return now_node;
             }
             return prev_node;
         }
 
-        void insert_node(link_type node)
+        pair<iterator, bool> insert_node(const key_type &key, link_type insert_place)
         {
-            link_type insert_place = search_insert_place(node->key);
+            link_type node = create_node(key);
             node->parent = insert_place;
             if (insert_place == nil_)
                 set_root(node);
             else if (compare_(node->key, insert_place->key))
                 insert_place->left = node;
-            else
+            else if (compare_(insert_place->key, node->key))
                 insert_place->right = node;
+            else    // node->key == insert_place->key
+            {
+                delete_node(node);
+                return ft::make_pair(iterator(insert_place, nil_), false);
+            }
             insert_fixup(node);
             update_begin_node(node);
             size_++;
+            return ft::make_pair(iterator(node, nil_), true);
         }
 
         void insert_fixup(link_type node)

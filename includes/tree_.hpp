@@ -18,14 +18,14 @@ namespace ft
         rb_node_ *left;
         rb_node_ *right;
         bool color;
-        T key;
+        T value;
 
         static const bool BLACK = true;
         static const bool RED = false;
 
         rb_node_() : parent(NULL), left(NULL), right(NULL), color(BLACK) {}
-        rb_node_(rb_node_ *nil, const T &key)
-            : parent(nil), left(nil), right(nil), color(RED), key(key) {}
+        rb_node_(rb_node_ *nil, const T &value)
+            : parent(nil), left(nil), right(nil), color(RED), value(value) {}
     };
 
     // Functions
@@ -135,11 +135,11 @@ namespace ft
         // dereference operator
         reference operator*() const
         {
-            return current->key;
+            return current->value;
         }
         pointer operator->() const
         {
-            return &current->key;
+            return &current->value;
         }
 
         // prefix/postfix increment
@@ -225,7 +225,7 @@ namespace ft
         typedef tree_iterator_<const T *> const_iterator;
 
     private:
-        typedef T key_type;
+        typedef T value_type;
         typedef rb_node_<T> *link_type;
         typedef const rb_node_<T> *const_link_type;
         typedef typename Allocator::size_type size_type;
@@ -295,60 +295,60 @@ namespace ft
             }
         }
 
-        pair<iterator, bool> insert(const key_type &key)
+        pair<iterator, bool> insert(const value_type &value)
         {
-            link_type insert_place = search_insert_place(key);
-            return insert_node(key, insert_place);
+            link_type insert_place = search_insert_place(value);
+            return insert_node(value, insert_place);
         }
 
-        iterator insert(iterator position, const key_type &key)
+        iterator insert(iterator position, const value_type &value)
         {
             if (position == end())
             {
                 iterator max = end();
-                if (size_ > 0 && compare_(*(--max), key))
-                    return insert_node(key, max.base()).first;
+                if (size_ > 0 && compare_(*(--max), value))
+                    return insert_node(value, max.base()).first;
                 else
-                    return insert(key).first;
+                    return insert(value).first;
             }
-            if (compare_(key, *position))   // key < pos
+            if (compare_(value, *position))   // value < pos
             {
                 if (position == begin())
-                    return insert_node(key, begin_).first;
+                    return insert_node(value, begin_).first;
                 iterator prev = position;
                 --prev;
-                if (compare_(*prev, key))
+                if (compare_(*prev, value))
                 {
                     if (prev.base()->right == nil_)
-                        return insert_node(key, prev.base()).first;
+                        return insert_node(value, prev.base()).first;
                     else
-                        return insert_node(key, position.base()).first;
+                        return insert_node(value, position.base()).first;
                 }
-                return insert(key).first;
+                return insert(value).first;
             }
-            if (compare_(*position, key))   // pos < key
+            if (compare_(*position, value))   // pos < value
             {
                 iterator max = end();
                 --max;
                 if (position == max)
-                    return insert_node(key, max.base()).first;
+                    return insert_node(value, max.base()).first;
                 iterator next = position;
                 ++next;
-                if (compare_(key, *next))
+                if (compare_(value, *next))
                 {
                     if (position.base()->right == nil_)
-                        return insert_node(key, position.base()).first;
+                        return insert_node(value, position.base()).first;
                     else
-                        return insert_node(key, next.base()).first;
+                        return insert_node(value, next.base()).first;
                 }
-                return insert(key).first;
+                return insert(value).first;
             }
             return position;
         }
 
-        void erase(const key_type &key)
+        void erase(const value_type &value)
         {
-            link_type node = find_node(key);
+            link_type node = find_node(value);
             if (node == nil_)
                 return;
 
@@ -389,10 +389,10 @@ namespace ft
             end_->left = node;
         }
 
-        link_type create_node(const key_type &key)
+        link_type create_node(const value_type &value)
         {
             link_type new_node = alloc_.allocate(1);
-            alloc_.construct(new_node, nil_, key);
+            alloc_.construct(new_node, nil_, value);
             return new_node;
         }
 
@@ -436,16 +436,16 @@ namespace ft
             node->parent = y;
         }
 
-        link_type search_insert_place(const key_type &key)
+        link_type search_insert_place(const value_type &value)
         {
             link_type prev_node = nil_;
             link_type now_node = get_root();
             while (now_node != nil_)
             {
                 prev_node = now_node;
-                if (compare_(key, now_node->key))
+                if (compare_(value, now_node->value))
                     now_node = now_node->left;
-                else if (compare_(now_node->key, key))
+                else if (compare_(now_node->value, value))
                     now_node = now_node->right;
                 else
                     return now_node;
@@ -453,17 +453,17 @@ namespace ft
             return prev_node;
         }
 
-        pair<iterator, bool> insert_node(const key_type &key, link_type insert_place)
+        pair<iterator, bool> insert_node(const value_type &value, link_type insert_place)
         {
-            link_type node = create_node(key);
+            link_type node = create_node(value);
             node->parent = insert_place;
             if (insert_place == nil_)
                 set_root(node);
-            else if (compare_(node->key, insert_place->key))
+            else if (compare_(node->value, insert_place->value))
                 insert_place->left = node;
-            else if (compare_(insert_place->key, node->key))
+            else if (compare_(insert_place->value, node->value))
                 insert_place->right = node;
-            else    // node->key == insert_place->key
+            else    // node->value == insert_place->value
             {
                 delete_node(node);
                 return ft::make_pair(iterator(insert_place, nil_), false);
@@ -619,14 +619,14 @@ namespace ft
             }
         }
 
-        link_type find_node(const key_type &key) const
+        link_type find_node(const value_type &value) const
         {
             link_type node = get_root();
             while (node != nil_)
             {
-                if (compare_(key, node->key))
+                if (compare_(value, node->value))
                     node = node->left;
-                else if (compare_(node->key, key))
+                else if (compare_(node->value, value))
                     node = node->right;
                 else
                     return node;
@@ -684,7 +684,7 @@ namespace ft
 
         void update_begin_node(link_type insert_node)
         {
-            if (begin_ == end_ || compare_(insert_node->key, begin_->key))
+            if (begin_ == end_ || compare_(insert_node->value, begin_->value))
             {
                 begin_ = insert_node;
             }

@@ -222,6 +222,7 @@ namespace ft
     public:
         // Types
         typedef tree_iterator_<T *> iterator;
+        typedef tree_iterator_<const T *> const_iterator;
 
     private:
         typedef T key_type;
@@ -258,10 +259,18 @@ namespace ft
         {
             return iterator(begin_, nil_);
         }
+        const_iterator begin() const
+        {
+            return const_iterator(begin_, nil_);
+        }
 
         iterator end()
         {
             return iterator(end_, nil_);
+        }
+        const_iterator end() const
+        {
+            return const_iterator(begin_, nil_);
         }
 
         // Capacity

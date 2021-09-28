@@ -8,6 +8,27 @@
 
 namespace ft
 {
+    template <class Key, class Value, class Compare>
+    class map_value_compare_ : private Compare
+    {
+    public:
+        map_value_compare_() : Compare() {}
+        map_value_compare_(Compare c) : Compare(c) {}
+
+        bool operator()(const Value &lhs, const Value &rhs) const
+        {
+            return static_cast<const Compare &>(*this)(lhs.first, rhs.first);
+        }
+        bool operator()(const Value &lhs, const Key &rhs) const
+        {
+            return static_cast<const Compare &>(*this)(lhs.first, rhs);
+        }
+        bool operator()(const Key &lhs, const Value &rhs) const
+        {
+            return static_cast<const Compare &>(*this)(lhs, rhs.first);
+        }
+    };
+
     template <class Key, class T, class Compare = std::less<Key>,
               class Allocator = std::allocator<pair<const Key, T> > >
     class map
@@ -36,6 +57,7 @@ namespace ft
         };
 
     private:
+        typedef map_value_compare_<key_type, value_type, key_compare> tree_compare;
         typedef rb_tree_<key_type, value_type, tree_compare, allocator_type> tree_type;
 
     public:
@@ -56,7 +78,7 @@ namespace ft
         explicit map(const key_compare &comp = key_compare(),
                      const allocator_type &alloc = allocator_type())
             : key_comp_(comp), value_comp_(value_compare(comp)),
-              tree_(value_comp_, alloc) {}
+              tree_(tree_compare(comp), alloc) {}
         // template <class InputIterator>
         // map(InputIterator first, InputIterator last,
         //     const key_compare &comp = key_compare(),

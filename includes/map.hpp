@@ -36,7 +36,7 @@ namespace ft
         };
 
     private:
-        typedef rb_tree_<value_type, value_compare, allocator_type> tree_type;
+        typedef rb_tree_<key_type, value_type, tree_compare, allocator_type> tree_type;
 
     public:
         typedef typename allocator_type::reference reference;

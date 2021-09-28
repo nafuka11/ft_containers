@@ -216,7 +216,7 @@ namespace ft
         return lhs.base() >= rhs.base();
     }
 
-    template <class T, class Compare, class Allocator = std::allocator<T> >
+    template <class Key, class T, class Compare, class Allocator = std::allocator<T> >
     class rb_tree_
     {
     public:
@@ -225,6 +225,7 @@ namespace ft
         typedef tree_iterator_<const T *> const_iterator;
 
     private:
+        typedef Key key_type;
         typedef T value_type;
         typedef rb_node_<T> *link_type;
         typedef const rb_node_<T> *const_link_type;

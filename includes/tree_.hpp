@@ -271,7 +271,7 @@ namespace ft
         }
         const_iterator end() const
         {
-            return const_iterator(begin_, nil_);
+            return const_iterator(end_, nil_);
         }
 
         // Capacity

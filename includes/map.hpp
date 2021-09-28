@@ -166,9 +166,18 @@ namespace ft
             }
         }
 
-        // void erase(iterator position);
-        // size_type erase(const key_type &k);
-        // void erase(iterator first, iterator last);
+        void erase(iterator position)
+        {
+            tree_.erase(position);
+        }
+        size_type erase(const key_type &k)
+        {
+            return tree_.erase(k);
+        }
+        void erase(iterator first, iterator last)
+        {
+            tree_.erase(first, last);
+        }
 
         // void swap(map &x);
         // void clear();

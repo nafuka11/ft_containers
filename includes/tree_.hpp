@@ -351,21 +351,37 @@ namespace ft
             return position;
         }
 
-        void erase(const value_type &value)
+        void erase(iterator position)
         {
-            link_type node = find_node(value);
-            if (node == nil_)
+            if (position == end())
                 return;
 
-            if (node == begin_)
+            if (position == begin())
                 begin_ = search_next_node_(begin_, nil_);
 
             bool deleted_color;
-            link_type replaced = replace_node(node, deleted_color);
+            link_type replaced = replace_node(position.base(), deleted_color);
             if (deleted_color == rb_node_<T>::BLACK)
                 delete_fixup(replaced);
-            delete_node(node);
+            delete_node(position.base());
             size_--;
+        }
+
+        size_type erase(const key_type &key)
+        {
+            iterator iter = find(key);
+            if (iter == end())
+                return 0;
+            erase(iter);
+            return 1;
+        }
+
+        void erase(iterator first, iterator last)
+        {
+            while (first != last)
+            {
+                erase(first++);
+            }
         }
 
         // Operations
@@ -599,7 +615,6 @@ namespace ft
 
         void delete_fixup(link_type node)
         {
-            link_type sibling;
             while (node != get_root() && node->color == rb_node_<T>::BLACK)
             {
                 if (is_right_child_(node))

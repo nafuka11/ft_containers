@@ -25,6 +25,7 @@ public:
 
         // Modifiers
         test_insert();
+        test_erase();
 
         // Observers
         test_key_comp();
@@ -190,6 +191,36 @@ private:
         print_pair(*ret);
         std::cout << std::endl;
         print_map(m);
+    }
+
+    void test_erase()
+    {
+        print_test_case("map::erase() : iterator");
+        {
+            ft::map<Key, T> m(orig_map_);
+            typename ft::map<Key, T>::iterator iter = m.begin();
+            while (iter != m.end())
+            {
+                m.erase(iter);
+                iter = m.begin();
+            }
+            print_map(m);
+        }
+        print_test_case("map::erase() : key");
+        {
+            ft::map<Key, T> m(++orig_map_.begin(), --orig_map_.end());
+            for (size_t i = 0; i < items_len_; i++)
+            {
+                std::cout << "erase(" << items_[i].first << ") = "
+                          << m.erase(items_[i].first) << std::endl;
+            }
+        }
+        print_test_case("map::erase() : range");
+        {
+            ft::map<Key, T> m(orig_map_);
+            m.erase(++m.begin(), --m.end());
+            print_map(m);
+        }
     }
 
     void test_key_comp()

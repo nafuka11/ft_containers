@@ -381,6 +381,16 @@ namespace ft
             size_ = 0;
         }
 
+        void swap(rb_tree_ &tree)
+        {
+            std::swap(nil_, tree.nil_);
+            std::swap(begin_, tree.begin_);
+            std::swap(end_, tree.end_);
+            std::swap(compare_, tree.compare_);
+            std::swap(alloc_, tree.alloc_);
+            std::swap(size_, tree.size_);
+        }
+
         // Operations
         iterator lower_bound(const key_type &key)
         {

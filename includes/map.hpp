@@ -179,7 +179,11 @@ namespace ft
             tree_.erase(first, last);
         }
 
-        // void swap(map &x);
+        void swap(map &x)
+        {
+            tree_.swap(x.tree_);
+        }
+
         void clear()
         {
             tree_.clear();

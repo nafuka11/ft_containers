@@ -27,6 +27,7 @@ public:
         test_insert();
         test_erase();
         test_clear();
+        test_swap();
 
         // Observers
         test_key_comp();
@@ -230,6 +231,15 @@ private:
         ft::map<Key, T> m(orig_map_);
         m.clear();
         print_map(m);
+    }
+
+    void test_swap()
+    {
+        print_test_case("map::swap()");
+        ft::map<Key, T> lhs(orig_map_), rhs;
+        lhs.swap(rhs);
+        print_map(lhs);
+        print_map(rhs);
     }
 
     void test_key_comp()

@@ -389,6 +389,17 @@ namespace ft
             return const_iterator(node, nil_);
         }
 
+        iterator find(const key_type &key)
+        {
+            link_type node = find_node(key);
+            return iterator(node, nil_);
+        }
+        const_iterator find(const key_type &key) const
+        {
+            link_type node = find_node(key);
+            return const_iterator(node, nil_);
+        }
+
         node_allocator_type get_allocator() const
         {
             return alloc_;
@@ -748,6 +759,14 @@ namespace ft
                     node = node->right;
             }
             return result;
+        }
+
+        link_type find_node(const key_type &key) const
+        {
+            link_type node = search_lower_bound_node(key);
+            if (node != end_ && !compare_(key, node->value))
+                return node;
+            return end_;
         }
     };
 

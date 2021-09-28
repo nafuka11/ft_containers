@@ -167,9 +167,15 @@ namespace ft
             return value_comp_;
         }
 
-        // // Operations
-        // iterator find(const key_type &k);
-        // const_iterator find(const key_type &k) const;
+        // Operations
+        iterator find(const key_type &k)
+        {
+            return tree_.find(k);
+        }
+        const_iterator find(const key_type &k) const
+        {
+            return tree_.find(k);
+        }
 
         // size_type count(const key_type &k) const;
 

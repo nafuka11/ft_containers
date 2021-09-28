@@ -25,6 +25,7 @@ public:
         test_value_comp();
 
         // Operations
+        test_find();
         test_lower_bound();
         test_upper_bound();
 
@@ -188,6 +189,23 @@ private:
         print_pair(rhs);
         std::cout << ") = "
                   << std::boolalpha << comp(lhs, rhs) << std::endl;
+    }
+
+    void test_find()
+    {
+        print_test_case("map::find()");
+        ft::map<Key, T> m;
+        for (size_t i = 1; i < items_len_ - 1; i++)
+        {
+            m.insert(items_[i]);
+        }
+        for (size_t i = 0; i < items_len_; i++)
+        {
+            std::cout << "find(" << items_[i].first << ") = ";
+            typename ft::map<Key, T>::iterator iter = m.find(items_[i].first);
+            print_iter(m, iter);
+            std::cout << std::endl;
+        }
     }
 
     void test_lower_bound()

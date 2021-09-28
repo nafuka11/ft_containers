@@ -173,8 +173,14 @@ namespace ft
 
         // size_type count(const key_type &k) const;
 
-        // iterator lower_bound(const key_type &k);
-        // const_iterator lower_bound(const key_type &k) const;
+        iterator lower_bound(const key_type &k)
+        {
+            return tree_.lower_bound(k);
+        }
+        const_iterator lower_bound(const key_type &k) const
+        {
+            return tree_.lower_bound(k);
+        }
 
         // iterator upper_bound(const key_type &k);
         // const_iterator upper_bound(const key_type &k) const;

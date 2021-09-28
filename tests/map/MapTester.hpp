@@ -24,6 +24,9 @@ public:
         test_key_comp();
         test_value_comp();
 
+        // Operations
+        test_lower_bound();
+
         test_get_allocator();
     }
 
@@ -51,6 +54,16 @@ private:
     void print_pair(const ft::pair<const Key, T> &value)
     {
         std::cout << "(" << value.first << ", " << value.second << ")";
+    }
+
+    template <class Iter>
+    void print_iter(ft::map<Key, T> &m, Iter &iter)
+    {
+        std::cout << "Iter:";
+        if (iter == m.end())
+            std::cout << "end";
+        else
+            print_pair(*iter);
     }
 
     void test_constructor()
@@ -119,8 +132,7 @@ private:
         print_pair(value);
         std::cout << ") = ";
         ft::pair<typename ft::map<Key, T>::iterator, bool> ret = m.insert(value);
-        std::cout << "Iter: ";
-        print_pair(*ret.first);
+        print_iter(m, ret.first);
         std::cout << ", Inserted: " << std::boolalpha << ret.second << std::endl;
     }
 
@@ -175,6 +187,23 @@ private:
         print_pair(rhs);
         std::cout << ") = "
                   << std::boolalpha << comp(lhs, rhs) << std::endl;
+    }
+
+    void test_lower_bound()
+    {
+        print_test_case("map::lower_bound()");
+        ft::map<Key, T> m;
+        for (size_t i = 0; i < items_len_; i++)
+        {
+            m.insert(items_[i]);
+        }
+        for (size_t i = 0; i < m.size(); i++)
+        {
+            std::cout << "lower_bound(" << items_[i].first << ") = ";
+            typename ft::map<Key, T>::iterator iter = m.lower_bound(items_[i].first);
+            print_iter(m, iter);
+            std::cout << std::endl;
+        }
     }
 
     void test_get_allocator()

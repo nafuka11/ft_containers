@@ -312,7 +312,7 @@ namespace ft
                 else
                     return insert(value).first;
             }
-            if (compare_(value, *position))   // value < pos
+            if (compare_(value, *position)) // value < pos
             {
                 if (position == begin())
                     return insert_node(value, begin_).first;
@@ -327,7 +327,7 @@ namespace ft
                 }
                 return insert(value).first;
             }
-            if (compare_(*position, value))   // pos < value
+            if (compare_(*position, value)) // pos < value
             {
                 iterator max = end();
                 --max;
@@ -362,6 +362,19 @@ namespace ft
                 delete_fixup(replaced);
             delete_node(node);
             size_--;
+        }
+
+        // Operations
+        iterator lower_bound(const key_type &key)
+        {
+            link_type node = search_lower_bound_node(key);
+            return iterator(node, nil_);
+        }
+
+        const_iterator lower_bound(const key_type &key) const
+        {
+            link_type node = search_lower_bound_node(key);
+            return const_iterator(node, nil_);
         }
 
         node_allocator_type get_allocator() const
@@ -464,7 +477,7 @@ namespace ft
                 insert_place->left = node;
             else if (compare_(insert_place->value, node->value))
                 insert_place->right = node;
-            else    // node->value == insert_place->value
+            else // node->value == insert_place->value
             {
                 delete_node(node);
                 return ft::make_pair(iterator(insert_place, nil_), false);
@@ -689,6 +702,23 @@ namespace ft
             {
                 begin_ = insert_node;
             }
+        }
+
+        link_type search_lower_bound_node(const key_type &key) const
+        {
+            link_type result = end_;
+            link_type node = get_root();
+            while (node != nil_)
+            {
+                if (!compare_(node->value, key))
+                {
+                    result = node;
+                    node = node->left;
+                }
+                else
+                    node = node->right;
+            }
+            return result;
         }
     };
 

@@ -75,9 +75,31 @@ private:
 
     void test_constructor()
     {
-        print_test_case("map()");
-        ft::map<Key, T> m;
-        print_map(m);
+        print_test_case("map() : default constructor");
+        {
+            ft::map<Key, T> m;
+            print_map(m);
+        }
+        print_test_case("map() : range constructor");
+        {
+            ft::map<Key, T> src;
+            for (size_t i = 0; i < items_len_; i++)
+            {
+                src.insert(items_[i]);
+            }
+            ft::map<Key, T> dest(++src.begin(), --src.end());
+            print_map(dest);
+        }
+        print_test_case("map() : copy constructor");
+        {
+            ft::map<Key, T> src;
+            for (size_t i = 0; i < items_len_; i++)
+            {
+                src.insert(items_[i]);
+            }
+            ft::map<Key, T> dest(src);
+            print_map(dest);
+        }
     }
 
     void test_max_size()

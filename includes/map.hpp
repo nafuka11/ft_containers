@@ -79,11 +79,17 @@ namespace ft
                      const allocator_type &alloc = allocator_type())
             : key_comp_(comp), value_comp_(value_compare(comp)),
               tree_(tree_compare(comp), alloc) {}
-        // template <class InputIterator>
-        // map(InputIterator first, InputIterator last,
-        //     const key_compare &comp = key_compare(),
-        //     const allocator_type &alloc = allocator_type())
-        // {}
+
+        template <class InputIterator>
+        map(InputIterator first, InputIterator last,
+            const key_compare &comp = key_compare(),
+            const allocator_type &alloc = allocator_type())
+            : key_comp_(comp), value_comp_(value_compare(comp)),
+              tree_(tree_compare(comp), alloc)
+        {
+            insert(first, last);
+        }
+
         map(const map &x) : key_comp_(x.key_comp_), value_comp_(x.value_comp_),
                             tree_(x.tree_)
         {

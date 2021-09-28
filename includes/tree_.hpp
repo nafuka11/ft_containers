@@ -259,6 +259,7 @@ namespace ft
             delete_node(end_);
         }
 
+        // Iterators
         iterator begin()
         {
             return iterator(begin_, nil_);
@@ -287,16 +288,6 @@ namespace ft
             return std::min(
                 static_cast<size_type>(std::numeric_limits<difference_type>::max()),
                 alloc_.max_size());
-        }
-
-        void destroy(link_type node)
-        {
-            if (node != nil_)
-            {
-                destroy(node->left);
-                destroy(node->right);
-                delete_node(node);
-            }
         }
 
         // Modifiers
@@ -366,7 +357,6 @@ namespace ft
             delete_node(position.base());
             size_--;
         }
-
         size_type erase(const key_type &key)
         {
             iterator iter = find(key);
@@ -375,13 +365,20 @@ namespace ft
             erase(iter);
             return 1;
         }
-
         void erase(iterator first, iterator last)
         {
             while (first != last)
             {
                 erase(first++);
             }
+        }
+
+        void clear()
+        {
+            destroy(get_root());
+            begin_ = end_;
+            end_->left = nil_;
+            size_ = 0;
         }
 
         // Operations
@@ -453,6 +450,16 @@ namespace ft
             alloc_.construct(end_);
             end_->left = nil_;
             begin_ = end_;
+        }
+
+        void destroy(link_type node)
+        {
+            if (node != nil_)
+            {
+                destroy(node->left);
+                destroy(node->right);
+                delete_node(node);
+            }
         }
 
         link_type get_root() const

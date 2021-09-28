@@ -180,7 +180,10 @@ namespace ft
         }
 
         // void swap(map &x);
-        // void clear();
+        void clear()
+        {
+            tree_.clear();
+        }
 
         // Observers
         key_compare key_comp() const

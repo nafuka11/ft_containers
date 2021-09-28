@@ -26,6 +26,7 @@ public:
         // Modifiers
         test_insert();
         test_erase();
+        test_clear();
 
         // Observers
         test_key_comp();
@@ -221,6 +222,14 @@ private:
             m.erase(++m.begin(), --m.end());
             print_map(m);
         }
+    }
+
+    void test_clear()
+    {
+        print_test_case("map::clear()");
+        ft::map<Key, T> m(orig_map_);
+        m.clear();
+        print_map(m);
     }
 
     void test_key_comp()

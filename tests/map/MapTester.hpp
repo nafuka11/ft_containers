@@ -26,6 +26,7 @@ public:
 
         // Operations
         test_find();
+        test_count();
         test_lower_bound();
         test_upper_bound();
 
@@ -205,6 +206,21 @@ private:
             typename ft::map<Key, T>::iterator iter = m.find(items_[i].first);
             print_iter(m, iter);
             std::cout << std::endl;
+        }
+    }
+
+    void test_count()
+    {
+        print_test_case("map::count()");
+        ft::map<Key, T> m;
+        for (size_t i = 1; i < items_len_ - 1; i++)
+        {
+            m.insert(items_[i]);
+        }
+        for (size_t i = 0; i < items_len_; i++)
+        {
+            std::cout << "count(" << items_[i].first << ") = "
+                      << m.count(items_[i].first) << std::endl;
         }
     }
 

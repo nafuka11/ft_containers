@@ -400,6 +400,13 @@ namespace ft
             return const_iterator(node, nil_);
         }
 
+        size_type count(const key_type &k) const
+        {
+            if (find(k) != end())
+                return 1;
+            return 0;
+        }
+
         node_allocator_type get_allocator() const
         {
             return alloc_;

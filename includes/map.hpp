@@ -177,7 +177,10 @@ namespace ft
             return tree_.find(k);
         }
 
-        // size_type count(const key_type &k) const;
+        size_type count(const key_type &k) const
+        {
+            return tree_.count(k);
+        }
 
         iterator lower_bound(const key_type &k)
         {

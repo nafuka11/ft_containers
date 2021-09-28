@@ -243,15 +243,13 @@ namespace ft
         rb_tree_(const Compare &compare, const Allocator &allocator)
             : compare_(compare), alloc_(node_allocator_type(allocator)), size_(0)
         {
-            nil_ = alloc_.allocate(1);
-            alloc_.construct(nil_);
-            nil_->left = nil_;
-            nil_->right = nil_;
+            initialize();
+        }
 
-            end_ = alloc_.allocate(1);
-            alloc_.construct(end_);
-            end_->left = nil_;
-            begin_ = end_;
+        rb_tree_(const rb_tree_ &tree)
+            : compare_(tree.compare_), alloc_(tree.alloc_), size_(0)
+        {
+            initialize();
         }
 
         ~rb_tree_()
@@ -301,6 +299,7 @@ namespace ft
             }
         }
 
+        // Modifiers
         pair<iterator, bool> insert(const value_type &value)
         {
             link_type insert_place = search_insert_place(value);
@@ -426,6 +425,19 @@ namespace ft
         node_allocator_type alloc_;
 
         size_type size_;
+
+        void initialize()
+        {
+            nil_ = alloc_.allocate(1);
+            alloc_.construct(nil_);
+            nil_->left = nil_;
+            nil_->right = nil_;
+
+            end_ = alloc_.allocate(1);
+            alloc_.construct(end_);
+            end_->left = nil_;
+            begin_ = end_;
+        }
 
         link_type get_root() const
         {

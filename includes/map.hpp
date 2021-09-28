@@ -84,7 +84,11 @@ namespace ft
         //     const key_compare &comp = key_compare(),
         //     const allocator_type &alloc = allocator_type())
         // {}
-        // map(const map &x) {}
+        map(const map &x) : key_comp_(x.key_comp_), value_comp_(x.value_comp_),
+                            tree_(x.tree_)
+        {
+            insert(x.begin(), x.end());
+        }
         // destructor
         ~map() {}
         // // operator=

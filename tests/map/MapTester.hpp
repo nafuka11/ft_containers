@@ -26,6 +26,7 @@ public:
 
         // Operations
         test_lower_bound();
+        test_upper_bound();
 
         test_get_allocator();
     }
@@ -193,14 +194,31 @@ private:
     {
         print_test_case("map::lower_bound()");
         ft::map<Key, T> m;
-        for (size_t i = 0; i < items_len_; i++)
+        for (size_t i = 1; i < items_len_ - 1; i++)
         {
             m.insert(items_[i]);
         }
-        for (size_t i = 0; i < m.size(); i++)
+        for (size_t i = 0; i < items_len_; i++)
         {
             std::cout << "lower_bound(" << items_[i].first << ") = ";
             typename ft::map<Key, T>::iterator iter = m.lower_bound(items_[i].first);
+            print_iter(m, iter);
+            std::cout << std::endl;
+        }
+    }
+
+    void test_upper_bound()
+    {
+        print_test_case("map::upper_bound()");
+        ft::map<Key, T> m;
+        for (size_t i = 1; i < items_len_ - 1; i++)
+        {
+            m.insert(items_[i]);
+        }
+        for (size_t i = 0; i < items_len_; i++)
+        {
+            std::cout << "upper_bound(" << items_[i].first << ") = ";
+            typename ft::map<Key, T>::iterator iter = m.upper_bound(items_[i].first);
             print_iter(m, iter);
             std::cout << std::endl;
         }

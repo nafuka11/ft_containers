@@ -377,6 +377,18 @@ namespace ft
             return const_iterator(node, nil_);
         }
 
+        iterator upper_bound(const key_type &key)
+        {
+            link_type node = search_upper_bound_node(key);
+            return iterator(node, nil_);
+        }
+
+        const_iterator upper_bound(const key_type &key) const
+        {
+            link_type node = search_upper_bound_node(key);
+            return const_iterator(node, nil_);
+        }
+
         node_allocator_type get_allocator() const
         {
             return alloc_;
@@ -710,7 +722,24 @@ namespace ft
             link_type node = get_root();
             while (node != nil_)
             {
-                if (!compare_(node->value, key))
+                if (!compare_(node->value, key)) // node >= key
+                {
+                    result = node;
+                    node = node->left;
+                }
+                else
+                    node = node->right;
+            }
+            return result;
+        }
+
+        link_type search_upper_bound_node(const key_type &key) const
+        {
+            link_type result = end_;
+            link_type node = get_root();
+            while (node != nil_)
+            {
+                if (compare_(key, node->value)) // key < node
                 {
                     result = node;
                     node = node->left;

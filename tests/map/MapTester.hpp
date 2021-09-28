@@ -18,6 +18,10 @@ public:
         // Capacity
         test_max_size();
 
+        // Element access
+        test_subscript_operator();
+
+        // Modifiers
         test_insert();
 
         // Observers
@@ -81,6 +85,27 @@ private:
         print_test_case("map::max_size()");
         ft::map<Key, T> m;
         std::cout << m.max_size() << std::endl;
+    }
+
+    void test_subscript_operator()
+    {
+        print_test_case("map::operator[]");
+        ft::map<Key, T> m;
+        for (size_t i = 1; i < items_len_ - 1; i++)
+        {
+            m.insert(items_[i]);
+        }
+        for (size_t i = 0; i < items_len_ / 2 + 1; i++)
+        {
+            std::cout << "m[" << items_[i].first << "] = "
+                      << m[items_[i].first] << std::endl;
+        }
+        for (size_t i = items_len_ / 2 + 1; i < items_len_; i++)
+        {
+            m[items_[i].first] = items_[items_len_ / 2].second;
+            std::cout << "m[" << items_[i].first << "] = "
+                      << m[items_[i].first] << std::endl;
+        }
     }
 
     void test_insert()

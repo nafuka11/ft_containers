@@ -129,8 +129,14 @@ namespace ft
             return tree_.max_size();
         }
 
-        // // Element access
-        // mapped_type &operator[](const key_type &k);
+        // Element access
+        mapped_type &operator[](const key_type &k)
+        {
+            iterator iter = find(k);
+            if (iter == end())
+                iter = insert(value_type(k, mapped_type())).first;
+            return iter->second;
+        }
 
         // Modifiers
         pair<iterator, bool> insert(const value_type &val)

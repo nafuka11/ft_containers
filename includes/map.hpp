@@ -97,8 +97,12 @@ namespace ft
         }
         // destructor
         ~map() {}
-        // // operator=
-        // map &operator=(const map &x) {}
+        // operator=
+        map &operator=(const map &x)
+        {
+            tree_ = x.tree_;
+            return *this;
+        }
 
         // Iterators
         iterator begin()

@@ -16,6 +16,7 @@ public:
         prepare_map();
 
         test_constructor();
+        test_operator_equal();
 
         // Capacity
         test_max_size();
@@ -103,6 +104,14 @@ private:
             ft::map<Key, T> dest(orig_map_);
             print_map(dest);
         }
+    }
+
+    void test_operator_equal()
+    {
+        print_test_case("map::operator=()");
+        ft::map<Key, T> m;
+        m = orig_map_;
+        print_map(m);
     }
 
     void test_max_size()

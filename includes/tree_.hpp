@@ -259,6 +259,20 @@ namespace ft
             delete_node(end_);
         }
 
+        rb_tree_ &operator=(const rb_tree_ &other)
+        {
+            if (this != &other)
+            {
+                clear();
+                compare_ = other.compare_;
+                for (iterator iter = other.begin(); iter != other.end(); ++iter)
+                {
+                    insert(*iter);
+                }
+            }
+            return *this;
+        }
+
         // Iterators
         iterator begin()
         {

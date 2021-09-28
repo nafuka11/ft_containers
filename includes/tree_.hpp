@@ -127,8 +127,8 @@ namespace ft
         template <class Iter>
         tree_iterator_ &operator=(const tree_iterator_<Iter> &other)
         {
-            current = other.current;
-            nil = other.nil;
+            current = other.base();
+            nil = other.get_nil();
             return *this;
         }
 
@@ -171,6 +171,11 @@ namespace ft
         link_type base() const
         {
             return current;
+        }
+
+        link_type get_nil() const
+        {
+            return nil;
         }
 
     private:

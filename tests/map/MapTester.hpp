@@ -65,8 +65,7 @@ private:
             if (i < m.size() - 1)
                 std::cout << ", ";
         }
-        if (m.size() > 0)
-            std::cout << std::endl;
+        std::cout << std::endl;
     }
 
     void print_pair(const ft::pair<const Key, T> &value)

@@ -13,6 +13,8 @@ public:
     ~MapTester() {}
     void test_all()
     {
+        prepare_map();
+
         test_constructor();
 
         // Capacity
@@ -40,6 +42,15 @@ public:
 private:
     ft::pair<const Key, T> *items_;
     size_t items_len_;
+    ft::map<Key, T> orig_map_;
+
+    void prepare_map()
+    {
+        for (size_t i = 0; i < items_len_; i++)
+        {
+            orig_map_.insert(items_[i]);
+        }
+    }
 
     void print_map(ft::map<Key, T> &m)
     {
@@ -82,22 +93,12 @@ private:
         }
         print_test_case("map() : range constructor");
         {
-            ft::map<Key, T> src;
-            for (size_t i = 0; i < items_len_; i++)
-            {
-                src.insert(items_[i]);
-            }
-            ft::map<Key, T> dest(++src.begin(), --src.end());
+            ft::map<Key, T> dest(++orig_map_.begin(), --orig_map_.end());
             print_map(dest);
         }
         print_test_case("map() : copy constructor");
         {
-            ft::map<Key, T> src;
-            for (size_t i = 0; i < items_len_; i++)
-            {
-                src.insert(items_[i]);
-            }
-            ft::map<Key, T> dest(src);
+            ft::map<Key, T> dest(orig_map_);
             print_map(dest);
         }
     }
@@ -112,11 +113,7 @@ private:
     void test_subscript_operator()
     {
         print_test_case("map::operator[]");
-        ft::map<Key, T> m;
-        for (size_t i = 1; i < items_len_ - 1; i++)
-        {
-            m.insert(items_[i]);
-        }
+        ft::map<Key, T> m(++orig_map_.begin(), --orig_map_.end());
         for (size_t i = 0; i < items_len_ / 2 + 1; i++)
         {
             std::cout << "m[" << items_[i].first << "] = "
@@ -166,11 +163,7 @@ private:
         }
         print_test_case("map::insert() : range");
         {
-            ft::map<Key, T> src, dest;
-            for (size_t i = 0; i < items_len_; i++)
-            {
-                src.insert(items_[i]);
-            }
+            ft::map<Key, T> src(orig_map_), dest;
             dest.insert(src.begin(), src.end());
             print_map(dest);
         }
@@ -242,11 +235,7 @@ private:
     void test_find()
     {
         print_test_case("map::find()");
-        ft::map<Key, T> m;
-        for (size_t i = 1; i < items_len_ - 1; i++)
-        {
-            m.insert(items_[i]);
-        }
+        ft::map<Key, T> m(++orig_map_.begin(), --orig_map_.end());
         for (size_t i = 0; i < items_len_; i++)
         {
             std::cout << "find(" << items_[i].first << ") = ";
@@ -259,11 +248,7 @@ private:
     void test_count()
     {
         print_test_case("map::count()");
-        ft::map<Key, T> m;
-        for (size_t i = 1; i < items_len_ - 1; i++)
-        {
-            m.insert(items_[i]);
-        }
+        ft::map<Key, T> m(++orig_map_.begin(), --orig_map_.end());
         for (size_t i = 0; i < items_len_; i++)
         {
             std::cout << "count(" << items_[i].first << ") = "
@@ -274,11 +259,7 @@ private:
     void test_lower_bound()
     {
         print_test_case("map::lower_bound()");
-        ft::map<Key, T> m;
-        for (size_t i = 1; i < items_len_ - 1; i++)
-        {
-            m.insert(items_[i]);
-        }
+        ft::map<Key, T> m(++orig_map_.begin(), --orig_map_.end());
         for (size_t i = 0; i < items_len_; i++)
         {
             std::cout << "lower_bound(" << items_[i].first << ") = ";
@@ -291,11 +272,7 @@ private:
     void test_upper_bound()
     {
         print_test_case("map::upper_bound()");
-        ft::map<Key, T> m;
-        for (size_t i = 1; i < items_len_ - 1; i++)
-        {
-            m.insert(items_[i]);
-        }
+        ft::map<Key, T> m(++orig_map_.begin(), --orig_map_.end());
         for (size_t i = 0; i < items_len_; i++)
         {
             std::cout << "upper_bound(" << items_[i].first << ") = ";

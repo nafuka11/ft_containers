@@ -8,7 +8,7 @@
 #endif
 
 #if IS_FT
-// #include <map.hpp>
+#include <map.hpp>
 // #include <stack.hpp>
 #include <vector.hpp>
 #include <utility.hpp>
@@ -21,6 +21,7 @@ namespace ft = std;
 #endif
 
 #include "Foo.hpp"
+#include "MyAllocator.hpp"
 #include "vector/test_vector.hpp"
 #include "map/test_map.hpp"
 

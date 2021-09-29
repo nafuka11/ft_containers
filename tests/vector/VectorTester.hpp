@@ -31,6 +31,8 @@ public:
         test_erase();
         test_swap();
         test_clear();
+        // Allocator
+        test_get_allocator();
         // Non-member function
         test_relational_operator();
     }
@@ -450,6 +452,13 @@ private:
         ft::vector<T> vec = original_vec_;
         vec.clear();
         print_vector_info(vec);
+    }
+
+    void test_get_allocator()
+    {
+        print_test_case("vector::get_allocator()");
+        ft::vector<T, MyAllocator<T> > vec;
+        std::cout << vec.get_allocator().getNum() << std::endl;
     }
 
     void test_relational_operator()

@@ -23,7 +23,7 @@ void PairTester::test_constructor()
     ft::pair<int, int> p2(1, 2);
     std::cout << "pair<int, int>(1, 2): " << p2 << std::endl;
 
-    ft::pair<int, int> p3(1, 2);
+    ft::pair<int, int> p3(p2);
     std::cout << "pair<int, int>(pair(1, 2)): " << p3 << std::endl;
 }
 
@@ -35,7 +35,7 @@ void PairTester::test_assignment_operator()
     std::cout << "pair<int, int> p = " << p1 << ": " << p2 << std::endl;
 }
 
-std::ostream &operator<<(std::ostream &os, ft::pair<int, int> const &pair)
+std::ostream &operator<<(std::ostream &os, const ft::pair<int, int> &pair)
 {
     os << "pair(" << pair.first << ", " << pair.second << ")";
     return os;

@@ -248,10 +248,19 @@ private:
     void test_swap()
     {
         print_test_case("map::swap()");
-        ft::map<Key, T> lhs(orig_map_), rhs;
-        lhs.swap(rhs);
-        print_map(lhs);
-        print_map(rhs);
+        {
+            ft::map<Key, T> lhs(orig_map_), rhs;
+            lhs.swap(rhs);
+            print_map(lhs);
+            print_map(rhs);
+        }
+        print_test_case("ft::swap()");
+        {
+            ft::map<Key, T> lhs(orig_map_), rhs;
+            ft::swap(lhs, rhs);
+            print_map(lhs);
+            print_map(rhs);
+        }
     }
 
     void test_key_comp()

@@ -39,6 +39,7 @@ public:
         test_count();
         test_lower_bound();
         test_upper_bound();
+        test_equal_range();
 
         test_get_allocator();
 
@@ -349,6 +350,22 @@ private:
             typename ft::map<Key, T>::iterator iter = m.upper_bound(items_[i].first);
             print_iter(m, iter);
             std::cout << std::endl;
+        }
+    }
+
+    void test_equal_range()
+    {
+        print_test_case("map::equal_range()");
+        ft::map<Key, T> m(++orig_map_.begin(), --orig_map_.end());
+        for (size_t i = 0; i < items_len_; i++)
+        {
+            Key key = items_[i].first;
+            std::cout << "equal_range(" << key << ") = pair(";
+            ft::pair<typename ft::map<Key, T>::iterator, typename ft::map<Key, T>::iterator> ret = m.equal_range(key);
+            print_iter(m, ret.first);
+            std::cout << ", ";
+            print_iter(m, ret.second);
+            std::cout << ")" << std::endl;
         }
     }
 

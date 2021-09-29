@@ -237,8 +237,14 @@ namespace ft
             return tree_.upper_bound(k);
         }
 
-        // pair<const_iterator, const_iterator> equal_range(const key_type &k) const;
-        // pair<iterator, iterator> equal_range(const key_type &k);
+        pair<const_iterator, const_iterator> equal_range(const key_type &k) const
+        {
+            return tree_.equal_range(k);
+        }
+        pair<iterator, iterator> equal_range(const key_type &k)
+        {
+            return tree_.equal_range(k);
+        }
 
         allocator_type get_allocator() const
         {

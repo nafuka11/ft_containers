@@ -430,6 +430,19 @@ namespace ft
             return const_iterator(node, nil_);
         }
 
+        pair<const_iterator, const_iterator> equal_range(const key_type &key) const
+        {
+            pair<link_type, link_type> range = search_equal_range_node(key);
+            return ft::make_pair(const_iterator(range.first, nil_),
+                             const_iterator(range.second, nil_));
+        }
+        pair<iterator, iterator> equal_range(const key_type &key)
+        {
+            pair<link_type, link_type> range = search_equal_range_node(key);
+            return ft::make_pair(iterator(range.first, nil_),
+                             iterator(range.second, nil_));
+        }
+
         iterator find(const key_type &key)
         {
             link_type node = find_node(key);
@@ -829,6 +842,31 @@ namespace ft
                     node = node->right;
             }
             return result;
+        }
+
+        pair<link_type, link_type> search_equal_range_node(const key_type &key) const
+        {
+            link_type lower = get_root();
+            link_type upper = end_;
+            while (lower != nil_)
+            {
+                if (compare_(key, lower->value))
+                {
+                    upper = lower;
+                    lower = lower->left;
+                }
+                else if (compare_(lower->value, key))
+                {
+                    lower = lower->right;
+                }
+                else
+                {
+                    if (lower->right != nil_)
+                        upper = search_tree_min_(lower->right, nil_);
+                    return ft::make_pair(lower, upper);
+                }
+            }
+            return ft::make_pair(upper, upper);
         }
 
         link_type find_node(const key_type &key) const

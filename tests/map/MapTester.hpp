@@ -232,9 +232,25 @@ private:
         }
         print_test_case("map::erase() : range");
         {
-            ft::map<Key, T> m(orig_map_);
-            m.erase(++m.begin(), --m.end());
-            print_map(m);
+            for (size_t start = 0; start < items_len_ + 1; start++)
+            {
+                for (size_t end = start; end < items_len_ + 1; end++)
+                {
+                    ft::map<Key, T> m(items_, items_ + items_len_);
+                    std::cout << "m(size=" << m.size() << ").erase(" << start << "-" << end << "): ";
+                    typename ft::map<Key, T>::iterator first = m.begin(), last = m.begin();
+                    for (size_t i = 0; i < start; i++)
+                    {
+                        ++first;
+                    }
+                    for (size_t i = 0; i < end; i++)
+                    {
+                        ++last;
+                    }
+                    m.erase(first, last);
+                    print_map(m);
+                }
+            }
         }
     }
 

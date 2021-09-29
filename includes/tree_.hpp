@@ -673,7 +673,7 @@ namespace ft
             node->color = rb_node_<T>::BLACK;
         }
 
-        void delete_fixup_right(link_type &node)
+        void delete_fixup_left(link_type &node)
         {
             link_type sibling = node->parent->right;
             if (sibling->color == rb_node_<T>::RED)
@@ -706,7 +706,7 @@ namespace ft
             }
         }
 
-        void delete_fixup_left(link_type &node)
+        void delete_fixup_right(link_type &node)
         {
             link_type sibling = node->parent->left;
             if (sibling->color == rb_node_<T>::RED)

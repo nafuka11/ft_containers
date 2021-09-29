@@ -41,6 +41,9 @@ public:
         test_upper_bound();
 
         test_get_allocator();
+
+        // Non-member function
+        test_relational_operator();
     }
 
 private:
@@ -345,6 +348,77 @@ private:
         print_test_case("map::get_allocator()");
         ft::map<Key, T, std::less<Key>, MyAllocator<ft::pair<const Key, T> > > m;
         std::cout << m.get_allocator().getNum() << std::endl;
+    }
+
+    void test_relational_operator()
+    {
+        print_test_case("map::operator==, !=, <, <=, >, >=");
+        ft::map<Key, T> empty1;
+        ft::map<Key, T> empty2;
+        ft::map<Key, T> size_small1(orig_map_.begin(), --orig_map_.end());
+        ft::map<Key, T> size_small2(size_small1);
+        ft::map<Key, T> front_diff(size_small1);
+        ft::map<Key, T> back_diff(size_small1);
+        ft::map<Key, T> size_large(orig_map_);
+        front_diff.begin()->second = items_[items_len_ - 1].second;
+        (--back_diff.end())->second = items_[items_len_ - 1].second;
+
+        std::cout << std::boolalpha
+                  << "empty == empty     : " << (empty1 == empty2) << std::endl
+                  << "empty == small     : " << (empty1 == size_small1) << std::endl
+                  << "small == small     : " << (size_small1 == size_small2) << std::endl
+                  << "small == frontDiff : " << (size_small1 == front_diff) << std::endl
+                  << "small == backDiff  : " << (size_small2 == back_diff) << std::endl;
+        std::cout << std::boolalpha
+                  << "empty != empty     : " << (empty1 != empty2) << std::endl
+                  << "empty != small     : " << (empty1 != size_small1) << std::endl
+                  << "small != small     : " << (size_small1 != size_small2) << std::endl
+                  << "small != frontDiff : " << (size_small1 != front_diff) << std::endl
+                  << "small != backDiff  : " << (size_small2 != back_diff) << std::endl;
+        std::cout << std::boolalpha
+                  << "empty    <  empty     : " << (empty1 < empty2) << std::endl
+                  << "empty    <  small     : " << (empty1 < size_small1) << std::endl
+                  << "small    <  empty     : " << (size_small1 < empty1) << std::endl
+                  << "small    <  small     : " << (size_small1 < size_small2) << std::endl
+                  << "large    <  small     : " << (size_large < size_small1) << std::endl
+                  << "small    <  large     : " << (size_small1 < size_large) << std::endl
+                  << "small    <  frontDiff : " << (size_small1 < front_diff) << std::endl
+                  << "frontDiff<  small     : " << (front_diff < size_small1) << std::endl
+                  << "small    <  backDiff  : " << (size_small2 < back_diff) << std::endl
+                  << "backDiff <  small     : " << (back_diff < back_diff) << std::endl;
+        std::cout << std::boolalpha
+                  << "empty    <= empty     : " << (empty1 <= empty2) << std::endl
+                  << "empty    <= small     : " << (empty1 <= size_small1) << std::endl
+                  << "small    <= empty     : " << (size_small1 <= empty1) << std::endl
+                  << "small    <= small     : " << (size_small1 <= size_small2) << std::endl
+                  << "large    <= small     : " << (size_large <= size_small1) << std::endl
+                  << "small    <= large     : " << (size_small1 <= size_large) << std::endl
+                  << "small    <= frontDiff : " << (size_small1 <= front_diff) << std::endl
+                  << "frontDiff<= small     : " << (front_diff <= size_small1) << std::endl
+                  << "small    <= backDiff  : " << (size_small2 <= back_diff) << std::endl
+                  << "backDiff <= small     : " << (back_diff <= back_diff) << std::endl;
+        std::cout << std::boolalpha
+                  << "empty    >  empty     : " << (empty1 > empty2) << std::endl
+                  << "empty    >  small     : " << (empty1 > size_small1) << std::endl
+                  << "small    >  empty     : " << (size_small1 > empty1) << std::endl
+                  << "small    >  small     : " << (size_small1 > size_small2) << std::endl
+                  << "large    >  small     : " << (size_large > size_small1) << std::endl
+                  << "small    >  large     : " << (size_small1 > size_large) << std::endl
+                  << "small    >  frontDiff : " << (size_small1 > front_diff) << std::endl
+                  << "frontDiff>  small     : " << (front_diff > size_small1) << std::endl
+                  << "small    >  backDiff  : " << (size_small2 > back_diff) << std::endl
+                  << "backDiff >  small     : " << (back_diff > back_diff) << std::endl;
+        std::cout << std::boolalpha
+                  << "empty    >= empty     : " << (empty1 >= empty2) << std::endl
+                  << "empty    >= small     : " << (empty1 >= size_small1) << std::endl
+                  << "small    >= empty     : " << (size_small1 >= empty1) << std::endl
+                  << "small    >= small     : " << (size_small1 >= size_small2) << std::endl
+                  << "large    >= small     : " << (size_large >= size_small1) << std::endl
+                  << "small    >= large     : " << (size_small1 >= size_large) << std::endl
+                  << "small    >= frontDiff : " << (size_small1 >= front_diff) << std::endl
+                  << "frontDiff>= small     : " << (front_diff >= size_small1) << std::endl
+                  << "small    >= backDiff  : " << (size_small2 >= back_diff) << std::endl
+                  << "backDiff >= small     : " << (back_diff >= back_diff) << std::endl;
     }
 };
 

@@ -2,6 +2,7 @@
 #define MAP_HPP
 
 #include <functional>
+#include "algorithm.hpp"
 #include "iterator.hpp"
 #include "tree_.hpp"
 #include "utility.hpp"
@@ -249,6 +250,46 @@ namespace ft
         value_compare value_comp_;
         tree_type tree_;
     };
+
+    // Non-member functions
+    template <class Key, class T, class Compare, class Alloc>
+    bool operator==(const ft::map<Key, T, Compare, Alloc> &lhs,
+                    const ft::map<Key, T, Compare, Alloc> &rhs)
+    {
+        return lhs.size() == rhs.size() && ft::equal(lhs.begin(), lhs.end(), rhs.begin());
+    }
+    template <class Key, class T, class Compare, class Alloc>
+    bool operator!=(const ft::map<Key, T, Compare, Alloc> &lhs,
+                    const ft::map<Key, T, Compare, Alloc> &rhs)
+    {
+        return !(lhs == rhs);
+    }
+    template <class Key, class T, class Compare, class Alloc>
+    bool operator<(const ft::map<Key, T, Compare, Alloc> &lhs,
+                   const ft::map<Key, T, Compare, Alloc> &rhs)
+    {
+        return ft::lexicographical_compare(
+            lhs.begin(), lhs.end(), rhs.begin(), rhs.end());
+    }
+    template <class Key, class T, class Compare, class Alloc>
+    bool operator<=(const ft::map<Key, T, Compare, Alloc> &lhs,
+                    const ft::map<Key, T, Compare, Alloc> &rhs)
+    {
+        return !(rhs < lhs);
+    }
+    template <class Key, class T, class Compare, class Alloc>
+    bool operator>(const ft::map<Key, T, Compare, Alloc> &lhs,
+                   const ft::map<Key, T, Compare, Alloc> &rhs)
+    {
+        return rhs < lhs;
+    }
+    template <class Key, class T, class Compare, class Alloc>
+    bool operator>=(const ft::map<Key, T, Compare, Alloc> &lhs,
+                    const ft::map<Key, T, Compare, Alloc> &rhs)
+    {
+        return !(lhs < rhs);
+    }
+
 } /* namespace ft */
 
 #endif /* MAP_HPP */

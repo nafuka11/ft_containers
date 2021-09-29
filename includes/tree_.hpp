@@ -530,7 +530,7 @@ namespace ft
             if (y->left != nil_)
                 y->left->parent = node;
             y->parent = node->parent;
-            if (node->parent == nil_)
+            if (node->parent == end_)
                 set_root(y);
             else if (is_left_child_(node))
                 node->parent->left = y;
@@ -547,7 +547,7 @@ namespace ft
             if (y->right != nil_)
                 y->right->parent = node;
             y->parent = node->parent;
-            if (node->parent == nil_)
+            if (node->parent == end_)
                 set_root(y);
             else if (is_right_child_(node))
                 node->parent->right = y;
@@ -756,7 +756,7 @@ namespace ft
 
         void transplant(link_type x, link_type y)
         {
-            if (x->parent == nil_)
+            if (x->parent == end_)
                 set_root(y);
             else if (is_left_child_(x))
                 x->parent->left = y;

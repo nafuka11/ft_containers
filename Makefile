@@ -4,7 +4,8 @@ NAME_FT	:= tester_ft
 LOG_STL	:= result_stl.log
 LOG_FT	:= result_ft.log
 
-SRCS	:= tests/main.cpp tests/common.cpp tests/ArgParser.cpp tests/Foo.cpp \
+SRCS	:= tests/main.cpp \
+		   tests/common/print.cpp tests/common/ArgParser.cpp tests/common/Foo.cpp \
 		   tests/vector/test_vector.cpp \
 		   tests/map/test_map.cpp tests/map/PairTester.cpp
 INC		:= -I./includes -I./tests

@@ -1,7 +1,7 @@
 #ifndef MAPITERATORTESTER_HPP
 #define MAPITERATORTESTER_HPP
 
-#include "common.hpp"
+#include "test.hpp"
 
 template <class Key, class T>
 class MapIteratorTester

@@ -1,4 +1,4 @@
-#include "common.hpp"
+#include "test.hpp"
 #include "vector/VectorIteratorTester.hpp"
 #include "vector/VectorTester.hpp"
 

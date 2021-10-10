@@ -1,7 +1,7 @@
 #ifndef MAPTESTER_HPP
 #define MAPTESTER_HPP
 
-#include "common.hpp"
+#include "test.hpp"
 
 template <class Key, class T>
 class MapTester

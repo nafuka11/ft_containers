@@ -1,3 +1,4 @@
+#include <iostream>
 #include "ArgParser.hpp"
 #include "test.hpp"
 
@@ -63,7 +64,7 @@ void ArgParser::test_all()
 
 void ArgParser::print_help(char *program_name)
 {
-    std::cout << program_name << " [";
+    std::cout << "Usage: " << program_name << " [";
     for (size_t i = 0; i < container_len; i++)
     {
         std::cout << container_names[i];

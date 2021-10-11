@@ -1,7 +1,7 @@
 #ifndef PAIRTESTER_HPP
 #define PAIRTESTER_HPP
 
-#include "common.hpp"
+#include "test.hpp"
 
 class PairTester
 {

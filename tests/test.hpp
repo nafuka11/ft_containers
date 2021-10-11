@@ -20,11 +20,10 @@
 namespace ft = std;
 #endif
 
-#include "Foo.hpp"
-#include "MyAllocator.hpp"
-#include "vector/test_vector.hpp"
+#include "common/Foo.hpp"
+#include "common/MyAllocator.hpp"
+#include "common/print.hpp"
 #include "map/test_map.hpp"
-
-void print_test_case(const std::string &str);
+#include "vector/test_vector.hpp"
 
 #endif /* COMMON_HPP */

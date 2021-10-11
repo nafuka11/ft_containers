@@ -1,7 +1,7 @@
-#include "common.hpp"
+#include "common/ArgParser.hpp"
 
-int main()
+int main(int argc, char *argv[])
 {
-    test_vector();
-    test_map();
+    ArgParser parser;
+    parser.parse_args(argc, argv);
 }

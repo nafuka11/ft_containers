@@ -1,7 +1,7 @@
 #ifndef VECTORITERATORTESTER_HPP
 #define VECTORITERATORTESTER_HPP
 
-#include "common.hpp"
+#include "test.hpp"
 
 template <class T>
 class VectorIteratorTester

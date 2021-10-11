@@ -2,7 +2,7 @@
 #define VECTORTESTER_HPP
 
 #include <iostream>
-#include "common.hpp"
+#include "test.hpp"
 
 template <class T>
 class VectorTester

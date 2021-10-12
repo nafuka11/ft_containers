@@ -34,7 +34,6 @@ private:
     {
         test_equality_inequality_operator(begin, end);
         test_increment_decrement(begin, end);
-        // test_inequality_relational_operator(begin);
     }
 
     template <class Iter>
@@ -101,28 +100,6 @@ private:
                 std::cout << " ";
             }
             std::cout << std::endl;
-        }
-    }
-
-    template <class Iter>
-    void test_inequality_relational_operator(Iter begin)
-    {
-        print_test_case("<, >, <=, >=");
-        {
-            Iter first = begin;
-            Iter second = first;
-            ++second;
-            std::cout << std::boolalpha
-                      << "first  < first  = " << (first < first) << std::endl
-                      << "first  < second = " << (first < second) << std::endl
-                      << "first  > first  = " << (first > first) << std::endl
-                      << "second > first  = " << (second > first) << std::endl
-                      << "first <= first  = " << (first <= first) << std::endl
-                      << "first <= second = " << (first <= second) << std::endl
-                      << "second<= first  = " << (second <= first) << std::endl
-                      << "first >= first  = " << (first >= first) << std::endl
-                      << "first >= second = " << (first >= second) << std::endl
-                      << "second>= first  = " << (second >= first) << std::endl;
         }
     }
 

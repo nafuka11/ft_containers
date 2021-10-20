@@ -292,7 +292,8 @@ namespace ft
             if (position == end())
             {
                 iterator max = end();
-                if (size_ > 0 && compare_(*(--max), value))
+                --max;
+                if (size_ > 0 && compare_(*max, value))
                     return insert_node(value, max.base()).first;
                 else
                     return insert(value).first;

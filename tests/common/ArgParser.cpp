@@ -4,12 +4,14 @@
 
 const std::string ArgParser::container_names[] = {
     "vector",
-    "map"
+    "map",
+    "stack"
 };
 
 void (*const ArgParser::container_funcs[])(void) = {
     test_vector,
-    test_map
+    test_map,
+    test_stack
 };
 
 const size_t ArgParser::container_len =

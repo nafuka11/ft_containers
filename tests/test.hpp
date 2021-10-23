@@ -25,5 +25,6 @@ namespace ft = std;
 #include "common/print.hpp"
 #include "map/test_map.hpp"
 #include "vector/test_vector.hpp"
+#include "stack/test_stack.hpp"
 
 #endif /* COMMON_HPP */

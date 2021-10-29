@@ -1,4 +1,5 @@
 #include <list>
+#include "stack/StackBenchmark.hpp"
 #include "stack/StackTester.hpp"
 
 void test_stack_output()
@@ -20,4 +21,10 @@ void test_stack_output()
 
     vector_stack_tester.test_all();
     list_stack_tester.test_all();
+}
+
+void test_stack_benchmark()
+{
+    StackBenchmark tester;
+    tester.test_all();
 }

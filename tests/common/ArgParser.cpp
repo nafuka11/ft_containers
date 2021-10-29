@@ -17,7 +17,7 @@ void (*const ArgParser::output_test_funcs[])(void) = {
 void (*const ArgParser::benchmark_test_funcs[])(void) = {
     test_vector_benchmark,
     test_map_benchmark,
-    test_stack_output
+    test_stack_benchmark
 };
 
 const size_t ArgParser::container_len =

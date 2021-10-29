@@ -1,6 +1,7 @@
 #include "test.hpp"
 #include "vector/VectorIteratorTester.hpp"
 #include "vector/VectorTester.hpp"
+#include "vector/VectorBenchmark.hpp"
 
 void test_dereference(ft::vector<Foo> &vec_foo)
 {
@@ -61,4 +62,10 @@ void test_vector_output()
     VectorTester<Foo> tester_foo(vec_foo);
     tester_int.test_all();
     tester_foo.test_all();
+}
+
+void test_vector_benchmark()
+{
+    VectorBenchmark tester;
+    tester.test_all();
 }

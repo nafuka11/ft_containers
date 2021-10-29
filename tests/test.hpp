@@ -1,5 +1,5 @@
-#ifndef COMMON_HPP
-#define COMMON_HPP
+#ifndef TEST_HPP
+#define TEST_HPP
 
 #include <iostream>
 
@@ -28,4 +28,4 @@ namespace ft = std;
 #include "map/test_map.hpp"
 #include "stack/test_stack.hpp"
 
-#endif /* COMMON_HPP */
+#endif /* TEST_HPP */

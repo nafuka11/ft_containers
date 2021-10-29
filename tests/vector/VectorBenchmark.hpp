@@ -1,11 +1,14 @@
 #ifndef VECTORBENCHMARK_HPP
 #define VECTORBENCHMARK_HPP
 
+#include "test.hpp"
+
 class VectorBenchmark
 {
 public:
     VectorBenchmark();
     void test_all();
+
 private:
     static const int loop_count;
     Timer timer;

@@ -1,11 +1,14 @@
 #ifndef MAPBENCHMARK_HPP
 #define MAPBENCHMARK_HPP
 
+#include "test.hpp"
+
 class MapBenchmark
 {
 public:
     MapBenchmark();
     void test_all();
+
 private:
     static const int loop_count;
     Timer timer;

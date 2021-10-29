@@ -1,4 +1,3 @@
-#include "test.hpp"
 #include "vector/VectorBenchmark.hpp"
 
 const int VectorBenchmark::loop_count = 10000;

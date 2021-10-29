@@ -1,9 +1,8 @@
-#include "test.hpp"
 #include "map/MapBenchmark.hpp"
 
 const int MapBenchmark::loop_count = 10000;
 
-MapBenchmark::MapBenchmark(): timer(Timer()) {}
+MapBenchmark::MapBenchmark() : timer(Timer()) {}
 
 void MapBenchmark::test_all()
 {

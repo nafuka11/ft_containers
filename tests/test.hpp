@@ -23,6 +23,7 @@ namespace ft = std;
 #include "common/Foo.hpp"
 #include "common/MyAllocator.hpp"
 #include "common/print.hpp"
+#include "common/Timer.hpp"
 #include "vector/test_vector.hpp"
 #include "map/test_map.hpp"
 #include "stack/test_stack.hpp"

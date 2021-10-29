@@ -6,7 +6,7 @@ TEST_SCRIPT	:= ./grademe.sh
 SRCS		:= tests/main.cpp \
 			   tests/common/print.cpp tests/common/ArgParser.cpp tests/common/Foo.cpp tests/common/Timer.cpp \
 			   tests/vector/test_vector.cpp tests/vector/VectorBenchmark.cpp \
-			   tests/map/test_map.cpp tests/map/PairTester.cpp \
+			   tests/map/test_map.cpp tests/map/PairTester.cpp tests/map/MapBenchmark.cpp \
 			   tests/stack/test_stack.cpp
 
 OBJDIR_FT	:= ./objs_ft

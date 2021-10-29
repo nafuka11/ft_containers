@@ -16,7 +16,7 @@ void (*const ArgParser::output_test_funcs[])(void) = {
 
 void (*const ArgParser::benchmark_test_funcs[])(void) = {
     test_vector_benchmark,
-    test_map_output,
+    test_map_benchmark,
     test_stack_output
 };
 

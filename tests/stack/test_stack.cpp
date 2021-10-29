@@ -1,7 +1,7 @@
 #include <list>
 #include "stack/StackTester.hpp"
 
-void test_stack()
+void test_stack_output()
 {
     ft::vector<int> vec(5);
     for (size_t i = 0; i < vec.size(); i++)

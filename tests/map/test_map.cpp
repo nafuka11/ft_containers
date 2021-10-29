@@ -3,7 +3,7 @@
 #include "map/MapIteratorTester.hpp"
 #include "map/MapTester.hpp"
 
-void test_map()
+void test_map_output()
 {
     PairTester pairTester;
     pairTester.test_all();

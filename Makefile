@@ -1,41 +1,55 @@
-NAME_STL:= tester_stl
-NAME_FT	:= tester_ft
+NAME_STL	:= tester_stl
+NAME_FT		:= tester_ft
 
-LOG_STL	:= result_stl.log
-LOG_FT	:= result_ft.log
+TEST_SCRIPT	:= ./grademe.sh
 
-SRCS	:= tests/main.cpp \
-		   tests/common/print.cpp tests/common/ArgParser.cpp tests/common/Foo.cpp \
-		   tests/vector/test_vector.cpp \
-		   tests/map/test_map.cpp tests/map/PairTester.cpp \
-		   tests/stack/test_stack.cpp
-INC		:= -I./includes -I./tests
+SRCS		:= tests/main.cpp \
+			   tests/common/print.cpp tests/common/ArgParser.cpp tests/common/Foo.cpp tests/common/Timer.cpp \
+			   tests/vector/test_vector.cpp tests/vector/VectorBenchmark.cpp \
+			   tests/map/test_map.cpp tests/map/PairTester.cpp tests/map/MapBenchmark.cpp \
+			   tests/stack/test_stack.cpp tests/stack/StackBenchmark.cpp
 
-CXX		:= clang++
-CXXFLAGS:= -Wall -Wextra -Werror -std=c++98 $(INC)
+OBJDIR_FT	:= ./objs_ft
+OBJDIR_STL	:= ./objs_stl
+OBJS_FT		:= $(addprefix $(OBJDIR_FT)/, $(SRCS:.cpp=.o))
+OBJS_STL	:= $(addprefix $(OBJDIR_STL)/, $(SRCS:.cpp=.o))
+
+INC			:= -I./includes -I./tests
+
+CXX			:= clang++
+CXXFLAGS	:= -Wall -Wextra -Werror -std=c++98 $(INC)
 
 .PHONY	: all
 all		: $(NAME_STL) $(NAME_FT) ## Build executables
 
-$(NAME_STL)	: $(SRCS)
-	$(CXX) $(CXXFLAGS) -o $(NAME_STL) $(SRCS)
+$(NAME_STL)	: $(OBJS_STL)
+	$(CXX) $(CXXFLAGS) -o $(NAME_STL) $(OBJS_STL)
 
-$(NAME_FT)	: $(SRCS)
-	$(CXX) $(CXXFLAGS) -o $(NAME_FT) -D IS_FT=1 $(SRCS)
+$(NAME_FT)	: $(OBJS_FT)
+	$(CXX) $(CXXFLAGS) -o $(NAME_FT) -D IS_FT=1 $(OBJS_FT)
+
+$(OBJDIR_STL)/%.o: %.cpp
+	@if [ ! -e `dirname $@` ]; then mkdir -p `dirname $@`; fi
+	$(CXX) $(CXXFLAGS) -o $@ -c $<
+
+$(OBJDIR_FT)/%.o: %.cpp
+	@if [ ! -e `dirname $@` ]; then mkdir -p `dirname $@`; fi
+	$(CXX) $(CXXFLAGS) -o $@ -D IS_FT=1 -c $<
+
+.PHONY		: clean
+clean		: ## Delete object files
+	$(RM) $(OBJS_STL) $(OBJS_FT)
 
 .PHONY		: fclean
-fclean		: ## Delete executables and logs
-	$(RM) $(NAME_STL) $(NAME_FT) $(LOG_STL) $(LOG_FT)
+fclean		: clean ## Delete executables
+	$(RM) $(NAME_STL) $(NAME_FT)
 
 .PHONY		: re
 re			: fclean all ## Rebuild executables
 
 .PHONY		: test
 test		: $(NAME_STL) $(NAME_FT) ## Test std::vector and ft::vector
-	$(RM) $(LOG_STL) $(LOG_FT)
-	time ./$(NAME_STL) > result_stl.log
-	time ./$(NAME_FT) > result_ft.log
-	diff result_stl.log result_ft.log
+	$(TEST_SCRIPT)
 
 .PHONY		: retest
 retest		: fclean test ## Rebuild and test

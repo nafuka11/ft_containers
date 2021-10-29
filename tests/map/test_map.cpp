@@ -2,8 +2,9 @@
 #include "map/PairTester.hpp"
 #include "map/MapIteratorTester.hpp"
 #include "map/MapTester.hpp"
+#include "map/MapBenchmark.hpp"
 
-void test_map()
+void test_map_output()
 {
     PairTester pairTester;
     pairTester.test_all();
@@ -38,4 +39,10 @@ void test_map()
 
     MapTester<Foo, Foo> foo_map_tester(foo_elements, foo_len);
     foo_map_tester.test_all();
+}
+
+void test_map_benchmark()
+{
+    MapBenchmark tester;
+    tester.test_all();
 }

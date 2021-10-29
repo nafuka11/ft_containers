@@ -8,16 +8,22 @@ const std::string ArgParser::container_names[] = {
     "stack"
 };
 
-void (*const ArgParser::container_funcs[])(void) = {
-    test_vector,
-    test_map,
-    test_stack
+void (*const ArgParser::output_test_funcs[])(void) = {
+    test_vector_output,
+    test_map_output,
+    test_stack_output
+};
+
+void (*const ArgParser::benchmark_test_funcs[])(void) = {
+    test_vector_benchmark,
+    test_map_benchmark,
+    test_stack_benchmark
 };
 
 const size_t ArgParser::container_len =
     sizeof(container_names) / sizeof(container_names[0]);
 
-ArgParser::ArgParser()
+ArgParser::ArgParser() : is_benchmark_(false)
 {
 }
 
@@ -27,12 +33,13 @@ ArgParser::~ArgParser()
 
 void ArgParser::parse_args(int argc, char *argv[])
 {
-    if (argc == 1)
+    int index = parse_flags(argc, argv);
+    if (index == argc)
     {
         test_all();
         return;
     }
-    for (int i = 1; i < argc; i++)
+    for (int i = index; i < argc; i++)
     {
         if (!parse_arg(argv[i]))
         {
@@ -42,6 +49,29 @@ void ArgParser::parse_args(int argc, char *argv[])
     }
 }
 
+int ArgParser::parse_flags(int argc, char *argv[])
+{
+    for (int i = 1; i < argc; i++)
+    {
+        if (!parse_flag(argv[i]))
+        {
+            return i;
+        }
+    }
+    return argc;
+}
+
+bool ArgParser::parse_flag(char *arg)
+{
+    std::string arg_str = arg;
+    if (arg_str == "-b")
+    {
+        is_benchmark_ = true;
+        return true;
+    }
+    return false;
+}
+
 bool ArgParser::parse_arg(char *arg)
 {
     std::string arg_str = arg;
@@ -49,7 +79,7 @@ bool ArgParser::parse_arg(char *arg)
     {
         if (arg_str == container_names[i])
         {
-            container_funcs[i]();
+            test_container(i);
             return true;
         }
     }
@@ -60,13 +90,25 @@ void ArgParser::test_all()
 {
     for (size_t i = 0; i < container_len; i++)
     {
-        container_funcs[i]();
+        test_container(i);
+    }
+}
+
+void ArgParser::test_container(int index)
+{
+    if (is_benchmark_)
+    {
+        benchmark_test_funcs[index]();
+    }
+    else
+    {
+        output_test_funcs[index]();
     }
 }
 
 void ArgParser::print_help(char *program_name)
 {
-    std::cout << "Usage: " << program_name << " [";
+    std::cout << "Usage: " << program_name << " [-b] [";
     for (size_t i = 0; i < container_len; i++)
     {
         std::cout << container_names[i];

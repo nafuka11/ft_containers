@@ -1,7 +1,8 @@
 #include <list>
+#include "stack/StackBenchmark.hpp"
 #include "stack/StackTester.hpp"
 
-void test_stack()
+void test_stack_output()
 {
     ft::vector<int> vec(5);
     for (size_t i = 0; i < vec.size(); i++)
@@ -20,4 +21,10 @@ void test_stack()
 
     vector_stack_tester.test_all();
     list_stack_tester.test_all();
+}
+
+void test_stack_benchmark()
+{
+    StackBenchmark tester;
+    tester.test_all();
 }

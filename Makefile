@@ -37,7 +37,7 @@ $(OBJDIR_FT)/%.o: %.cpp
 	$(CXX) $(CXXFLAGS) -o $@ -D IS_FT=1 -c $<
 
 .PHONY		: clean
-clean		: clean ## Delete object files
+clean		: ## Delete object files
 	$(RM) $(OBJS_STL) $(OBJS_FT)
 
 .PHONY		: fclean

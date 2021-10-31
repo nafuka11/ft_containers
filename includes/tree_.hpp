@@ -715,21 +715,6 @@ namespace ft
             }
         }
 
-        link_type find_node(const value_type &value) const
-        {
-            link_type node = get_root();
-            while (node != nil_)
-            {
-                if (compare_(value, node->value))
-                    node = node->left;
-                else if (compare_(node->value, value))
-                    node = node->right;
-                else
-                    return node;
-            }
-            return nil_;
-        }
-
         void transplant(link_type x, link_type y)
         {
             if (x->parent == end_)

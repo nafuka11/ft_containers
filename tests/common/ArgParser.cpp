@@ -5,19 +5,22 @@
 const std::string ArgParser::container_names[] = {
     "vector",
     "map",
-    "stack"
+    "stack",
+    "set"
 };
 
 void (*const ArgParser::output_test_funcs[])(void) = {
     test_vector_output,
     test_map_output,
-    test_stack_output
+    test_stack_output,
+    test_set_output
 };
 
 void (*const ArgParser::benchmark_test_funcs[])(void) = {
     test_vector_benchmark,
     test_map_benchmark,
-    test_stack_benchmark
+    test_stack_benchmark,
+    test_set_benchmark
 };
 
 const size_t ArgParser::container_len =

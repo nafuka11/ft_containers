@@ -1,23 +1,24 @@
-#ifndef VECTORBENCHMARK_HPP
-#define VECTORBENCHMARK_HPP
+#ifndef SETBENCHMARK_HPP
+#define SETBENCHMARK_HPP
 
 #include "test.hpp"
 
-class VectorBenchmark
+class SetBenchmark
 {
 public:
-    VectorBenchmark();
+    SetBenchmark();
     void test_all();
 
 private:
     static const size_t loop_count;
     Timer timer;
 
+    void test_begin();
+    void test_end();
     void test_clear();
     void test_insert();
     void test_erase();
-    void test_push_back();
-    void test_pop_back();
+    void test_find();
 };
 
-#endif /* VECTORBENCHMARK_HPP */
+#endif /* SETBENCHMARK_HPP */

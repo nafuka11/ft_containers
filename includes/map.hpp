@@ -67,7 +67,7 @@ namespace ft
         typedef typename allocator_type::pointer pointer;
         typedef typename allocator_type::const_pointer const_pointer;
         typedef typename tree_type::iterator iterator;
-        typedef typename tree_type::iterator const_iterator;
+        typedef typename tree_type::const_iterator const_iterator;
         typedef ft::reverse_iterator<iterator> reverse_iterator;
         typedef ft::reverse_iterator<const_iterator> const_reverse_iterator;
         typedef typename allocator_type::difference_type difference_type;

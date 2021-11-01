@@ -28,72 +28,64 @@ namespace ft
             : parent(nil), left(nil), right(nil), color(RED), value(value) {}
     };
 
-    // Functions
-    // nodeを頂点とした木から最小のノードを返す
     template <class T>
-    rb_node_<T> *search_tree_min_(rb_node_<T> *node, rb_node_<T> *nil)
+    class rb_node_utils_
     {
-        while (node->left != nil)
+    public:
+        rb_node_<T> *search_tree_min(rb_node_<T> *node, rb_node_<T> *nil) const
         {
-            node = node->left;
+            while (node->left != nil)
+            {
+                node = node->left;
+            }
+            return node;
         }
-        return node;
-    }
 
-    // nodeを頂点とした木から最大のノードを返す
-    template <class T>
-    rb_node_<T> *search_tree_max_(rb_node_<T> *node, rb_node_<T> *nil)
-    {
-        while (node->right != nil)
+        rb_node_<T> *search_tree_max(rb_node_<T> *node, rb_node_<T> *nil) const
         {
-            node = node->right;
+            while (node->right != nil)
+            {
+                node = node->right;
+            }
+            return node;
         }
-        return node;
-    }
 
-    // nodeが親の左の子ならtrueを、そうでないならfalseを返す
-    template <class T>
-    bool is_left_child_(rb_node_<T> *node)
-    {
-        return node == node->parent->left;
-    }
+        bool is_left_child(rb_node_<T> *node) const
+        {
+            return node == node->parent->left;
+        }
 
-    // nodeが親の右の子ならtrueを、そうでないならfalseを返す
-    template <class T>
-    bool is_right_child_(rb_node_<T> *node)
-    {
-        return node == node->parent->right;
-    }
+        bool is_right_child(rb_node_<T> *node) const
+        {
+            return node == node->parent->right;
+        }
 
-    // nodeを始点に次に大きいノードを返す
-    template <class T>
-    rb_node_<T> *search_next_node_(rb_node_<T> *node, rb_node_<T> *nil)
-    {
-        if (node->right != nil)
+        rb_node_<T> *search_next_node(rb_node_<T> *node, rb_node_<T> *nil) const
         {
-            return search_tree_min_(node->right, nil);
+            if (node->right != nil)
+            {
+                return search_tree_min(node->right, nil);
+            }
+            while (!is_left_child(node))
+            {
+                node = node->parent;
+            }
+            return node->parent;
         }
-        while (!is_left_child_(node))
-        {
-            node = node->parent;
-        }
-        return node->parent;
-    }
 
-    // nodeを始点にnodeの一つ小さいノードを返す
-    template <class T>
-    rb_node_<T> *search_prev_node_(rb_node_<T> *node, rb_node_<T> *nil)
-    {
-        if (node->left != nil)
+        rb_node_<T> *search_prev_node(rb_node_<T> *node, rb_node_<T> *nil) const
         {
-            return search_tree_max_(node->left, nil);
+            if (node->left != nil)
+            {
+                return search_tree_max(node->left, nil);
+            }
+            while (!is_right_child(node))
+            {
+                node = node->parent;
+            }
+            return node->parent;
         }
-        while (!is_right_child_(node))
-        {
-            node = node->parent;
-        }
-        return node->parent;
-    }
+    };
 
     template <class T>
     class tree_iterator_ : public std::iterator<std::bidirectional_iterator_tag, T>
@@ -145,7 +137,7 @@ namespace ft
         // prefix/postfix increment
         tree_iterator_ &operator++()
         {
-            current = search_next_node_(current, nil);
+            current = utils.search_next_node(current, nil);
             return *this;
         }
         tree_iterator_ operator++(int)
@@ -158,7 +150,7 @@ namespace ft
         // prefix/postfix decrement
         tree_iterator_ &operator--()
         {
-            current = search_prev_node_(current, nil);
+            current = utils.search_prev_node(current, nil);
             return *this;
         }
         tree_iterator_ operator--(int)
@@ -181,6 +173,7 @@ namespace ft
     private:
         link_type current;
         link_type nil;
+        rb_node_utils_<value_type> utils;
     };
 
     // Non-member functions
@@ -338,7 +331,7 @@ namespace ft
                 return;
 
             if (position == begin())
-                begin_ = search_next_node_(begin_, nil_);
+                begin_ = utils_.search_next_node(begin_, nil_);
 
             bool deleted_color;
             link_type replaced = replace_node(position.base(), deleted_color);
@@ -410,13 +403,13 @@ namespace ft
         {
             pair<link_type, link_type> range = search_equal_range_node(key);
             return ft::make_pair(const_iterator(range.first, nil_),
-                             const_iterator(range.second, nil_));
+                                 const_iterator(range.second, nil_));
         }
         pair<iterator, iterator> equal_range(const key_type &key)
         {
             pair<link_type, link_type> range = search_equal_range_node(key);
             return ft::make_pair(iterator(range.first, nil_),
-                             iterator(range.second, nil_));
+                                 iterator(range.second, nil_));
         }
 
         iterator find(const key_type &key)
@@ -449,8 +442,8 @@ namespace ft
 
         Compare compare_;
         node_allocator_type alloc_;
-
         size_type size_;
+        rb_node_utils_<T> utils_;
 
         void initialize()
         {
@@ -508,7 +501,7 @@ namespace ft
             y->parent = node->parent;
             if (node->parent == end_)
                 set_root(y);
-            else if (is_left_child_(node))
+            else if (utils_.is_left_child(node))
                 node->parent->left = y;
             else
                 node->parent->right = y;
@@ -525,7 +518,7 @@ namespace ft
             y->parent = node->parent;
             if (node->parent == end_)
                 set_root(y);
-            else if (is_right_child_(node))
+            else if (utils_.is_right_child(node))
                 node->parent->right = y;
             else
                 node->parent->left = y;
@@ -575,7 +568,7 @@ namespace ft
         {
             while (node->parent->color == rb_node_<T>::RED)
             {
-                if (is_left_child_(node->parent))
+                if (utils_.is_left_child(node->parent))
                 {
                     insert_fixup_left(node);
                 }
@@ -599,7 +592,7 @@ namespace ft
             }
             else
             {
-                if (is_right_child_(node))
+                if (utils_.is_right_child(node))
                 {
                     node = node->parent;
                     rotate_left(node);
@@ -622,7 +615,7 @@ namespace ft
             }
             else
             {
-                if (is_left_child_(node))
+                if (utils_.is_left_child(node))
                 {
                     node = node->parent;
                     rotate_right(node);
@@ -637,7 +630,7 @@ namespace ft
         {
             while (node != get_root() && node->color == rb_node_<T>::BLACK)
             {
-                if (is_right_child_(node))
+                if (utils_.is_right_child(node))
                 {
                     delete_fixup_right(node);
                 }
@@ -719,7 +712,7 @@ namespace ft
         {
             if (x->parent == end_)
                 set_root(y);
-            else if (is_left_child_(x))
+            else if (utils_.is_left_child(x))
                 x->parent->left = y;
             else
                 x->parent->right = y;
@@ -742,7 +735,7 @@ namespace ft
             }
             else
             {
-                link_type y = search_tree_min_(node->right, nil_);
+                link_type y = utils_.search_tree_min(node->right, nil_);
                 deleted_color = y->color;
                 replaced_node = y->right;
                 if (y->parent == node)
@@ -823,7 +816,7 @@ namespace ft
                 else
                 {
                     if (lower->right != nil_)
-                        upper = search_tree_min_(lower->right, nil_);
+                        upper = utils_.search_tree_min(lower->right, nil_);
                     return ft::make_pair(lower, upper);
                 }
             }

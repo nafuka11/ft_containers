@@ -32,7 +32,6 @@ namespace ft
     class rb_node_utils_
     {
     public:
-        // nodeを頂点とした木から最小のノードを返す
         rb_node_<T> *search_tree_min(rb_node_<T> *node, rb_node_<T> *nil) const
         {
             while (node->left != nil)
@@ -42,7 +41,6 @@ namespace ft
             return node;
         }
 
-        // nodeを頂点とした木から最大のノードを返す
         rb_node_<T> *search_tree_max(rb_node_<T> *node, rb_node_<T> *nil) const
         {
             while (node->right != nil)
@@ -52,19 +50,16 @@ namespace ft
             return node;
         }
 
-        // nodeが親の左の子ならtrueを、そうでないならfalseを返す
         bool is_left_child(rb_node_<T> *node) const
         {
             return node == node->parent->left;
         }
 
-        // nodeが親の右の子ならtrueを、そうでないならfalseを返す
         bool is_right_child(rb_node_<T> *node) const
         {
             return node == node->parent->right;
         }
 
-        // nodeを始点に次に大きいノードを返す
         rb_node_<T> *search_next_node(rb_node_<T> *node, rb_node_<T> *nil) const
         {
             if (node->right != nil)
@@ -78,7 +73,6 @@ namespace ft
             return node->parent;
         }
 
-        // nodeを始点にnodeの一つ小さいノードを返す
         rb_node_<T> *search_prev_node(rb_node_<T> *node, rb_node_<T> *nil) const
         {
             if (node->left != nil)

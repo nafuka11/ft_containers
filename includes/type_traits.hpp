@@ -81,10 +81,6 @@ namespace ft
     struct is_integral_helper<long> : public true_type {};
     template <>
     struct is_integral_helper<unsigned long> : public true_type {};
-    template <>
-    struct is_integral_helper<long long> : public true_type {};
-    template <>
-    struct is_integral_helper<unsigned long long> : public true_type {};
 
     template <class T>
     struct is_integral : public is_integral_helper<typename remove_cv<T>::type> {};

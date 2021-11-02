@@ -15,7 +15,7 @@ namespace ft
         typedef size_t size_type;
 
         // Member functions
-        explicit stack(const container_type &cont = container_type()) : c(cont) {}
+        explicit stack(const container_type &ctnr = container_type()) : c(ctnr) {}
 
         bool empty() const
         {
@@ -35,9 +35,9 @@ namespace ft
             return c.back();
         }
 
-        void push(const value_type &value)
+        void push(const value_type &val)
         {
-            c.push_back(value);
+            c.push_back(val);
         }
 
         void pop()

@@ -35,6 +35,7 @@ print_arguments () {
 
 print_benchmark_output () {
     paste "${BENCHMARK_LOG_STL}" "${BENCHMARK_LOG_FT}" \
+        | grep -v leaks \
         | awk '{
             if ($5 < $2) {
                 printf "%-20s%8s %s", $1, $2, $3

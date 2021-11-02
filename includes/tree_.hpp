@@ -3,9 +3,8 @@
 
 #include <algorithm>
 #include <cstddef>
-#include <iterator>
 #include <memory>
-#include "type_traits.hpp"
+#include "iterator.hpp"
 #include "utility.hpp"
 
 namespace ft

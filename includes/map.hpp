@@ -40,7 +40,6 @@ namespace ft
         typedef T mapped_type;
         typedef pair<const key_type, mapped_type> value_type;
         typedef Compare key_compare;
-        typedef Allocator allocator_type;
 
         class value_compare : std::binary_function<value_type, value_type, bool>
         {
@@ -57,21 +56,23 @@ namespace ft
             }
         };
 
+        typedef Allocator allocator_type;
+        typedef typename allocator_type::reference reference;
+        typedef typename allocator_type::const_reference const_reference;
+        typedef typename allocator_type::pointer pointer;
+        typedef typename allocator_type::const_pointer const_pointer;
+
     private:
         typedef map_value_compare_<key_type, value_type, key_compare> tree_compare;
         typedef rb_tree_<key_type, value_type, tree_compare, allocator_type> tree_type;
 
     public:
-        typedef typename allocator_type::reference reference;
-        typedef typename allocator_type::const_reference const_reference;
-        typedef typename allocator_type::pointer pointer;
-        typedef typename allocator_type::const_pointer const_pointer;
         typedef typename tree_type::iterator iterator;
         typedef typename tree_type::const_iterator const_iterator;
         typedef ft::reverse_iterator<iterator> reverse_iterator;
         typedef ft::reverse_iterator<const_iterator> const_reverse_iterator;
-        typedef typename allocator_type::difference_type difference_type;
-        typedef typename allocator_type::size_type size_type;
+        typedef typename iterator_traits<iterator>::difference_type difference_type;
+        typedef size_t size_type;
 
     public:
         // Member functions
@@ -258,6 +259,7 @@ namespace ft
             return tree_.equal_range(k);
         }
 
+        // Allocator
         allocator_type get_allocator() const
         {
             return allocator_type(tree_.get_allocator());
@@ -309,10 +311,10 @@ namespace ft
     }
 
     template <class Key, class T, class Compare, class Alloc>
-    void swap(ft::map<Key, T, Compare, Alloc> &lhs,
-              ft::map<Key, T, Compare, Alloc> &rhs)
+    void swap(ft::map<Key, T, Compare, Alloc> &x,
+              ft::map<Key, T, Compare, Alloc> &y)
     {
-        lhs.swap(rhs);
+        x.swap(y);
     }
 
 } /* namespace ft */

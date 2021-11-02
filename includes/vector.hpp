@@ -7,7 +7,6 @@
 #include <memory>
 #include "algorithm.hpp"
 #include "iterator.hpp"
-#include "type_traits.hpp"
 
 namespace ft
 {
@@ -160,35 +159,35 @@ namespace ft
         return lhs.base() - rhs.base();
     }
 
-    template <class T, class Allocator = std::allocator<T> >
+    template <class T, class Alloc = std::allocator<T> >
     class vector
     {
     public:
         // Member types
         typedef T value_type;
-        typedef Allocator allocator_type;
+        typedef Alloc allocator_type;
         typedef typename allocator_type::reference reference;
         typedef typename allocator_type::const_reference const_reference;
         typedef typename allocator_type::pointer pointer;
         typedef typename allocator_type::const_pointer const_pointer;
         typedef vector_iterator_<pointer> iterator;
         typedef vector_iterator_<const_pointer> const_iterator;
-        typedef typename allocator_type::size_type size_type;
-        typedef typename allocator_type::difference_type difference_type;
         typedef ft::reverse_iterator<iterator> reverse_iterator;
         typedef ft::reverse_iterator<const_iterator> const_reverse_iterator;
+        typedef typename iterator_traits<iterator>::difference_type difference_type;
+        typedef size_t size_type;
 
         // Member functions
         explicit vector(const allocator_type &alloc = allocator_type())
             : alloc_(alloc), first_(NULL), last_(NULL), capacity_last_(NULL) {}
-        explicit vector(size_type count, const value_type &value = value_type(),
+        explicit vector(size_type n, const value_type &val = value_type(),
                         const allocator_type &alloc = allocator_type())
             : alloc_(alloc), first_(NULL), last_(NULL), capacity_last_(NULL)
         {
-            if (count > 0)
+            if (n > 0)
             {
-                allocate(count);
-                std::uninitialized_fill_n(first_, count, value);
+                allocate(n);
+                std::uninitialized_fill_n(first_, n, val);
             }
         }
         template <class InputIterator>
@@ -200,14 +199,14 @@ namespace ft
             allocate(std::distance(first, last));
             std::uninitialized_copy(first, last, first_);
         }
-        vector(const vector &other)
-            : alloc_(other.alloc_), first_(NULL), last_(NULL), capacity_last_(NULL)
+        vector(const vector &x)
+            : alloc_(x.alloc_), first_(NULL), last_(NULL), capacity_last_(NULL)
         {
-            size_type size = other.size();
+            size_type size = x.size();
             if (size > 0)
             {
                 allocate(size);
-                std::uninitialized_copy(other.first_, other.last_, first_);
+                std::uninitialized_copy(x.first_, x.last_, first_);
             }
         }
         ~vector()
@@ -215,13 +214,13 @@ namespace ft
             clear();
             deallocate();
         }
-        vector &operator=(const vector &other)
+        vector &operator=(const vector &x)
         {
-            assign(other.first_, other.last_);
+            assign(x.first_, x.last_);
             return *this;
         }
 
-        // Member functions: Iterators
+        // Iterators
         iterator begin()
         {
             return iterator(first_);
@@ -254,7 +253,8 @@ namespace ft
         {
             return const_reverse_iterator(begin());
         }
-        // Member functions: Capacity
+
+        // Capacity
         size_type size() const
         {
             return last_ - first_;
@@ -265,15 +265,15 @@ namespace ft
                 static_cast<size_type>(std::numeric_limits<difference_type>::max()),
                 alloc_.max_size());
         }
-        void resize(size_type count, value_type value = value_type())
+        void resize(size_type n, value_type val = value_type())
         {
-            if (count < size())
+            if (n < size())
             {
-                erase(begin() + count, end());
+                erase(begin() + n, end());
             }
-            else if (count > size())
+            else if (n > size())
             {
-                insert(end(), count - size(), value);
+                insert(end(), n - size(), val);
             }
         }
         size_type capacity() const
@@ -284,46 +284,46 @@ namespace ft
         {
             return first_ == last_;
         }
-        void reserve(size_type new_cap)
+        void reserve(size_type n)
         {
-            if (new_cap > max_size())
+            if (n > max_size())
                 throw std::length_error(
                     "allocator<T>::allocate(size_t n) 'n' exceeds maximum supported size");
-            if (new_cap > capacity())
+            if (n > capacity())
             {
                 size_type old_capacity = capacity();
                 size_type old_size = size();
-                pointer new_first = alloc_.allocate(new_cap);
+                pointer new_first = alloc_.allocate(n);
 
                 std::uninitialized_copy(first_, last_, new_first);
                 clear();
                 alloc_.deallocate(first_, old_capacity);
                 first_ = new_first;
                 last_ = first_ + old_size;
-                capacity_last_ = first_ + new_cap;
+                capacity_last_ = first_ + n;
             }
         }
 
-        // Member functions: Element access
-        reference operator[](size_type pos)
+        // Element access
+        reference operator[](size_type n)
         {
-            return first_[pos];
+            return first_[n];
         }
-        const_reference operator[](size_type pos) const
+        const_reference operator[](size_type n) const
         {
-            return first_[pos];
+            return first_[n];
         }
-        reference at(size_type pos)
+        reference at(size_type n)
         {
-            if (pos >= size())
+            if (n >= size())
                 throw std::out_of_range("vector");
-            return first_[pos];
+            return first_[n];
         }
-        const_reference at(size_type pos) const
+        const_reference at(size_type n) const
         {
-            if (pos >= size())
+            if (n >= size())
                 throw std::out_of_range("vector");
-            return first_[pos];
+            return first_[n];
         }
         reference front()
         {
@@ -341,6 +341,8 @@ namespace ft
         {
             return *(end() - 1);
         }
+
+        // Modifiers
         template <class InputIterator>
         void assign(InputIterator first,
                     typename ft::enable_if<
@@ -360,47 +362,45 @@ namespace ft
             }
             last_ = first_ + new_size;
         }
-        void assign(size_type count, const T &value)
+        void assign(size_type n, const T &val)
         {
-            if (count > capacity())
+            if (n > capacity())
             {
                 clear();
-                reserve(count);
-                std::uninitialized_fill_n(first_, count, value);
+                reserve(n);
+                std::uninitialized_fill_n(first_, n, val);
             }
             else
             {
-                destruct_at_end(first_ + count);
-                std::fill_n(first_, count, value);
+                destruct_at_end(first_ + n);
+                std::fill_n(first_, n, val);
             }
-            last_ = first_ + count;
+            last_ = first_ + n;
         }
-
-        // Member functions: Modifiers
-        void push_back(const value_type &value)
+        void push_back(const value_type &val)
         {
             size_type new_size = size() + 1;
             if (new_size > capacity())
             {
                 reserve(calc_new_capacity(new_size));
             }
-            alloc_.construct(last_, value);
+            alloc_.construct(last_, val);
             last_++;
         }
         void pop_back()
         {
             destruct_at_end(last_ - 1);
         }
-        iterator insert(iterator pos, const value_type &value)
+        iterator insert(iterator position, const value_type &val)
         {
-            size_type offset = pos - begin();
-            insert(pos, 1, value);
+            size_type offset = position - begin();
+            insert(position, 1, val);
             return begin() + offset;
         }
-        void insert(iterator pos, size_type count, const value_type &value)
+        void insert(iterator position, size_type n, const value_type &val)
         {
-            size_type new_size = size() + count;
-            size_type offset = pos - begin();
+            size_type new_size = size() + n;
+            size_type offset = position - begin();
 
             if (new_size > capacity())
             {
@@ -409,41 +409,41 @@ namespace ft
                 size_type old_size = size();
                 pointer new_first = alloc_.allocate(new_size);
 
-                std::uninitialized_copy(begin(), pos, new_first);
-                std::uninitialized_fill_n(new_first + offset, count, value);
-                std::uninitialized_copy(pos, end(), new_first + offset + count);
+                std::uninitialized_copy(begin(), position, new_first);
+                std::uninitialized_fill_n(new_first + offset, n, val);
+                std::uninitialized_copy(position, end(), new_first + offset + n);
 
                 clear();
                 alloc_.deallocate(first_, old_capacity);
                 first_ = new_first;
-                last_ = first_ + old_size + count;
+                last_ = first_ + old_size + n;
                 capacity_last_ = first_ + new_size;
             }
             else
             {
-                move_range(offset, count);
-                for (size_type i = 0; i < count; i++)
+                move_range(offset, n);
+                for (size_type i = 0; i < n; i++)
                 {
                     if (offset + i >= size())
                     {
-                        alloc_.construct(&first_[offset + i], value);
+                        alloc_.construct(&first_[offset + i], val);
                     }
                     else
                     {
-                        first_[offset + i] = value;
+                        first_[offset + i] = val;
                     }
                 }
-                last_ += count;
+                last_ += n;
             }
         }
         template <class InputIterator>
-        void insert(iterator pos, InputIterator first,
+        void insert(iterator position, InputIterator first,
                     typename ft::enable_if<
                         !ft::is_integral<InputIterator>::value, InputIterator>::type last)
         {
             size_type count = std::distance(first, last);
             size_type new_size = size() + count;
-            size_type offset = pos - begin();
+            size_type offset = position - begin();
 
             if (new_size > capacity())
             {
@@ -452,9 +452,9 @@ namespace ft
                 size_type old_size = size();
                 pointer new_first = alloc_.allocate(new_size);
 
-                std::uninitialized_copy(begin(), pos, new_first);
+                std::uninitialized_copy(begin(), position, new_first);
                 std::uninitialized_copy(first, last, new_first + offset);
-                std::uninitialized_copy(pos, end(), new_first + offset + count);
+                std::uninitialized_copy(position, end(), new_first + offset + count);
 
                 clear();
                 alloc_.deallocate(first_, old_capacity);
@@ -480,9 +480,9 @@ namespace ft
                 last_ += count;
             }
         }
-        iterator erase(iterator pos)
+        iterator erase(iterator position)
         {
-            return erase(pos, pos + 1);
+            return erase(position, position + 1);
         }
         iterator erase(iterator first, iterator last)
         {
@@ -494,15 +494,15 @@ namespace ft
             destruct_at_end(last_ - offset);
             return first;
         }
-        void swap(vector &other)
+        void swap(vector &x)
         {
-            pointer tmp_first = other.first_;
-            pointer tmp_last = other.last_;
-            pointer tmp_capacity_last = other.capacity_last_;
+            pointer tmp_first = x.first_;
+            pointer tmp_last = x.last_;
+            pointer tmp_capacity_last = x.capacity_last_;
 
-            other.first_ = first_;
-            other.last_ = last_;
-            other.capacity_last_ = capacity_last_;
+            x.first_ = first_;
+            x.last_ = last_;
+            x.capacity_last_ = capacity_last_;
             first_ = tmp_first;
             last_ = tmp_last;
             capacity_last_ = tmp_capacity_last;
@@ -512,7 +512,7 @@ namespace ft
             destruct_at_end(first_);
         }
 
-        // Member functions: Allocator
+        // Allocator
         allocator_type get_allocator() const
         {
             return alloc_;
@@ -604,9 +604,9 @@ namespace ft
         return !(lhs < rhs);
     }
     template <class T, class Alloc>
-    void swap(ft::vector<T, Alloc> &lhs, ft::vector<T, Alloc> &rhs)
+    void swap(ft::vector<T, Alloc> &x, ft::vector<T, Alloc> &y)
     {
-        lhs.swap(rhs);
+        x.swap(y);
     }
 
 } /* namespace ft */

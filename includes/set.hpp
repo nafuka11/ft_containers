@@ -17,15 +17,15 @@ namespace ft
         typedef Compare key_compare;
         typedef Compare value_compare;
         typedef Alloc allocator_type;
+        typedef typename allocator_type::reference reference;
+        typedef typename allocator_type::const_reference const_reference;
+        typedef typename allocator_type::pointer pointer;
+        typedef typename allocator_type::const_pointer const_pointer;
 
     private:
         typedef rb_tree_<key_type, value_type, value_compare, allocator_type> tree_type;
 
     public:
-        typedef value_type &reference;
-        typedef const value_type &const_reference;
-        typedef typename allocator_type::pointer pointer;
-        typedef typename allocator_type::const_pointer const_pointer;
         typedef typename tree_type::iterator iterator;
         typedef typename tree_type::const_iterator const_iterator;
         typedef ft::reverse_iterator<iterator> reverse_iterator;
@@ -36,12 +36,12 @@ namespace ft
         // Member functions
         explicit set(const key_compare &comp = key_compare(),
                      const allocator_type &alloc = allocator_type())
-            : tree_(comp, alloc) {}
+            : tree_(comp, alloc), compare_(comp) {}
         template <class InputIterator>
         set(InputIterator first, InputIterator last,
             const key_compare &comp = key_compare(),
             const allocator_type &alloc = allocator_type())
-            : tree_(comp, alloc)
+            : tree_(comp, alloc), compare_(comp)
         {
             insert(first, last);
         }
@@ -145,11 +145,11 @@ namespace ft
         // Observers
         key_compare key_comp() const
         {
-            return key_compare();
+            return compare_;
         }
         value_compare value_comp() const
         {
-            return value_compare();
+            return compare_;
         }
 
         // Operations
@@ -182,6 +182,7 @@ namespace ft
 
     private:
         tree_type tree_;
+        value_compare compare_;
     };
 
     // Non-member functions

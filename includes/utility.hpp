@@ -6,13 +6,15 @@ namespace ft
     template <class T1, class T2>
     struct pair
     {
+        // Member types
         typedef T1 first_type;
         typedef T2 second_type;
 
+        // Member variables
         T1 first;
         T2 second;
 
-        // Constructor
+        // Member functions
         pair() : first(), second() {}
         template <class U, class V>
         pair(const pair<U, V> &pr) : first(pr.first), second(pr.second) {}
@@ -26,6 +28,7 @@ namespace ft
         }
     };
 
+    // pair: Non-member function overloads
     template <class T1, class T2>
     bool operator==(const pair<T1, T2> &lhs, const pair<T1, T2> &rhs)
     {

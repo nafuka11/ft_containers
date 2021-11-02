@@ -34,19 +34,26 @@ print_arguments () {
 }
 
 print_benchmark_output () {
-    paste "${BENCHMARK_LOG_STL}" "${BENCHMARK_LOG_FT}" | awk '{
-        if ($2 > $5) {
-            printf "%-20s%8s %s", $1, $2, $3
-            printf " | "
-            printf "\033[32m%-20s%8s %s\033[0m", $4, $5, $6
-        }
-        else {
-            printf "\033[32m%-20s%8s %s\033[0m", $1, $2, $3
-            printf " | "
-            printf "%-20s%8s %s", $4, $5, $6
-        }
-        printf "\n"
-    }'
+    paste "${BENCHMARK_LOG_STL}" "${BENCHMARK_LOG_FT}" \
+        | awk '{
+            if ($5 < $2) {
+                printf "%-20s%8s %s", $1, $2, $3
+                printf " | "
+                printf "\033[32m%-20s%8s %s\033[0m", $4, $5, $6
+            }
+            else if ($5 > $2 * 20)
+            {
+                printf "\033[32m%-20s%8s %s\033[0m", $1, $2, $3
+                printf " | "
+                printf "\033[31m%-20s%8s %s\033[0m", $4, $5, $6
+            }
+            else {
+                printf "\033[32m%-20s%8s %s\033[0m", $1, $2, $3
+                printf " | "
+                printf "%-20s%8s %s", $4, $5, $6
+            }
+            printf "\n"
+        }'
 }
 
 test_output () {

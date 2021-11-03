@@ -1,10 +1,10 @@
 #include "stack/StackBenchmark.hpp"
 
-const size_t StackBenchmark::loop_count = 10000;
+const size_t StackBenchmark::LOOP_COUNT = 10000;
 
 StackBenchmark::StackBenchmark() : timer_(Timer()), original_vec_()
 {
-    for (size_t i = 0; i < loop_count; i++)
+    for (size_t i = 0; i < LOOP_COUNT; i++)
     {
         original_vec_.push_back(i);
     }
@@ -21,7 +21,7 @@ void StackBenchmark::test_top()
 {
     ft::stack<int, ft::vector<int> > stk(original_vec_);
     timer_.start();
-    for (size_t i = 0; i < loop_count; i++)
+    for (size_t i = 0; i < LOOP_COUNT; i++)
     {
         stk.top();
     }
@@ -34,7 +34,7 @@ void StackBenchmark::test_push()
     ft::vector<int> empty_vec;
     ft::stack<int, ft::vector<int> > stk(empty_vec);
     timer_.start();
-    for (size_t i = 0; i < loop_count; i++)
+    for (size_t i = 0; i < LOOP_COUNT; i++)
     {
         stk.push(i);
     }
@@ -46,7 +46,7 @@ void StackBenchmark::test_pop()
 {
     ft::stack<int, ft::vector<int> > stk(original_vec_);
     timer_.start();
-    for (size_t i = 0; i < loop_count; i++)
+    for (size_t i = 0; i < LOOP_COUNT; i++)
     {
         stk.pop();
     }

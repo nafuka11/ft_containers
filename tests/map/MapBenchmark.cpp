@@ -1,6 +1,6 @@
 #include "map/MapBenchmark.hpp"
 
-const size_t MapBenchmark::loop_count = 10000;
+const size_t MapBenchmark::LOOP_COUNT = 10000;
 
 MapBenchmark::MapBenchmark() : timer_(Timer()) {}
 
@@ -18,12 +18,12 @@ void MapBenchmark::test_all()
 void MapBenchmark::test_operator_at()
 {
     ft::map<int, int> m;
-    for (size_t i = 0; i < loop_count; i++)
+    for (size_t i = 0; i < LOOP_COUNT; i++)
     {
         m.insert(ft::make_pair(i, i));
     }
     timer_.start();
-    for (size_t i = 0; i < loop_count; i++)
+    for (size_t i = 0; i < LOOP_COUNT; i++)
     {
         m[i] = 42;
     }
@@ -39,7 +39,7 @@ void MapBenchmark::test_begin()
         m.insert(ft::make_pair(i, i));
     }
     timer_.start();
-    for (size_t i = 0; i < loop_count; i++)
+    for (size_t i = 0; i < LOOP_COUNT; i++)
     {
         m.begin();
     }
@@ -50,12 +50,12 @@ void MapBenchmark::test_begin()
 void MapBenchmark::test_end()
 {
     ft::map<int, int> m;
-    for (size_t i = 0; i < loop_count; i++)
+    for (size_t i = 0; i < LOOP_COUNT; i++)
     {
         m.insert(ft::make_pair(i, i));
     }
     timer_.start();
-    for (size_t i = 0; i < loop_count; i++)
+    for (size_t i = 0; i < LOOP_COUNT; i++)
     {
         m.end();
     }
@@ -66,7 +66,7 @@ void MapBenchmark::test_end()
 void MapBenchmark::test_clear()
 {
     ft::map<int, int> m;
-    for (size_t i = 0; i < loop_count; i++)
+    for (size_t i = 0; i < LOOP_COUNT; i++)
     {
         m.insert(ft::make_pair(i, i));
     }
@@ -80,7 +80,7 @@ void MapBenchmark::test_insert()
 {
     ft::map<int, int> m;
     timer_.start();
-    for (size_t i = 0; i < loop_count; i++)
+    for (size_t i = 0; i < LOOP_COUNT; i++)
     {
         m.insert(ft::make_pair(i, i));
     }
@@ -91,12 +91,12 @@ void MapBenchmark::test_insert()
 void MapBenchmark::test_erase()
 {
     ft::map<int, int> m;
-    for (size_t i = 0; i < loop_count; i++)
+    for (size_t i = 0; i < LOOP_COUNT; i++)
     {
         m.insert(ft::make_pair(i, i));
     }
     timer_.start();
-    for (size_t i = 0; i < loop_count; i++)
+    for (size_t i = 0; i < LOOP_COUNT; i++)
     {
         m.erase(i);
     }
@@ -107,12 +107,12 @@ void MapBenchmark::test_erase()
 void MapBenchmark::test_find()
 {
     ft::map<int, int> m;
-    for (size_t i = 0; i < loop_count; i++)
+    for (size_t i = 0; i < LOOP_COUNT; i++)
     {
         m.insert(ft::make_pair(i, i));
     }
     timer_.start();
-    for (size_t i = 0; i < loop_count; i++)
+    for (size_t i = 0; i < LOOP_COUNT; i++)
     {
         m.find(i);
     }

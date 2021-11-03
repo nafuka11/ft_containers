@@ -1,6 +1,6 @@
 #include "vector/VectorBenchmark.hpp"
 
-const size_t VectorBenchmark::loop_count = 10000;
+const size_t VectorBenchmark::LOOP_COUNT = 10000;
 
 VectorBenchmark::VectorBenchmark() : timer_(Timer()) {}
 
@@ -16,7 +16,7 @@ void VectorBenchmark::test_all()
 void VectorBenchmark::test_clear()
 {
     timer_.start();
-    for (size_t i = 0; i < loop_count; i++)
+    for (size_t i = 0; i < LOOP_COUNT; i++)
     {
         ft::vector<int> vec(100);
         vec.clear();
@@ -30,7 +30,7 @@ void VectorBenchmark::test_insert()
     ft::vector<int> vec;
 
     timer_.start();
-    for (size_t i = 0; i < loop_count; i++)
+    for (size_t i = 0; i < LOOP_COUNT; i++)
     {
         vec.insert(vec.end(), 42);
     }
@@ -40,10 +40,10 @@ void VectorBenchmark::test_insert()
 
 void VectorBenchmark::test_erase()
 {
-    ft::vector<int> vec(loop_count);
+    ft::vector<int> vec(LOOP_COUNT);
 
     timer_.start();
-    for (size_t i = 0; i < loop_count; i++)
+    for (size_t i = 0; i < LOOP_COUNT; i++)
     {
         vec.erase(vec.end() - 1);
     }
@@ -56,7 +56,7 @@ void VectorBenchmark::test_push_back()
     ft::vector<int> vec;
 
     timer_.start();
-    for (size_t i = 0; i < loop_count; i++)
+    for (size_t i = 0; i < LOOP_COUNT; i++)
     {
         vec.push_back(i);
     }
@@ -66,10 +66,10 @@ void VectorBenchmark::test_push_back()
 
 void VectorBenchmark::test_pop_back()
 {
-    ft::vector<int> vec(loop_count);
+    ft::vector<int> vec(LOOP_COUNT);
 
     timer_.start();
-    for (size_t i = 0; i < loop_count; i++)
+    for (size_t i = 0; i < LOOP_COUNT; i++)
     {
         vec.pop_back();
     }

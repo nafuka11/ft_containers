@@ -2,29 +2,29 @@
 #include "ArgParser.hpp"
 #include "test.hpp"
 
-const std::string ArgParser::container_names[] = {
+const std::string ArgParser::CONTAINER_NAMES[] = {
     "vector",
     "map",
     "stack",
     "set"
 };
 
-void (*const ArgParser::output_test_funcs[])(void) = {
+void (*const ArgParser::OUTPUT_TEST_FUNCS[])(void) = {
     test_vector_output,
     test_map_output,
     test_stack_output,
     test_set_output
 };
 
-void (*const ArgParser::benchmark_test_funcs[])(void) = {
+void (*const ArgParser::BENCHMARK_TEST_FUNCS[])(void) = {
     test_vector_benchmark,
     test_map_benchmark,
     test_stack_benchmark,
     test_set_benchmark
 };
 
-const size_t ArgParser::container_len =
-    sizeof(container_names) / sizeof(container_names[0]);
+const size_t ArgParser::CONTAINER_LEN =
+    sizeof(CONTAINER_NAMES) / sizeof(CONTAINER_NAMES[0]);
 
 ArgParser::ArgParser() : is_benchmark_(false)
 {
@@ -78,9 +78,9 @@ bool ArgParser::parse_flag(char *arg)
 bool ArgParser::parse_arg(char *arg)
 {
     std::string arg_str = arg;
-    for (size_t i = 0; i < container_len; i++)
+    for (size_t i = 0; i < CONTAINER_LEN; i++)
     {
-        if (arg_str == container_names[i])
+        if (arg_str == CONTAINER_NAMES[i])
         {
             test_container(i);
             return true;
@@ -91,7 +91,7 @@ bool ArgParser::parse_arg(char *arg)
 
 void ArgParser::test_all()
 {
-    for (size_t i = 0; i < container_len; i++)
+    for (size_t i = 0; i < CONTAINER_LEN; i++)
     {
         test_container(i);
     }
@@ -101,21 +101,21 @@ void ArgParser::test_container(int index)
 {
     if (is_benchmark_)
     {
-        benchmark_test_funcs[index]();
+        BENCHMARK_TEST_FUNCS[index]();
     }
     else
     {
-        output_test_funcs[index]();
+        OUTPUT_TEST_FUNCS[index]();
     }
 }
 
 void ArgParser::print_help(char *program_name)
 {
     std::cout << "Usage: " << program_name << " [-b] [";
-    for (size_t i = 0; i < container_len; i++)
+    for (size_t i = 0; i < CONTAINER_LEN; i++)
     {
-        std::cout << container_names[i];
-        if (i != container_len - 1)
+        std::cout << CONTAINER_NAMES[i];
+        if (i != CONTAINER_LEN - 1)
         {
             std::cout << " ";
         }

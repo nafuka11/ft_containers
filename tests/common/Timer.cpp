@@ -3,17 +3,17 @@
 
 void Timer::start()
 {
-    start_time = clock();
+    start_time_ = clock();
 }
 
 void Timer::stop()
 {
-    stop_time = clock();
+    stop_time_ = clock();
 }
 
 double Timer::elapsed() const
 {
-    double time = (double)(stop_time - start_time) / CLOCKS_PER_SEC * 1000;
+    double time = (double)(stop_time_ - start_time_) / CLOCKS_PER_SEC * 1000;
     return time;
 }
 

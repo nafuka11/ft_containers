@@ -103,9 +103,9 @@ namespace ft
     public:
         // Member functions
         // constructor
-        tree_iterator_() : current(NULL) {}
+        tree_iterator_() : current_(NULL) {}
         explicit tree_iterator_(link_type ptr, link_type nil)
-            : current(ptr), nil(nil) {}
+            : current_(ptr), nil_(nil) {}
 
         // copy constructor
         template <class Iter>
@@ -118,25 +118,25 @@ namespace ft
         template <class Iter>
         tree_iterator_ &operator=(const tree_iterator_<Iter> &other)
         {
-            current = other.base();
-            nil = other.get_nil();
+            current_ = other.base();
+            nil_ = other.get_nil();
             return *this;
         }
 
         // dereference operator
         reference operator*() const
         {
-            return current->value;
+            return current_->value;
         }
         pointer operator->() const
         {
-            return &current->value;
+            return &current_->value;
         }
 
         // prefix/postfix increment
         tree_iterator_ &operator++()
         {
-            current = utils.search_next_node(current, nil);
+            current_ = utils_.search_next_node(current_, nil_);
             return *this;
         }
         tree_iterator_ operator++(int)
@@ -149,7 +149,7 @@ namespace ft
         // prefix/postfix decrement
         tree_iterator_ &operator--()
         {
-            current = utils.search_prev_node(current, nil);
+            current_ = utils_.search_prev_node(current_, nil_);
             return *this;
         }
         tree_iterator_ operator--(int)
@@ -161,18 +161,18 @@ namespace ft
 
         link_type base() const
         {
-            return current;
+            return current_;
         }
 
         link_type get_nil() const
         {
-            return nil;
+            return nil_;
         }
 
     private:
-        link_type current;
-        link_type nil;
-        rb_node_utils_<value_type> utils;
+        link_type current_;
+        link_type nil_;
+        rb_node_utils_<value_type> utils_;
     };
 
     // Non-member functions

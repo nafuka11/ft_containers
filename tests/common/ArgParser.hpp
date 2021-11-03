@@ -6,10 +6,10 @@
 class ArgParser
 {
 private:
-    static const std::string container_names[];
-    static void (*const output_test_funcs[])(void);
-    static void (*const benchmark_test_funcs[])(void);
-    static const size_t container_len;
+    static const std::string CONTAINER_NAMES[];
+    static void (*const OUTPUT_TEST_FUNCS[])(void);
+    static void (*const BENCHMARK_TEST_FUNCS[])(void);
+    static const size_t CONTAINER_LEN;
 
     bool is_benchmark_;
 

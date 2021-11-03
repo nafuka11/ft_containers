@@ -10,9 +10,10 @@ public:
     void start();
     void stop();
     double elapsed() const;
+
 private:
-    clock_t start_time;
-    clock_t stop_time;
+    clock_t start_time_;
+    clock_t stop_time_;
 };
 
 std::ostream &operator<<(std::ostream &os, const Timer &timer);

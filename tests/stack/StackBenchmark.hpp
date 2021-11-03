@@ -10,9 +10,9 @@ public:
     void test_all();
 
 private:
-    static const size_t loop_count;
-    Timer timer;
-    ft::vector<int> original_vec;
+    static const size_t LOOP_COUNT;
+    Timer timer_;
+    ft::vector<int> original_vec_;
 
     void test_top();
     void test_push();

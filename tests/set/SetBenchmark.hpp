@@ -10,8 +10,8 @@ public:
     void test_all();
 
 private:
-    static const size_t loop_count;
-    Timer timer;
+    static const size_t LOOP_COUNT;
+    Timer timer_;
 
     void test_begin();
     void test_end();

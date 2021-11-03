@@ -1,8 +1,8 @@
 #include "map/MapBenchmark.hpp"
 
-const size_t MapBenchmark::loop_count = 10000;
+const size_t MapBenchmark::LOOP_COUNT = 10000;
 
-MapBenchmark::MapBenchmark() : timer(Timer()) {}
+MapBenchmark::MapBenchmark() : timer_(Timer()) {}
 
 void MapBenchmark::test_all()
 {
@@ -18,17 +18,17 @@ void MapBenchmark::test_all()
 void MapBenchmark::test_operator_at()
 {
     ft::map<int, int> m;
-    for (size_t i = 0; i < loop_count; i++)
+    for (size_t i = 0; i < LOOP_COUNT; i++)
     {
         m.insert(ft::make_pair(i, i));
     }
-    timer.start();
-    for (size_t i = 0; i < loop_count; i++)
+    timer_.start();
+    for (size_t i = 0; i < LOOP_COUNT; i++)
     {
         m[i] = 42;
     }
-    timer.stop();
-    print_time("map::operator[]", timer);
+    timer_.stop();
+    print_time("map::operator[]", timer_);
 }
 
 void MapBenchmark::test_begin()
@@ -38,84 +38,84 @@ void MapBenchmark::test_begin()
     {
         m.insert(ft::make_pair(i, i));
     }
-    timer.start();
-    for (size_t i = 0; i < loop_count; i++)
+    timer_.start();
+    for (size_t i = 0; i < LOOP_COUNT; i++)
     {
         m.begin();
     }
-    timer.stop();
-    print_time("map::begin", timer);
+    timer_.stop();
+    print_time("map::begin", timer_);
 }
 
 void MapBenchmark::test_end()
 {
     ft::map<int, int> m;
-    for (size_t i = 0; i < loop_count; i++)
+    for (size_t i = 0; i < LOOP_COUNT; i++)
     {
         m.insert(ft::make_pair(i, i));
     }
-    timer.start();
-    for (size_t i = 0; i < loop_count; i++)
+    timer_.start();
+    for (size_t i = 0; i < LOOP_COUNT; i++)
     {
         m.end();
     }
-    timer.stop();
-    print_time("map::end", timer);
+    timer_.stop();
+    print_time("map::end", timer_);
 }
 
 void MapBenchmark::test_clear()
 {
     ft::map<int, int> m;
-    for (size_t i = 0; i < loop_count; i++)
+    for (size_t i = 0; i < LOOP_COUNT; i++)
     {
         m.insert(ft::make_pair(i, i));
     }
-    timer.start();
+    timer_.start();
     m.clear();
-    timer.stop();
-    print_time("map::clear", timer);
+    timer_.stop();
+    print_time("map::clear", timer_);
 }
 
 void MapBenchmark::test_insert()
 {
     ft::map<int, int> m;
-    timer.start();
-    for (size_t i = 0; i < loop_count; i++)
+    timer_.start();
+    for (size_t i = 0; i < LOOP_COUNT; i++)
     {
         m.insert(ft::make_pair(i, i));
     }
-    timer.stop();
-    print_time("map::insert", timer);
+    timer_.stop();
+    print_time("map::insert", timer_);
 }
 
 void MapBenchmark::test_erase()
 {
     ft::map<int, int> m;
-    for (size_t i = 0; i < loop_count; i++)
+    for (size_t i = 0; i < LOOP_COUNT; i++)
     {
         m.insert(ft::make_pair(i, i));
     }
-    timer.start();
-    for (size_t i = 0; i < loop_count; i++)
+    timer_.start();
+    for (size_t i = 0; i < LOOP_COUNT; i++)
     {
         m.erase(i);
     }
-    timer.stop();
-    print_time("map::erase", timer);
+    timer_.stop();
+    print_time("map::erase", timer_);
 }
 
 void MapBenchmark::test_find()
 {
     ft::map<int, int> m;
-    for (size_t i = 0; i < loop_count; i++)
+    for (size_t i = 0; i < LOOP_COUNT; i++)
     {
         m.insert(ft::make_pair(i, i));
     }
-    timer.start();
-    for (size_t i = 0; i < loop_count; i++)
+    timer_.start();
+    for (size_t i = 0; i < LOOP_COUNT; i++)
     {
         m.find(i);
     }
-    timer.stop();
-    print_time("map::find", timer);
+    timer_.stop();
+    print_time("map::find", timer_);
 }

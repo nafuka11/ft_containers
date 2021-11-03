@@ -2,11 +2,11 @@
 
 const size_t StackBenchmark::loop_count = 10000;
 
-StackBenchmark::StackBenchmark() : timer(Timer()), original_vec()
+StackBenchmark::StackBenchmark() : timer_(Timer()), original_vec_()
 {
     for (size_t i = 0; i < loop_count; i++)
     {
-        original_vec.push_back(i);
+        original_vec_.push_back(i);
     }
 }
 
@@ -19,37 +19,37 @@ void StackBenchmark::test_all()
 
 void StackBenchmark::test_top()
 {
-    ft::stack<int, ft::vector<int> > stk(original_vec);
-    timer.start();
+    ft::stack<int, ft::vector<int> > stk(original_vec_);
+    timer_.start();
     for (size_t i = 0; i < loop_count; i++)
     {
         stk.top();
     }
-    timer.stop();
-    print_time("stack::top", timer);
+    timer_.stop();
+    print_time("stack::top", timer_);
 }
 
 void StackBenchmark::test_push()
 {
     ft::vector<int> empty_vec;
     ft::stack<int, ft::vector<int> > stk(empty_vec);
-    timer.start();
+    timer_.start();
     for (size_t i = 0; i < loop_count; i++)
     {
         stk.push(i);
     }
-    timer.stop();
-    print_time("stack::push", timer);
+    timer_.stop();
+    print_time("stack::push", timer_);
 }
 
 void StackBenchmark::test_pop()
 {
-    ft::stack<int, ft::vector<int> > stk(original_vec);
-    timer.start();
+    ft::stack<int, ft::vector<int> > stk(original_vec_);
+    timer_.start();
     for (size_t i = 0; i < loop_count; i++)
     {
         stk.pop();
     }
-    timer.stop();
-    print_time("stack::pop", timer);
+    timer_.stop();
+    print_time("stack::pop", timer_);
 }

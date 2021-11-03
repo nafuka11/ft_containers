@@ -7,17 +7,17 @@ template <class T>
 class MyAllocator : public std::allocator<T>
 {
 private:
-    size_t num;
+    size_t num_;
 
 public:
     MyAllocator() : std::allocator<T>()
     {
-        num = sizeof(T);
+        num_ = sizeof(T);
     }
     template <class U>
     MyAllocator(const MyAllocator<U> &other) : std::allocator<T>(other)
     {
-        num = sizeof(T);
+        num_ = sizeof(T);
     }
 
     template <class U>
@@ -26,7 +26,7 @@ public:
         typedef MyAllocator<U> other;
     };
 
-    size_t getNum() const { return num; }
+    size_t getNum() const { return num_; }
 };
 
 #endif /* MYALLOCATOR_HPP */

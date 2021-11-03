@@ -23,8 +23,8 @@ namespace ft
 
         // Member functions
         // constructor
-        vector_iterator_() : current(NULL) {}
-        explicit vector_iterator_(iterator_type ptr) : current(ptr) {}
+        vector_iterator_() : current_(NULL) {}
+        explicit vector_iterator_(iterator_type ptr) : current_(ptr) {}
         // copy constructor
         template <class Iter>
         vector_iterator_(const vector_iterator_<Iter> &other)
@@ -35,75 +35,75 @@ namespace ft
         template <class Iter>
         vector_iterator_ &operator=(const vector_iterator_<Iter> &other)
         {
-            current = other.base();
+            current_ = other.base();
             return *this;
         }
 
         iterator_type base() const
         {
-            return current;
+            return current_;
         }
         // dereference operator
         reference operator*() const
         {
-            return *current;
+            return *current_;
         }
         pointer operator->() const
         {
-            return current;
+            return current_;
         }
         // prefix/postfix increment
         vector_iterator_ &operator++()
         {
-            current++;
+            current_++;
             return *this;
         }
         vector_iterator_ operator++(int)
         {
             vector_iterator_ tmp = *this;
-            current++;
+            current_++;
             return tmp;
         }
         // prefix/postfix decrement
         vector_iterator_ &operator--()
         {
-            current--;
+            current_--;
             return *this;
         }
         vector_iterator_ operator--(int)
         {
             vector_iterator_ tmp = *this;
-            current--;
+            current_--;
             return tmp;
         }
         // arithmetic operators
         vector_iterator_ operator+(difference_type n) const
         {
-            return vector_iterator_(current + n);
+            return vector_iterator_(current_ + n);
         }
         vector_iterator_ operator-(difference_type n) const
         {
-            return vector_iterator_(current - n);
+            return vector_iterator_(current_ - n);
         }
         // compound assignment operators
         vector_iterator_ &operator+=(difference_type n)
         {
-            current += n;
+            current_ += n;
             return *this;
         }
         vector_iterator_ &operator-=(difference_type n)
         {
-            current -= n;
+            current_ -= n;
             return *this;
         }
         // offset dereference operator
         reference operator[](difference_type n) const
         {
-            return *(current + n);
+            return *(current_ + n);
         }
 
     private:
-        iterator_type current;
+        iterator_type current_;
     };
 
     // Non-member functions

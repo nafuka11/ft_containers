@@ -2,7 +2,7 @@
 
 const size_t VectorBenchmark::loop_count = 10000;
 
-VectorBenchmark::VectorBenchmark() : timer(Timer()) {}
+VectorBenchmark::VectorBenchmark() : timer_(Timer()) {}
 
 void VectorBenchmark::test_all()
 {
@@ -15,64 +15,64 @@ void VectorBenchmark::test_all()
 
 void VectorBenchmark::test_clear()
 {
-    timer.start();
+    timer_.start();
     for (size_t i = 0; i < loop_count; i++)
     {
         ft::vector<int> vec(100);
         vec.clear();
     }
-    timer.stop();
-    print_time("vector::clear", timer);
+    timer_.stop();
+    print_time("vector::clear", timer_);
 }
 
 void VectorBenchmark::test_insert()
 {
     ft::vector<int> vec;
 
-    timer.start();
+    timer_.start();
     for (size_t i = 0; i < loop_count; i++)
     {
         vec.insert(vec.end(), 42);
     }
-    timer.stop();
-    print_time("vector::insert", timer);
+    timer_.stop();
+    print_time("vector::insert", timer_);
 }
 
 void VectorBenchmark::test_erase()
 {
     ft::vector<int> vec(loop_count);
 
-    timer.start();
+    timer_.start();
     for (size_t i = 0; i < loop_count; i++)
     {
         vec.erase(vec.end() - 1);
     }
-    timer.stop();
-    print_time("vector::erase", timer);
+    timer_.stop();
+    print_time("vector::erase", timer_);
 }
 
 void VectorBenchmark::test_push_back()
 {
     ft::vector<int> vec;
 
-    timer.start();
+    timer_.start();
     for (size_t i = 0; i < loop_count; i++)
     {
         vec.push_back(i);
     }
-    timer.stop();
-    print_time("vector::push_back", timer);
+    timer_.stop();
+    print_time("vector::push_back", timer_);
 }
 
 void VectorBenchmark::test_pop_back()
 {
     ft::vector<int> vec(loop_count);
 
-    timer.start();
+    timer_.start();
     for (size_t i = 0; i < loop_count; i++)
     {
         vec.pop_back();
     }
-    timer.stop();
-    print_time("vector::pop_back", timer);
+    timer_.stop();
+    print_time("vector::pop_back", timer_);
 }

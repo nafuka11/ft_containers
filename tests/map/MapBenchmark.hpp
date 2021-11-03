@@ -11,7 +11,7 @@ public:
 
 private:
     static const size_t loop_count;
-    Timer timer;
+    Timer timer_;
 
     void test_operator_at();
     void test_begin();

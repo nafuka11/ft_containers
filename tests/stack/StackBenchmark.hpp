@@ -11,8 +11,8 @@ public:
 
 private:
     static const size_t loop_count;
-    Timer timer;
-    ft::vector<int> original_vec;
+    Timer timer_;
+    ft::vector<int> original_vec_;
 
     void test_top();
     void test_push();

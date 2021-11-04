@@ -39,7 +39,7 @@ $(OBJDIR_FT)/%.o: %.cpp
 
 .PHONY		: clean
 clean		: ## Delete object files
-	$(RM) $(OBJS_STL) $(OBJS_FT)
+	rm -rf $(OBJDIR_FT) $(OBJDIR_STL)
 
 .PHONY		: fclean
 fclean		: clean ## Delete executables

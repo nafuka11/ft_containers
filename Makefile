@@ -39,7 +39,7 @@ $(OBJDIR_FT)/%.o: %.cpp
 
 .PHONY		: clean
 clean		: ## Delete object files
-	$(RM) $(OBJS_STL) $(OBJS_FT)
+	rm -rf $(OBJDIR_FT) $(OBJDIR_STL)
 
 .PHONY		: fclean
 fclean		: clean ## Delete executables
@@ -54,6 +54,13 @@ test		: $(NAME_STL) $(NAME_FT) ## Test std::vector and ft::vector
 
 .PHONY		: retest
 retest		: fclean test ## Rebuild and test
+
+.PHONY		: subject
+subject		: ## Build subject_main.cpp
+	$(CXX) $(CXXFLAGS) -o subject_ft -D IS_FT=1 subject_main.cpp
+	$(CXX) $(CXXFLAGS) -o subject_stl subject_main.cpp
+	./subject_stl 42
+	./subject_ft 42
 
 .PHONY: help
 help			: ## Show this message

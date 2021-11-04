@@ -49,7 +49,7 @@ fclean		: clean ## Delete executables
 re			: fclean all ## Rebuild executables
 
 .PHONY		: test
-test		: $(NAME_STL) $(NAME_FT) ## Test std::vector and ft::vector
+test		: $(NAME_STL) $(NAME_FT) ## Test executables
 	$(TEST_SCRIPT)
 
 .PHONY		: retest

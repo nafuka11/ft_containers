@@ -1,3 +1,4 @@
+#include "set/SetIteratorTester.hpp"
 #include "set/SetTester.hpp"
 #include "set/SetBenchmark.hpp"
 
@@ -21,6 +22,9 @@ void test_set_output()
         Foo(9, 3)
     };
     size_t foo_len = sizeof(foo_elements) / sizeof(foo_elements[0]);
+
+    SetIteratorTester<int> iter_tester(int_elements, int_len);
+    iter_tester.test_all();
 
     SetTester<int> basic_set_tester(int_elements, int_len);
     basic_set_tester.test_all();

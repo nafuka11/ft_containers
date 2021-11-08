@@ -274,9 +274,6 @@ void MapBenchmark::test_find()
     for (size_t i = 0; i < LOOP_COUNT; i++)
     {
         m.find(i);
-    }
-    for (size_t i = 0; i < LOOP_COUNT; i++)
-    {
         m.find(LOOP_COUNT);
     }
     timer_.stop();
@@ -294,9 +291,6 @@ void MapBenchmark::test_count()
     for (size_t i = 0; i < LOOP_COUNT; i++)
     {
         m.count(i);
-    }
-    for (size_t i = 0; i < LOOP_COUNT; i++)
-    {
         m.count(LOOP_COUNT);
     }
     timer_.stop();
@@ -314,9 +308,6 @@ void MapBenchmark::test_lower_bound()
     for (size_t i = 0; i < LOOP_COUNT; i++)
     {
         m.lower_bound(i);
-    }
-    for (size_t i = 0; i < LOOP_COUNT; i++)
-    {
         m.lower_bound(LOOP_COUNT);
     }
     timer_.stop();
@@ -334,9 +325,6 @@ void MapBenchmark::test_upper_bound()
     for (size_t i = 0; i < LOOP_COUNT; i++)
     {
         m.upper_bound(i);
-    }
-    for (size_t i = 0; i < LOOP_COUNT; i++)
-    {
         m.upper_bound(LOOP_COUNT);
     }
     timer_.stop();
@@ -354,9 +342,6 @@ void MapBenchmark::test_equal_range()
     for (size_t i = 0; i < LOOP_COUNT; i++)
     {
         m.equal_range(i);
-    }
-    for (size_t i = 0; i < LOOP_COUNT; i++)
-    {
         m.equal_range(LOOP_COUNT);
     }
     timer_.stop();

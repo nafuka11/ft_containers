@@ -12,9 +12,37 @@ StackBenchmark::StackBenchmark() : timer_(Timer()), original_vec_()
 
 void StackBenchmark::test_all()
 {
+    test_empty();
+    test_size();
     test_top();
     test_push();
     test_pop();
+}
+
+void StackBenchmark::test_empty()
+{
+    ft::vector<int> empty_vec;
+    ft::stack<int, ft::vector<int> > stk(original_vec_), empty_stk(empty_vec);
+    timer_.start();
+    for (size_t i = 0; i < LOOP_COUNT; i++)
+    {
+        stk.empty();
+        empty_stk.empty();
+    }
+    timer_.stop();
+    print_time("stack::empty", timer_);
+}
+
+void StackBenchmark::test_size()
+{
+    ft::stack<int, ft::vector<int> > stk(original_vec_);
+    timer_.start();
+    for (size_t i = 0; i < LOOP_COUNT; i++)
+    {
+        stk.size();
+    }
+    timer_.stop();
+    print_time("stack::size", timer_);
 }
 
 void StackBenchmark::test_top()

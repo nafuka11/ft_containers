@@ -4,7 +4,9 @@ Translations: [English(en)](README.md) [日本語(ja)](README.ja.md)
 
 STLコンテナの再実装です。
 
-## 再実装したコンテナ
+## 概要
+
+C++98で以下のコンテナを再実装しました。
 
 - vector
 - map

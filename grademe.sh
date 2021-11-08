@@ -68,15 +68,21 @@ print_usage () {
     exit 1
 }
 
+is_container_arguments () {
+    for container in "${CONTAINERS[@]}"; do
+        if [ "$1" == "${container}" ]; then
+            return 0
+        fi
+    done
+    return 1
+}
+
 validate_arguments () {
     for arg in "$@"; do
-        for container in "${CONTAINERS[@]}"; do
-            if [ "${arg}" == "${container}" ]; then
-                break
-            else
-                print_usage
-            fi
-        done
+        is_container_arguments "${arg}"
+        if [ $? -ne 0 ]; then
+            print_usage
+        fi
     done
 }
 

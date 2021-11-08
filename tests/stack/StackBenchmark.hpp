@@ -14,6 +14,8 @@ private:
     Timer timer_;
     ft::vector<int> original_vec_;
 
+    void test_empty();
+    void test_size();
     void test_top();
     void test_push();
     void test_pop();

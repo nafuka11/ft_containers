@@ -16,6 +16,8 @@ COLOR_OK="\e[32m"
 COLOR_KO="\e[31m"
 COLOR_RESET="\e[0m"
 
+CONTAINERS=("vector" "map" "stack" "set")
+
 print_ok_ko () {
     code=$1
     if [ ${code} -eq 0 ]; then
@@ -61,6 +63,23 @@ print_benchmark_output () {
         }'
 }
 
+print_usage () {
+    echo "Usage: $0 [${CONTAINERS[@]}]"
+    exit 1
+}
+
+validate_arguments () {
+    for arg in "$@"; do
+        for container in "${CONTAINERS[@]}"; do
+            if [ "${arg}" == "${container}" ]; then
+                break
+            else
+                print_usage
+            fi
+        done
+    done
+}
+
 test_output () {
     echo "** test output **"
 
@@ -87,10 +106,11 @@ test_benchmark () {
 }
 
 main () {
-    print_arguments $@
-    test_output $@
-    test_benchmark $@
+    validate_arguments "$@"
+    print_arguments "$@"
+    test_output "$@"
+    test_benchmark "$@"
 }
 
-main $@
+main "$@"
 exit 0

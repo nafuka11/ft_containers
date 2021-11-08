@@ -38,22 +38,26 @@ print_benchmark_output () {
         | grep -v leaks \
         | awk '{
             if ($5 < $2) {
-                printf "%-20s%8s %s", $1, $2, $3
+                printf "%-22s%8s %s", $1, $2, $3
                 printf " | "
-                printf "\033[32m%-20s%8s %s\033[0m", $4, $5, $6
+                printf "\033[32m%-22s%8s %s\033[0m", $4, $5, $6
             }
-            else if ($5 > $2 * 20)
-            {
-                printf "\033[32m%-20s%8s %s\033[0m", $1, $2, $3
+            else if ($5 > $2 * 20) {
+                printf "\033[32m%-22s%8s %s\033[0m", $1, $2, $3
                 printf " | "
-                printf "\033[31m%-20s%8s %s\033[0m", $4, $5, $6
+                printf "\033[31m%-22s%8s %s\033[0m", $4, $5, $6
+            }
+            else if ($5 > $2) {
+                printf "\033[32m%-22s%8s %s\033[0m", $1, $2, $3
+                printf " | "
+                printf "%-22s%8s %s", $4, $5, $6
             }
             else {
-                printf "\033[32m%-20s%8s %s\033[0m", $1, $2, $3
+                printf "%-22s%8s %s", $1, $2, $3
                 printf " | "
-                printf "%-20s%8s %s", $4, $5, $6
+                printf "%-22s%8s %s", $4, $5, $6
             }
-            printf "\n"
+            printf "\033[2m  (x%.3f)\033[0m\n", $5 / $2
         }'
 }
 

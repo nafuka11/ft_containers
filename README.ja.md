@@ -31,7 +31,11 @@ make test
 
 ### 記事
 
-[C++98でMapを再実装する - Nafuka Lines](https://nafuka.hatenablog.com/entry/2021/10/21/184200)
+[C++98でSTLコンテナを再実装した話 - Nafuka Lines](https://nafuka.hatenablog.com/entry/2021/12/06/014200)
+
+[C++98でvectorを再実装する - Nafuka Lines](https://nafuka.hatenablog.com/entry/2021/11/15/184200)
+
+[C++98でmapを再実装する - Nafuka Lines](https://nafuka.hatenablog.com/entry/2021/10/21/184200)
 
 ### スライド
 

@@ -29,9 +29,13 @@ Test the container specified by the argument
 
 ## Resources
 
-### Article
+### Articles
 
-[Reimplementing Map in C++98 - Nafuka Lines (Japanese)](https://nafuka.hatenablog.com/entry/2021/10/21/184200)
+[Reimplementing STL containers in C++98 - Nafuka Lines (Japanese)](https://nafuka.hatenablog.com/entry/2021/12/06/014200)
+
+[Reimplementing vector in C++98 - Nafuka Lines (Japanese)](https://nafuka.hatenablog.com/entry/2021/11/15/184200)
+
+[Reimplementing map in C++98 - Nafuka Lines (Japanese)](https://nafuka.hatenablog.com/entry/2021/10/21/184200)
 
 ### Slides
 

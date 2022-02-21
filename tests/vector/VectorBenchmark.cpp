@@ -237,7 +237,7 @@ void VectorBenchmark::test_operator_at()
         vec[i] = 42;
     }
     timer_.stop();
-    print_time("vector::operator=", timer_);
+    print_time("vector::operator[]", timer_);
 }
 
 void VectorBenchmark::test_at()
